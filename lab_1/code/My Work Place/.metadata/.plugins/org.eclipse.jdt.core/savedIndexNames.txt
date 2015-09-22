@@ -1,0 +1,4 @@
+INDEX VERSION 1.126+/Users/HawkInMind/Documents/Android SDK/My Work Place/.metadata/.plugins/org.eclipse.jdt.core
+3563474279.index
+3701616857.index
+1270315800.index

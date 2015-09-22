@@ -1,0 +1,361 @@
+package com.example.test;
+
+import android.os.Bundle;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.io.RandomAccessFile;
+import java.util.Timer;
+import java.util.TimerTask;
+import android.app.Activity;
+import android.os.Handler;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+public class MainActivity extends Activity {
+	
+	
+	// Variables
+    public Handler mHandler;
+    public TextView OPmsg;
+    
+    public Button PMbutton1;
+    public Button PMbutton2;
+    public Button PMbutton3; 
+    public Button CheckFrequency; 
+    public Button CheckCPU;
+    
+    public String CPUname;
+    public String DATAname;
+    public String DATAaddress;
+    public	float CPUusage = 0;
+
+    
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.fragment_main);
+		
+		PMbutton1 = (Button)findViewById(R.id.lab1);
+		PMbutton2 = (Button)findViewById(R.id.lab2);
+		PMbutton3 = (Button)findViewById(R.id.lab3);
+		CheckFrequency = (Button)findViewById(R.id.checkFrequency);
+		CheckCPU = (Button)findViewById(R.id.checkCPU);
+		
+		
+		OPmsg = (TextView)findViewById(R.id.opMessage);
+
+		mHandler = new Handler ();
+		
+		
+		final Runtime runtime = Runtime.getRuntime();
+		try {
+		    runtime.exec("su"); //get the permission from the super user.
+		} catch (IOException e){}
+		
+		ReadCPUiusage(1000,1000);
+		
+		// Action for Power Management 1 ===========================================================
+		
+		PMbutton1.setOnClickListener(new View.OnClickListener() 
+	        {
+
+				@Override
+				public void onClick(View v) {
+					
+					OPERATIONmessage("[Low Performance Mode] *************************************************");
+					
+					DATAname="340000"; // Setting up the minimum frequency at 340 MHz
+					DATAaddress="/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";					
+					ChangeCPUinfor(CPUname,DATAname, DATAaddress);
+					DATAname="340000"; // Setting up the maximum frequency at 340 MHz
+					DATAaddress="/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";					
+					ChangeCPUinfor(CPUname,DATAname, DATAaddress);
+					
+					CPUname="Low Power";					
+					DATAname="current min frequency";
+					DATAaddress="/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";					
+					ReadCPUinfor(CPUname,DATAname, DATAaddress);
+					DATAname="current MAX frequency";
+					DATAaddress="/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";					
+					ReadCPUinfor(CPUname,DATAname, DATAaddress);
+					
+					OPERATIONmessage("[Low Performance Mode] *************************************************");
+					
+				}
+	        });
+		
+		//==========================================================================================
+		
+		// Action for Power Management 2 ===========================================================
+		
+				PMbutton2.setOnClickListener(new View.OnClickListener() 
+			        {
+
+						@Override
+						public void onClick(View v) {
+							
+							OPERATIONmessage("[High Performance Mode] ################################################");
+							
+							DATAname="1300000";
+							DATAaddress="/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";					
+							ChangeCPUinfor(CPUname,DATAname, DATAaddress);
+							DATAname="1300000";
+							DATAaddress="/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";					
+							ChangeCPUinfor(CPUname,DATAname, DATAaddress);
+							
+							CPUname="High Power";					
+							DATAname="current min frequency";
+							DATAaddress="/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";					
+							ReadCPUinfor(CPUname,DATAname, DATAaddress);
+							DATAname="current MAX frequency";
+							DATAaddress="/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";					
+							ReadCPUinfor(CPUname,DATAname, DATAaddress);
+							
+							OPERATIONmessage("[High Performance Mode] ################################################");
+
+							
+				 }
+			 });
+				
+		//==========================================================================================
+				
+				// Action for Power Management 3 ===========================================================
+				
+				PMbutton3.setOnClickListener(new View.OnClickListener() 
+			        {
+
+						@Override
+						public void onClick(View v) {
+							
+							OPERATIONmessage("[Dynamic Performance Mode] =============================================");
+							
+							// Please programa for Dynamic Frequency Scaling Mode I or II or Mixed.
+							
+							OPERATIONmessage("[Dynamic Performance Mode] =============================================");
+
+							
+						}
+			 });
+				
+		//==========================================================================================
+				
+				
+		// Action for Check Frequency ===========================================================
+				
+				CheckFrequency.setOnClickListener(new View.OnClickListener() 
+			        {
+
+						@Override
+						public void onClick(View v) {
+							
+							OPERATIONmessage("[Current Frequency] +++++++++++++++++++++++++++++");
+							
+							CPUname="ALL";
+							DATAname="current min frequency";
+							DATAaddress="/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";					
+							ReadCPUinfor(CPUname,DATAname, DATAaddress);
+							DATAname="current MAX frequency";
+							DATAaddress="/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";					
+							ReadCPUinfor(CPUname,DATAname, DATAaddress);
+							
+							CPUname="CPU0";					
+							DATAname="current frequency";
+							DATAaddress="/sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq";					
+							ReadCPUinfor(CPUname,DATAname, DATAaddress);
+							
+							CPUname="CPU1";					
+							DATAname="current frequency";
+							DATAaddress="/sys/devices/system/cpu/cpu1/cpufreq/scaling_cur_freq";					
+							ReadCPUinfor(CPUname,DATAname, DATAaddress);
+							
+							CPUname="CPU2";					
+							DATAname="current frequency";
+							DATAaddress="/sys/devices/system/cpu/cpu2/cpufreq/scaling_cur_freq";					
+							ReadCPUinfor(CPUname,DATAname, DATAaddress);
+							
+							CPUname="CPU3";					
+							DATAname="current frequency";
+							DATAaddress="/sys/devices/system/cpu/cpu3/cpufreq/scaling_cur_freq";					
+							ReadCPUinfor(CPUname,DATAname, DATAaddress);
+							
+							OPERATIONmessage("[Current Frequency] +++++++++++++++++++++++++++++");
+
+							
+						}
+			 });
+				
+		//==========================================================================================
+				
+		
+		
+	}
+
+	
+protected void ChangeCPUinfor(String CPUname, String DATAname, String DATAaddress) {
+
+	String cmd = "echo "+DATAname+" > "+ DATAaddress + "\n";
+	Runtime runtime = Runtime.getRuntime();
+	Process proc = null;
+	OutputStreamWriter osw = null;
+	
+	 try {
+	        proc = runtime.exec("su");
+	        osw = new OutputStreamWriter(proc.getOutputStream());
+	        osw.write(cmd);
+	        osw.flush();
+	        osw.close();
+	    } catch (IOException ex) {
+	    	 OPERATIONmessage2("Error"+ex);
+	        return;
+	    }
+		
+	}
+
+
+protected CharSequence ReadCPUinfor(String CPUname, String DATAname, String DATAaddress) {
+		
+	ProcessBuilder cmd;
+	  String result="";
+	  
+	  try{
+	  
+	   String[] args = {"/system/bin/cat", DATAaddress};
+	   cmd = new ProcessBuilder(args);
+	   
+	   Process process = cmd.start();
+	   InputStream in = process.getInputStream();
+	   byte[] re = new byte[1024];
+	   
+	   while(in.read(re) != -1){
+		 OPERATIONmessage2("["+CPUname+"] "+DATAname+" = "+new String(re));
+	    //result = result + new String(re);
+	   }
+	   in.close();
+	  } catch(IOException ex){
+	   ex.printStackTrace();
+	  }
+	  return result;
+	 }
+
+
+protected void ReadCPUiusage(final int checkInterveal, final int checkPeriod) {
+	
+	TimerTask myTask = new TimerTask() {
+		   
+		//float currentTime=0;
+		
+		public void run() {
+	    				
+			//float user = 0;
+			//float system = 0;
+			
+			try {
+				
+		        RandomAccessFile reader = new RandomAccessFile("/proc/stat", "r");
+		        String load = reader.readLine();
+		 
+		        String[] toks = load.split("[ ]+");
+		 
+		        float    previousUSER = Float.parseFloat(toks[1]); //user: Performance time in USER mode
+		        float    previousNICE = Float.parseFloat(toks[2]); //nice: Performance time in low priority USER mode
+		        float  PreviousSYSTEM = Float.parseFloat(toks[3]); //system: Performance time in SYSTEM mode
+		        float    PreviousIDLE = Float.parseFloat(toks[4]); //idle: Performance time in IDLE mode
+		        float  PreviousIOWAIT = Float.parseFloat(toks[5]); //iowait: Performance time of I/O waiting
+		        float     PreviousIRQ = Float.parseFloat(toks[6]); //irq: Hard Interrupt
+		        float PreviousSOFTIRQ = Float.parseFloat(toks[7]); //softirq: Soft Interrupt
+		 
+		        try {
+		            Thread.sleep(checkInterveal);
+		        } catch (Exception e) {}
+		 
+		        reader.seek(0);
+		        load = reader.readLine();
+		        reader.close();
+		 
+		        toks = load.split("[ ]+");
+		 
+		        float    currentUSER = Float.parseFloat(toks[1]); //user: Performance time in USER mode
+		        float    currentNICE = Float.parseFloat(toks[2]); //nice: Performance time in low priority USER mode
+		        float  currentSYSTEM = Float.parseFloat(toks[3]); //system: Performance time in SYSTEM mode
+		        float    currentIDLE = Float.parseFloat(toks[4]); //idle: Performance time in IDLE mode
+		        float  currentIOWAIT = Float.parseFloat(toks[5]); //iowait: Performance time of I/O waiting
+		        float     currentIRQ = Float.parseFloat(toks[6]); //irq: Hard Interrupt
+		        float currentSOFTIRQ = Float.parseFloat(toks[7]); //softirq: Soft Interrupt
+		 
+		        float    userMode = currentUSER - previousUSER;
+		        float    niceMode = currentNICE - previousNICE;
+		        float  systemMode = currentSYSTEM - PreviousSYSTEM;
+		        float    idleMode = currentIDLE - PreviousIDLE;
+		        float  iowaitMode = currentIOWAIT - PreviousIOWAIT;
+		        float     irqMode = currentIRQ - PreviousIRQ;
+		        float softirqMode = currentSOFTIRQ - PreviousSOFTIRQ;
+		 
+		        float totalIDLE = idleMode+iowaitMode;
+		        float totalNONIDLE = userMode+niceMode+systemMode+ irqMode+softirqMode;
+		 
+		        //    user = (userMode/(totalIDLE+totalNONIDLE))*100;
+		        //  system = (systemMode/(totalIDLE+totalNONIDLE))*100;
+		        CPUusage = (totalNONIDLE/(totalNONIDLE+totalIDLE))*100;
+		        
+		 
+		    } catch (Exception e) {}					    
+			//OPERATIONmessage("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");							
+			//OPERATIONmessage((float)(currentTime/1000)+" second [user] = "+user+"%");
+			//OPERATIONmessage((float)(currentTime/1000)+" second [system] = "+system+"%");
+			//OPERATIONmessage((float)(currentTime/1000)+" second [Non-Idle] = "+CPUusage+"%");
+			//OPERATIONmessage("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+			//currentTime=currentTime+checkPeriod+checkInterveal;
+	    }
+		
+	};
+	Timer timer = new Timer();
+	
+	timer.schedule(myTask, 0, checkPeriod); // run at "checkPeriod" sec.
+	 //timer.schedule(myTask, checkPeriod);  // "checkPeriod" ���� �����ϰ� ����
+	
+	 }
+
+
+
+
+
+//******************************************* [Operation message] ********************************************
+	
+		private void OPERATIONmessage(final String text) {
+				
+			mHandler.post(new Runnable(){
+
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						OPmsg.append(text+"\n");  
+					}
+					
+				});		
+				
+			}
+		
+//**********************************************************************************************************  	
+
+
+		private void OPERATIONmessage2(final String text) {
+			
+			mHandler.post(new Runnable(){
+
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						OPmsg.append(text);  
+					}
+					
+				});		
+				
+			}
+		
+		
+	
+}// END of public class MainActivity extends Activity
+
