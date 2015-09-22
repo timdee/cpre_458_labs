@@ -1,0 +1,125 @@
+%% The comment character in TeX / LaTeX is the percent character.
+%% The following chunk is called the header
+
+\documentclass{article}	% essential first line
+\usepackage{times}		% this uses fonts which will look nice in PDF format
+\usepackage{graphicx}		% needed for the figures
+\usepackage{url}
+\usepackage{adjustbox}
+\usepackage{amsmath}
+
+%% Set the folder where pictures are located
+\graphicspath{ {images/} }
+
+%% Here I adjust the margins
+
+\oddsidemargin -0.25in		% Left margin is 1in + this value
+\textwidth 6.75in		% Right margin is not set explicitly
+\topmargin 0in			% Top margin is 1in + this value
+\textheight 9in			% Bottom margin is not set explicitly
+\columnsep 0.25in		% separation between columns
+
+%% Define a macro for inserting postscript images
+%% ==============================================
+%% This is a macro which nominally takes 3 parameters, 
+%% it would be used as follows to insert and encapsulated postscript
+%% image at the location where it is used.
+%%
+%% \EPSFIG{epsfilename}{caption}{label}
+%% - epsfilename is the name of the encapsulated postscript file to be
+%%               inserted at this location
+%% - caption is the text to be shown as the figure caption, it will be
+%%           prepended by Figure X.  The number X can be referenced
+%%           using the label parameter.
+%% - label is a name given to the figure, it can be referenced using the
+%%         \ref{label} command.
+
+%\def\EPSFIG[#1]#2#3#4{		% Don't be scared by this monsrosity
+%\begin{figure}[hbt]		% it is a macro to save typing later
+%\begin{center}			% 
+%\includegraphics[#1]{#2}	%
+%\end{center}			%
+%\caption{#3}			%
+%\label{#4}			%
+%\end{figure}			%
+%}				%
+
+%% Define the fields to be displayed by a \maketitle command
+\author{Timothy Dee, Brent Barth}
+%{\it Undergraduate, Department of Electrical and Computer Engineering, Iowa State University}
+%\author{Brent Barth}
+%\it Undergraduate, Department of Electrical and Computer Engineering, Iowa State University}
+\title{Lab 1 Report}
+
+%%
+%% Header now finished
+%%
+
+\begin{document}		% Critical
+\twocolumn
+\thispagestyle{empty}		% Inhibit the page number on this page
+\maketitle			% Use the \author, \title and \date info
+
+%% Next comes the abstract, notice the curly-braces surrounding the
+%% text.
+
+\abstract{This report contains a description and analysis of the findings durring Lab 1 of CprE 458, Real Time Systems.}
+
+\section{Introduction}
+TODO
+
+\section{Part 1 - Code}
+\subsection{High Performance Mode}
+TODO
+\subsection{Dynamic Frequency Scaling Mode I}
+TODO
+\subsection{Dynamic Frequency Scaling Mode II}
+TODO
+\subsection{Dynamic Frequency Scaling Mode Mixed}
+TODO
+
+%we should say how we did each of the tests. We should also say what we used to generate each of the loads.
+\section{Part 2 - Data Analysis}
+%possibly insert a table indicating what energy consumption we got for each energy scheme under each load.
+%might also be useful to include description of the testing.
+%must include graphs of each test result
+\subsection{Measuring energy consumption}
+TODO
+
+\subsection{Comparison and Analysis}
+TODO
+
+\section{Extra Part - Measuring Computation Time}
+TODO
+
+% example figure
+\begin{figure}[!hbt]
+\begin{center}
+\includegraphics[width=.4\textwidth,keepaspectratio]{example.png}
+\end{center}
+\caption{IR-Transmitter}
+\label{FIG-TRANSMITTER}
+\end{figure}
+
+% example equation
+\begin{equation}
+\begin{split}
+\frac{V_{out}-V_-}{R2}-\frac{V_--V_{in}}{R1}=0 \\
+R1(V_{out}-V_-)=R2(V_--V_{in}) \\
+V_{out}=\frac{R1V_-+R2V_--R2V{in}}{R1} \\
+V_-=0 \\
+V_{out}=\frac{-V_{in}R2}{R1} \\
+\frac{V_{out}}{V_{in}}=\frac{-R2}{R1} \\ \\
+\hline \\
+\frac{V_{out}}{V_{in}}=\frac{47000}{47}=1000 \\
+\end{split}
+\label{eq-example}
+\end{equation}
+Equation \ref{eq-example} demonstrates example equation.
+
+%% This bit generates the references.  This part starts to get
+%% slightly tricky.
+\bibliographystyle{unsrt}	% Order by citation
+\bibliography{report}
+
+\end{document}

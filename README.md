@@ -2,6 +2,8 @@
 Repository for working on cpre_458 labs
 
 ###contents
-labx : a folder for each lab
-	report : folder for lab report
-	code : code for the lab
+lab_x : a folder for each lab
+
+###lab_x contents
+report : folder for lab report
+code : code for the lab
