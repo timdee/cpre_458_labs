@@ -37,166 +37,189 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fragment_main);
-		
-		PMbutton1 = (Button)findViewById(R.id.lab1);
-		PMbutton2 = (Button)findViewById(R.id.lab2);
-		PMbutton3 = (Button)findViewById(R.id.lab3);
-		CheckFrequency = (Button)findViewById(R.id.checkFrequency);
-		CheckCPU = (Button)findViewById(R.id.checkCPU);
-		
-		
-		OPmsg = (TextView)findViewById(R.id.opMessage);
 
-		mHandler = new Handler ();
-		
-		
+		PMbutton1 = (Button) findViewById(R.id.lab1);
+		PMbutton2 = (Button) findViewById(R.id.lab2);
+		PMbutton3 = (Button) findViewById(R.id.lab3);
+		CheckFrequency = (Button) findViewById(R.id.checkFrequency);
+		CheckCPU = (Button) findViewById(R.id.checkCPU);
+
+
+		OPmsg = (TextView) findViewById(R.id.opMessage);
+
+		mHandler = new Handler();
+
+
 		final Runtime runtime = Runtime.getRuntime();
 		try {
-		    runtime.exec("su"); //get the permission from the super user.
-		} catch (IOException e){}
-		
-		
+			runtime.exec("su"); //get the permission from the super user.
+		} catch (IOException e) {
+		}
+
+
 		// Action for Power Management 1 ===========================================================
-		
-		PMbutton1.setOnClickListener(new View.OnClickListener() 
-	        {
 
-				@Override
-				public void onClick(View v) {
-					
-					OPERATIONmessage("[Low Performance Mode] *************************************************");
-					
-					DATAname="340000"; // Setting up the minimum frequency at 340 MHz
-					DATAaddress="/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";					
-					ChangeCPUinfor(CPUname,DATAname, DATAaddress);
-					DATAname="340000"; // Setting up the maximum frequency at 340 MHz
-					DATAaddress="/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";					
-					ChangeCPUinfor(CPUname,DATAname, DATAaddress);
-					
-					CPUname="Low Power";					
-					DATAname="current min frequency";
-					DATAaddress="/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";					
-					ReadCPUinfor(CPUname,DATAname, DATAaddress);
-					DATAname="current MAX frequency";
-					DATAaddress="/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";					
-					ReadCPUinfor(CPUname,DATAname, DATAaddress);
-					
-					OPERATIONmessage("[Low Performance Mode] *************************************************");
-					
-				}
-	        });
-		
+		PMbutton1.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+
+				OPERATIONmessage("[Low Performance Mode] *************************************************");
+
+				DATAname = "340000"; // Setting up the minimum frequency at 340 MHz
+				DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
+				ChangeCPUinfor(CPUname, DATAname, DATAaddress);
+				DATAname = "340000"; // Setting up the maximum frequency at 340 MHz
+				DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
+				ChangeCPUinfor(CPUname, DATAname, DATAaddress);
+
+				CPUname = "Low Power";
+				DATAname = "current min frequency";
+				DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
+				ReadCPUinfor(CPUname, DATAname, DATAaddress);
+				DATAname = "current MAX frequency";
+				DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
+				ReadCPUinfor(CPUname, DATAname, DATAaddress);
+
+				OPERATIONmessage("[Low Performance Mode] *************************************************");
+
+			}
+		});
+
 		//==========================================================================================
-		
+
 		// Action for Power Management 2 ===========================================================
-		
-				PMbutton2.setOnClickListener(new View.OnClickListener() 
-			        {
 
-						@Override
-						public void onClick(View v) {
-							
-							OPERATIONmessage("[High Performance Mode] ###########################################");
-							
-							//Please program for High Performance Mode here.
-							
-							OPERATIONmessage("[High Performance Mode] ###########################################");
+		PMbutton2.setOnClickListener(new View.OnClickListener() {
 
-							
-				 }
-			 });
-				
+			@Override
+			public void onClick(View v) {
+
+				OPERATIONmessage("[High Performance Mode] ###########################################");
+				//TODO Please program for High Performance Mode here
+
+				DATAname = "1300000"; // Setting up the minimum frequency 1300 Mhz
+				DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
+				ChangeCPUinfor(CPUname, DATAname, DATAaddress);
+				DATAname = "1300000"; // Setting up the maximum frequency at 1300 MHz
+				DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
+				ChangeCPUinfor(CPUname, DATAname, DATAaddress);
+
+				CPUname = "High Power";
+				DATAname = "current min frequency";
+				DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
+				ReadCPUinfor(CPUname, DATAname, DATAaddress);
+				DATAname = "current MAX frequency";
+				DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
+				ReadCPUinfor(CPUname, DATAname, DATAaddress);
+
+				OPERATIONmessage("[High Performance Mode] ###########################################");
+
+
+			}
+		});
+
 		//==========================================================================================
-				
-				// Action for Power Management 3 ===========================================================
-				
-				PMbutton3.setOnClickListener(new View.OnClickListener() 
-			        {
 
-						@Override
-						public void onClick(View v) {
-							
-							OPERATIONmessage("[Dynamic Performance Mode] ========================================");
-							
-							//Please program for Dynamic Frequency scaling Mode I or II or Mixed here.
-							
-							OPERATIONmessage("[Dynamic Performance Mode] ========================================");
+		// Action for Power Management 3 ===========================================================
 
-							
-						}
-			 });
-				
+		PMbutton3.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+
+				OPERATIONmessage("[Dynamic Performance Mode] ========================================");
+				//TODO Please program for Dynamic Frequency scaling Mode I or II or Mixed here.
+
+				DATAname = "1300000"; // Setting up the minimum frequency 1300 Mhz
+				DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
+				ChangeCPUinfor(CPUname, DATAname, DATAaddress);
+				DATAname = "1300000"; // Setting up the maximum frequency at 1300 MHz
+				DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
+				ChangeCPUinfor(CPUname, DATAname, DATAaddress);
+
+				CPUname = "Dynamic Mode";
+				DATAname = "current min frequency";
+				DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
+				ReadCPUinfor(CPUname, DATAname, DATAaddress);
+				DATAname = "current MAX frequency";
+				DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
+				ReadCPUinfor(CPUname, DATAname, DATAaddress);
+
+				OPERATIONmessage("[Dynamic Performance Mode] ========================================");
+
+
+			}
+		});
+
 		//==========================================================================================
-				
-				
+
+
 		// Action for Check Frequency ===========================================================
-				
-				CheckFrequency.setOnClickListener(new View.OnClickListener() 
-			        {
 
-						@Override
-						public void onClick(View v) {
-							
-							OPERATIONmessage("[Current Frequency] +++++++++++++++++++++++++++++");
-							
-							CPUname="ALL";
-							DATAname="current min frequency";
-							DATAaddress="/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";					
-							ReadCPUinfor(CPUname,DATAname, DATAaddress);
-							DATAname="current MAX frequency";
-							DATAaddress="/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";					
-							ReadCPUinfor(CPUname,DATAname, DATAaddress);
-							
-							CPUname="CPU0";					
-							DATAname="current frequency";
-							DATAaddress="/sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq";					
-							ReadCPUinfor(CPUname,DATAname, DATAaddress);
-							
-							CPUname="CPU1";					
-							DATAname="current frequency";
-							DATAaddress="/sys/devices/system/cpu/cpu1/cpufreq/scaling_cur_freq";					
-							ReadCPUinfor(CPUname,DATAname, DATAaddress);
-							
-							CPUname="CPU2";					
-							DATAname="current frequency";
-							DATAaddress="/sys/devices/system/cpu/cpu2/cpufreq/scaling_cur_freq";					
-							ReadCPUinfor(CPUname,DATAname, DATAaddress);
-							
-							CPUname="CPU3";					
-							DATAname="current frequency";
-							DATAaddress="/sys/devices/system/cpu/cpu3/cpufreq/scaling_cur_freq";					
-							ReadCPUinfor(CPUname,DATAname, DATAaddress);
-							
-							OPERATIONmessage("[Current Frequency] +++++++++++++++++++++++++++++");
+		CheckFrequency.setOnClickListener(new View.OnClickListener() {
 
-							
-						}
-			 });
-				
+			@Override
+			public void onClick(View v) {
+
+				OPERATIONmessage("[Current Frequency] +++++++++++++++++++++++++++++");
+
+				CPUname = "ALL";
+				DATAname = "current min frequency";
+				DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
+				ReadCPUinfor(CPUname, DATAname, DATAaddress);
+				DATAname = "current MAX frequency";
+				DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
+				ReadCPUinfor(CPUname, DATAname, DATAaddress);
+
+				CPUname = "CPU0";
+				DATAname = "current frequency";
+				DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq";
+				ReadCPUinfor(CPUname, DATAname, DATAaddress);
+
+				CPUname = "CPU1";
+				DATAname = "current frequency";
+				DATAaddress = "/sys/devices/system/cpu/cpu1/cpufreq/scaling_cur_freq";
+				ReadCPUinfor(CPUname, DATAname, DATAaddress);
+
+				CPUname = "CPU2";
+				DATAname = "current frequency";
+				DATAaddress = "/sys/devices/system/cpu/cpu2/cpufreq/scaling_cur_freq";
+				ReadCPUinfor(CPUname, DATAname, DATAaddress);
+
+				CPUname = "CPU3";
+				DATAname = "current frequency";
+				DATAaddress = "/sys/devices/system/cpu/cpu3/cpufreq/scaling_cur_freq";
+				ReadCPUinfor(CPUname, DATAname, DATAaddress);
+
+				OPERATIONmessage("[Current Frequency] +++++++++++++++++++++++++++++");
+
+
+			}
+		});
+
 		//==========================================================================================
-				
+
 		// Action for CPU usage Check ===========================================================
-				
-				CheckCPU.setOnClickListener(new View.OnClickListener() 
-			        {
 
-						@Override
-						public void onClick(View v) {
-							
-							
-							
-							OPERATIONmessage("[Current CPU usage] ///////////////////////////////////////");
-							
-							//Please program for CPU load.
-					
-							OPERATIONmessage("[Current CPU usage] ///////////////////////////////////////");
-							return ;
-							
-						}
-			 });
-				
+		CheckCPU.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+
+
+				OPERATIONmessage("[Current CPU usage] ///////////////////////////////////////");
+
+				//TODO Please program for CPU load.
+
+				OPERATIONmessage("[Current CPU usage] ///////////////////////////////////////");
+				return;
+
+			}
+		});
+
 		//==========================================================================================
-		
+
 	}
 
 	
