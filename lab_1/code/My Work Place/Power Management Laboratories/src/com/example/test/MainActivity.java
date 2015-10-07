@@ -1,5 +1,11 @@
 package com.example.test;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.BatteryManager;
 import android.os.Bundle;
 
 import java.io.BufferedReader;
@@ -133,33 +139,23 @@ public class MainActivity extends Activity {
 
 				OPERATIONmessage("[Dynamic Performance Mode] ========================================");
 				//TODO Please program for Dynamic Frequency scaling Mode I or II or Mixed here. (done)
-				// I chose to do Mode 1
+				// mode values table
+				// value : meaning
+				// 1 : Dynamic Frequency Scaling Mode I
+				// 2 : Dynamic Frequency Scaling Mode II
+				// 3 : Dynamic Frequency Scaling Mode Mixed
+				int mode = 3;
+
 				// determine the current load of the processors
 				double load = ReadCPUload();
 
-				// determine if I should go to a power mode
-				if(load < .2){
-					// go to low performance mode
-					PMbutton1.performClick();
-				}else if(load > .9){
-					//go to high performance mode
-					PMbutton2.performClick();
-				}else{
-					// set the frequency range between 51 Mhz and 1.3 Ghz
-					DATAname = "51000"; // Setting up the minimum frequency 51 Mhz
-					DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
-					ChangeCPUinfor(CPUname, DATAname, DATAaddress);
-					DATAname = "1300000"; // Setting up the maximum frequency at 1300 MHz
-					DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
-					ChangeCPUinfor(CPUname, DATAname, DATAaddress);
-
-					CPUname = "Dynamic Mode";
-					DATAname = "current min frequency";
-					DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
-					ReadCPUinfor(CPUname, DATAname, DATAaddress);
-					DATAname = "current MAX frequency";
-					DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
-					ReadCPUinfor(CPUname, DATAname, DATAaddress);
+				//call functions which implement the different Dynamic Frequency scaling Modes
+				if(mode == 1){
+					setDFS_1(load);
+				}else if(mode == 2){
+					setDFS_2();
+				}else if (mode == 3){
+					setDFS_Mixed(load);
 				}
 
 				OPERATIONmessage("[Dynamic Performance Mode] ========================================");
@@ -251,7 +247,7 @@ protected void ChangeCPUinfor(String CPUname, String DATAname, String DATAaddres
 	        osw.flush();
 	        osw.close();
 	    } catch (IOException ex) {
-	    	 OPERATIONmessage2("Error"+ex);
+	    	 OPERATIONmessage2("Error" + ex);
 	        return;
 	    }
 		
@@ -324,10 +320,165 @@ protected double ReadCPUload() {
 		return result;
 	}
 
+	/**
+	 * set processor to dynamic frequency scaling mode 1 (done)
+	 * @param cpu_load
+	 */
+	private void setDFS_1(double cpu_load){
+		// determine if I should go to a power mode
+		if(cpu_load < .2){
+			// go to low performance mode
+			PMbutton1.performClick();
+		}else if(cpu_load > .9){
+			//go to high performance mode
+			PMbutton2.performClick();
+		}else{
+			// set the frequency range between 51 Mhz and 1.3 Ghz
+			DATAname = "51000"; // Setting up the minimum frequency 51 Mhz
+			DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
+			ChangeCPUinfor(CPUname, DATAname, DATAaddress);
+			DATAname = "1300000"; // Setting up the maximum frequency at 1300 MHz
+			DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
+			ChangeCPUinfor(CPUname, DATAname, DATAaddress);
 
+			CPUname = "Dynamic Mode";
+			DATAname = "current min frequency";
+			DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
+			ReadCPUinfor(CPUname, DATAname, DATAaddress);
+			DATAname = "current MAX frequency";
+			DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
+			ReadCPUinfor(CPUname, DATAname, DATAaddress);
+		}
+	}
 
+	/**
+	 * set processor to dynamic frequency scaling mode 2 (done)
+	 * @param cpu_load
+	 */
+	private void setDFS_2(){
+		// get the battery level
+		IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+		Intent batteryStatus = this.registerReceiver(null, ifilter);
 
+		int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+		int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
 
+		float battery_percent = level / (float)scale;
+
+		// get the wireless radio state
+		ConnectivityManager connectivityManager = (ConnectivityManager)
+				this.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+		NetworkInfo network_info = connectivityManager.getActiveNetworkInfo();
+		boolean is_wireless_on = (network_info != null);
+
+		// get the charging state
+		int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+		boolean is_charging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
+				status == BatteryManager.BATTERY_STATUS_FULL;
+
+		// determine if we are charging
+		if(is_charging){
+			// if we are charging we don't care about power usage.... set to high performance mode
+			PMbutton2.performClick();
+		}else if(battery_percent < .3) {
+			// we want to conserve energy because we are almost out of it, set to low performance mode
+			PMbutton1.performClick();
+		}else{
+				// if we're not charging and not low battery we have some decisions to make
+				// if the wireless radio is on we are likely doing something online.
+				// If we are doing something we will like a more responsive device
+				// so allow the processor to vary between two fairly high frequency states
+				if (is_wireless_on) {
+					// set to fairly high processing state
+					// set the frequency range between 700 Mhz and 1.3 Ghz
+					DATAname = "700000"; // Setting up the minimum frequency 51 Mhz
+					DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
+					ChangeCPUinfor(CPUname, DATAname, DATAaddress);
+					DATAname = "1300000"; // Setting up the maximum frequency at 1300 MHz
+					DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
+					ChangeCPUinfor(CPUname, DATAname, DATAaddress);
+
+					CPUname = "Dynamic Mode";
+					DATAname = "current min frequency";
+					DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
+					ReadCPUinfor(CPUname, DATAname, DATAaddress);
+					DATAname = "current MAX frequency";
+					DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
+					ReadCPUinfor(CPUname, DATAname, DATAaddress);
+				} else {
+					// set to lower processing state
+					// set the frequency range between 51 Mhz and 700 Mhz
+					DATAname = "51000"; // Setting up the minimum frequency 51 Mhz
+					DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
+					ChangeCPUinfor(CPUname, DATAname, DATAaddress);
+					DATAname = "700000"; // Setting up the maximum frequency at 1300 MHz
+					DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
+					ChangeCPUinfor(CPUname, DATAname, DATAaddress);
+
+					CPUname = "Dynamic Mode";
+					DATAname = "current min frequency";
+					DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
+					ReadCPUinfor(CPUname, DATAname, DATAaddress);
+					DATAname = "current MAX frequency";
+					DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
+					ReadCPUinfor(CPUname, DATAname, DATAaddress);
+				}
+		}
+	}
+
+	/**
+	 * set processor to dynamic frequency scaling mode mixed
+	 * @param cpu_load
+	 */
+	private void setDFS_Mixed(double cpu_load) {
+		// get the battery level
+		IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+		Intent batteryStatus = this.registerReceiver(null, ifilter);
+
+		int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+		int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+
+		float battery_percent = level / (float)scale;
+
+		// get the charging state
+		int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+		boolean is_charging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
+				status == BatteryManager.BATTERY_STATUS_FULL;
+
+		// determine if we are charging
+		if(is_charging){
+			// if we are charging we don't care about power usage.... set to high performance mode
+			PMbutton2.performClick();
+		}else {
+			// vary the processor frequency based on the battery level.
+			// the higher the battery level, the higher the frequency.
+			// anywhere from 100000 khz to 1300000 khz
+			double step_size = 100.0/13.0;
+			int load_fraction = new Double(Math.ceil(battery_percent / step_size)).intValue();
+
+			// load_fraction is at greatest 1
+			int high_frequency = 100000 * Integer.valueOf(load_fraction * 13);
+			int low_frequency = high_frequency;
+
+			// set to fairly high processing state
+			// set the frequency range between 700 Mhz and 1.3 Ghz
+			DATAname = String.valueOf(low_frequency); // Setting up the minimum frequency at low frequency
+			DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
+			ChangeCPUinfor(CPUname, DATAname, DATAaddress);
+			DATAname = String.valueOf(high_frequency); // Setting up the maximum frequency at high frequency
+			DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
+			ChangeCPUinfor(CPUname, DATAname, DATAaddress);
+
+			CPUname = "Dynamic Mode";
+			DATAname = "current min frequency";
+			DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
+			ReadCPUinfor(CPUname, DATAname, DATAaddress);
+			DATAname = "current MAX frequency";
+			DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
+			ReadCPUinfor(CPUname, DATAname, DATAaddress);
+		}
+	}
 
 //******************************************* [Operation message] ********************************************
 	
