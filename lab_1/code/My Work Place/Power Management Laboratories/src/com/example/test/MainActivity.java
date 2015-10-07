@@ -1,10 +1,13 @@
 package com.example.test;
 
 import android.os.Bundle;
+
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.RandomAccessFile;
+import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
 import android.app.Activity;
@@ -96,7 +99,7 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 
 				OPERATIONmessage("[High Performance Mode] ###########################################");
-				//TODO Please program for High Performance Mode here
+				//TODO Please program for High Performance Mode here (done)
 
 				DATAname = "1300000"; // Setting up the minimum frequency 1300 Mhz
 				DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
@@ -129,26 +132,37 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 
 				OPERATIONmessage("[Dynamic Performance Mode] ========================================");
-				//TODO Please program for Dynamic Frequency scaling Mode I or II or Mixed here.
+				//TODO Please program for Dynamic Frequency scaling Mode I or II or Mixed here. (done)
+				// I chose to do Mode 1
+				// determine the current load of the processors
+				double load = ReadCPUload();
 
-				DATAname = "1300000"; // Setting up the minimum frequency 1300 Mhz
-				DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
-				ChangeCPUinfor(CPUname, DATAname, DATAaddress);
-				DATAname = "1300000"; // Setting up the maximum frequency at 1300 MHz
-				DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
-				ChangeCPUinfor(CPUname, DATAname, DATAaddress);
+				// determine if I should go to a power mode
+				if(load < .2){
+					// go to low performance mode
+					PMbutton1.performClick();
+				}else if(load > .9){
+					//go to high performance mode
+					PMbutton2.performClick();
+				}else{
+					// set the frequency range between 51 Mhz and 1.3 Ghz
+					DATAname = "51000"; // Setting up the minimum frequency 51 Mhz
+					DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
+					ChangeCPUinfor(CPUname, DATAname, DATAaddress);
+					DATAname = "1300000"; // Setting up the maximum frequency at 1300 MHz
+					DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
+					ChangeCPUinfor(CPUname, DATAname, DATAaddress);
 
-				CPUname = "Dynamic Mode";
-				DATAname = "current min frequency";
-				DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
-				ReadCPUinfor(CPUname, DATAname, DATAaddress);
-				DATAname = "current MAX frequency";
-				DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
-				ReadCPUinfor(CPUname, DATAname, DATAaddress);
+					CPUname = "Dynamic Mode";
+					DATAname = "current min frequency";
+					DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
+					ReadCPUinfor(CPUname, DATAname, DATAaddress);
+					DATAname = "current MAX frequency";
+					DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
+					ReadCPUinfor(CPUname, DATAname, DATAaddress);
+				}
 
 				OPERATIONmessage("[Dynamic Performance Mode] ========================================");
-
-
 			}
 		});
 
@@ -209,8 +223,8 @@ public class MainActivity extends Activity {
 
 
 				OPERATIONmessage("[Current CPU usage] ///////////////////////////////////////");
-
-				//TODO Please program for CPU load.
+				//TODO Please program for CPU load. (done?)
+				ReadCPUload();
 
 				OPERATIONmessage("[Current CPU usage] ///////////////////////////////////////");
 				return;
@@ -268,6 +282,47 @@ protected CharSequence ReadCPUinfor(String CPUname, String DATAname, String DATA
 	  }
 	  return result;
 	 }
+
+protected double ReadCPUload() {
+
+		ProcessBuilder cmd;
+		double result=0.0;
+
+		try{
+
+			String[] args = {"/system/bin/cat", "/proc/stat"};
+			cmd = new ProcessBuilder(args);
+
+			Process process = cmd.start();
+			InputStream in = process.getInputStream();
+			byte[] re = new byte[1024];
+			String stat = "";
+
+			while(in.read(re) != -1) {
+				stat += new String(re);
+				//read the entire input stream
+				OPERATIONmessage2("CPU load = "+new String(re));
+				//result = result + new String(re);
+			}
+
+			in.close();
+
+			// parse stat for the load data
+			String load;
+			Scanner stat_scanner = new Scanner(stat);
+
+			load = stat_scanner.nextLine();
+			//String[] toks = stat_scanner.nextLine().split(" ");
+
+			result = Double.valueOf(load);
+		} catch(IOException ex){
+			ex.printStackTrace();
+		} catch(Exception e){
+			e.printStackTrace();
+		}
+
+		return result;
+	}
 
 
 
