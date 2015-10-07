@@ -33,11 +33,13 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Power Management Laboratories/src/com/example/test/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.78969073">
-              <caret line="519" column="0" selection-start-line="519" selection-start-column="0" selection-end-line="519" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.75463915">
+              <caret line="480" column="5" selection-start-line="433" selection-start-column="4" selection-end-line="480" selection-end-column="5" />
               <folding>
                 <element signature="e#1812#2852#0" expanded="true" />
                 <element signature="e#2851#2852#0" expanded="true" />
+                <element signature="e#3079#4176#0" expanded="true" />
+                <element signature="e#4175#4176#0" expanded="true" />
                 <element signature="e#4403#5278#0" expanded="true" />
                 <element signature="e#5277#5278#0" expanded="true" />
                 <element signature="e#5508#6834#0" expanded="true" />
@@ -447,6 +449,8 @@
           <folding>
             <element signature="e#1812#2852#0" expanded="true" />
             <element signature="e#2851#2852#0" expanded="true" />
+            <element signature="e#3079#4176#0" expanded="true" />
+            <element signature="e#4175#4176#0" expanded="true" />
             <element signature="e#4403#5278#0" expanded="true" />
             <element signature="e#5277#5278#0" expanded="true" />
             <element signature="e#5508#6834#0" expanded="true" />
@@ -490,6 +494,8 @@
           <folding>
             <element signature="e#1812#2852#0" expanded="true" />
             <element signature="e#2851#2852#0" expanded="true" />
+            <element signature="e#3079#4176#0" expanded="true" />
+            <element signature="e#4175#4176#0" expanded="true" />
             <element signature="e#4403#5278#0" expanded="true" />
             <element signature="e#5277#5278#0" expanded="true" />
             <element signature="e#5508#6834#0" expanded="true" />
@@ -558,11 +564,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Power Management Laboratories/src/com/example/test/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.78969073">
-          <caret line="519" column="0" selection-start-line="519" selection-start-column="0" selection-end-line="519" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.75463915">
+          <caret line="480" column="5" selection-start-line="433" selection-start-column="4" selection-end-line="480" selection-end-column="5" />
           <folding>
             <element signature="e#1812#2852#0" expanded="true" />
             <element signature="e#2851#2852#0" expanded="true" />
+            <element signature="e#3079#4176#0" expanded="true" />
+            <element signature="e#4175#4176#0" expanded="true" />
             <element signature="e#4403#5278#0" expanded="true" />
             <element signature="e#5277#5278#0" expanded="true" />
             <element signature="e#5508#6834#0" expanded="true" />
