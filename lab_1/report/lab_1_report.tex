@@ -1,9 +1,9 @@
 %% The comment character in TeX / LaTeX is the percent character.
 %% The following chunk is called the header
 
-\documentclass{article}	% essential first line
-\usepackage{times}		% this uses fonts which will look nice in PDF format
-\usepackage{graphicx}		% needed for the figures
+\documentclass{article} % essential first line
+\usepackage{times}    % this uses fonts which will look nice in PDF format
+\usepackage{graphicx}   % needed for the figures
 \usepackage{url}
 \usepackage{adjustbox}
 \usepackage{amsmath}
@@ -36,11 +36,11 @@
 
 %% Here I adjust the margins
 
-\oddsidemargin -0.25in		% Left margin is 1in + this value
-\textwidth 6.75in		% Right margin is not set explicitly
-\topmargin 0in			% Top margin is 1in + this value
-\textheight 9in			% Bottom margin is not set explicitly
-\columnsep 0.25in		% separation between columns
+\oddsidemargin -0.25in    % Left margin is 1in + this value
+\textwidth 6.75in   % Right margin is not set explicitly
+\topmargin 0in      % Top margin is 1in + this value
+\textheight 9in     % Bottom margin is not set explicitly
+\columnsep 0.25in   % separation between columns
 
 %% Define a macro for inserting postscript images
 %% ==============================================
@@ -57,15 +57,15 @@
 %% - label is a name given to the figure, it can be referenced using the
 %%         \ref{label} command.
 
-%\def\EPSFIG[#1]#2#3#4{		% Don't be scared by this monsrosity
-%\begin{figure}[hbt]		% it is a macro to save typing later
-%\begin{center}			% 
-%\includegraphics[#1]{#2}	%
-%\end{center}			%
-%\caption{#3}			%
-%\label{#4}			%
-%\end{figure}			%
-%}				%
+%\def\EPSFIG[#1]#2#3#4{   % Don't be scared by this monsrosity
+%\begin{figure}[hbt]    % it is a macro to save typing later
+%\begin{center}     % 
+%\includegraphics[#1]{#2} %
+%\end{center}     %
+%\caption{#3}     %
+%\label{#4}     %
+%\end{figure}     %
+%}        %
 
 %% Define the fields to be displayed by a \maketitle command
 \author{Timothy Dee, Brent Barth}
@@ -78,10 +78,10 @@
 %% Header now finished
 %%
 
-\begin{document}		% Critical
+\begin{document}    % Critical
 \twocolumn
-\thispagestyle{empty}		% Inhibit the page number on this page
-\maketitle			% Use the \author, \title and \date info
+\thispagestyle{empty}   % Inhibit the page number on this page
+\maketitle      % Use the \author, \title and \date info
 
 %% Next comes the abstract, notice the curly-braces surrounding the
 %% text.
@@ -96,195 +96,199 @@ TODO
 \begin{lstlisting}[float=*, caption={High Performance Mode},label={lst:HPM},numbers=left]
 PMbutton2.setOnClickListener(new View.OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
+      @Override
+      public void onClick(View v) {
 
-				OPERATIONmessage("[High Performance Mode] ###########################################");
-				//TODO Please program for High Performance Mode here (done)
+        OPERATIONmessage("[High Performance Mode] ###########################################");
+        //TODO Please program for High Performance Mode here (done)
 
-				DATAname = "1300000"; // Setting up the minimum frequency 1300 Mhz
-				DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
-				ChangeCPUinfor(CPUname, DATAname, DATAaddress);
-				DATAname = "1300000"; // Setting up the maximum frequency at 1300 MHz
-				DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
-				ChangeCPUinfor(CPUname, DATAname, DATAaddress);
+        DATAname = "1300000"; // Setting up the minimum frequency 1300 Mhz
+        DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
+        ChangeCPUinfor(CPUname, DATAname, DATAaddress);
+        DATAname = "1300000"; // Setting up the maximum frequency at 1300 MHz
+        DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
+        ChangeCPUinfor(CPUname, DATAname, DATAaddress);
 
-				CPUname = "High Power";
-				DATAname = "current min frequency";
-				DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
-				ReadCPUinfor(CPUname, DATAname, DATAaddress);
-				DATAname = "current MAX frequency";
-				DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
-				ReadCPUinfor(CPUname, DATAname, DATAaddress);
+        CPUname = "High Power";
+        DATAname = "current min frequency";
+        DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
+        ReadCPUinfor(CPUname, DATAname, DATAaddress);
+        DATAname = "current MAX frequency";
+        DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
+        ReadCPUinfor(CPUname, DATAname, DATAaddress);
 
-				OPERATIONmessage("[High Performance Mode] ###########################################");
+        OPERATIONmessage("[High Performance Mode] ###########################################");
 
 
-			}
-		});
+      }
+    });
 \end{lstlisting}
-TODO
+Listing \ref{lst:HPM} describes our implementation of high performance mode. This code was straightforward due to its similarity with low performance mode.
 
 \subsection{Dynamic Frequency Scaling Mode I}
 \begin{lstlisting}[float=*,caption={Dynamic Frequency Scaling Mode I},label={lst:DFS_1},numbers=left]
 private void setDFS_1(double cpu_load){
-		// determine if I should go to a power mode
-		if(cpu_load < .2){
-			// go to low performance mode
-			PMbutton1.performClick();
-		}else if(cpu_load > .9){
-			//go to high performance mode
-			PMbutton2.performClick();
-		}else{
-			// set the frequency range between 51 Mhz and 1.3 Ghz
-			DATAname = "51000"; // Setting up the minimum frequency 51 Mhz
-			DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
-			ChangeCPUinfor(CPUname, DATAname, DATAaddress);
-			DATAname = "1300000"; // Setting up the maximum frequency at 1300 MHz
-			DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
-			ChangeCPUinfor(CPUname, DATAname, DATAaddress);
+    // determine if I should go to a power mode
+    if(cpu_load < .2){
+      // go to low performance mode
+      PMbutton1.performClick();
+    }else if(cpu_load > .9){
+      //go to high performance mode
+      PMbutton2.performClick();
+    }else{
+      // set the frequency range between 51 Mhz and 1.3 Ghz
+      DATAname = "51000"; // Setting up the minimum frequency 51 Mhz
+      DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
+      ChangeCPUinfor(CPUname, DATAname, DATAaddress);
+      DATAname = "1300000"; // Setting up the maximum frequency at 1300 MHz
+      DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
+      ChangeCPUinfor(CPUname, DATAname, DATAaddress);
 
-			CPUname = "Dynamic Mode";
-			DATAname = "current min frequency";
-			DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
-			ReadCPUinfor(CPUname, DATAname, DATAaddress);
-			DATAname = "current MAX frequency";
-			DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
-			ReadCPUinfor(CPUname, DATAname, DATAaddress);
-		}
-	}
+      CPUname = "Dynamic Mode";
+      DATAname = "current min frequency";
+      DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
+      ReadCPUinfor(CPUname, DATAname, DATAaddress);
+      DATAname = "current MAX frequency";
+      DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
+      ReadCPUinfor(CPUname, DATAname, DATAaddress);
+    }
+  }
 \end{lstlisting}
-TODO
+Listing \ref{lst:DFS_1} describes our implementation of dynamic frequency scaling mode I. This mode varies the frequency range according to according to the CPU load. Lower processor frequencies will conserve power while higher processor frequencies will allow for increased performance. 
+Certain CPU loads require that the processor be set to high performance mode or low performance mode. To accomplish this we use the performClick() method attached to the low performance mode and high performance mode buttons. This has the same effect as the user pressing the button which corresponds to these modes.
 
 \subsection{Dynamic Frequency Scaling Mode II}
 \begin{lstlisting}[float=*,caption={Dynamic Frequency Scaling Mode II},label={lst:DFS_2},numbers=left]
 private void setDFS_2(){
-		// get the battery level
-		IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-		Intent batteryStatus = this.registerReceiver(null, ifilter);
+    // get the battery level
+    IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+    Intent batteryStatus = this.registerReceiver(null, ifilter);
 
-		int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
-		int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+    int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+    int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
 
-		float battery_percent = level / (float)scale;
+    float battery_percent = level / (float)scale;
 
-		// get the wireless radio state
-		ConnectivityManager connectivityManager = (ConnectivityManager)
-				this.getSystemService(Context.CONNECTIVITY_SERVICE);
+    // get the wireless radio state
+    ConnectivityManager connectivityManager = (ConnectivityManager)
+        this.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-		NetworkInfo network_info = connectivityManager.getActiveNetworkInfo();
-		boolean is_wireless_on = (network_info != null);
+    NetworkInfo network_info = connectivityManager.getActiveNetworkInfo();
+    boolean is_wireless_on = (network_info != null);
 
-		// get the charging state
-		int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
-		boolean is_charging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
-				status == BatteryManager.BATTERY_STATUS_FULL;
+    // get the charging state
+    int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+    boolean is_charging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
+        status == BatteryManager.BATTERY_STATUS_FULL;
 
-		//(continued on next page)		
+    //(continued on next page)    
 \end{lstlisting}
 \begin{lstlisting}[float=*,caption={Dynamic Frequency Scaling Mode II (continued)},label={lst:DFS_2_2},numbers=left]
 // determine if we are charging
-		if(is_charging){
-			// if we are charging we don't care about power usage.... set to high performance mode
-			PMbutton2.performClick();
-		}else if(battery_percent < .3) {
-			// we want to conserve energy because we are almost out of it, set to low performance mode
-			PMbutton1.performClick();
-		}else{
-				// if we're not charging and not low battery we have some decisions to make
-				// if the wireless radio is on we are likely doing something online.
-				// If we are doing something we will like a more responsive device
-				// so allow the processor to vary between two fairly high frequency states
-				if (is_wireless_on) {
-					// set to fairly high processing state
-					// set the frequency range between 700 Mhz and 1.3 Ghz
-					DATAname = "700000"; // Setting up the minimum frequency 51 Mhz
-					DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
-					ChangeCPUinfor(CPUname, DATAname, DATAaddress);
-					DATAname = "1300000"; // Setting up the maximum frequency at 1300 MHz
-					DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
-					ChangeCPUinfor(CPUname, DATAname, DATAaddress);
+    if(is_charging){
+      // if we are charging we don't care about power usage.... set to high performance mode
+      PMbutton2.performClick();
+    }else if(battery_percent < .3) {
+      // we want to conserve energy because we are almost out of it, set to low performance mode
+      PMbutton1.performClick();
+    }else{
+        // if we're not charging and not low battery we have some decisions to make
+        // if the wireless radio is on we are likely doing something online.
+        // If we are doing something we will like a more responsive device
+        // so allow the processor to vary between two fairly high frequency states
+        if (is_wireless_on) {
+          // set to fairly high processing state
+          // set the frequency range between 700 Mhz and 1.3 Ghz
+          DATAname = "700000"; // Setting up the minimum frequency 51 Mhz
+          DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
+          ChangeCPUinfor(CPUname, DATAname, DATAaddress);
+          DATAname = "1300000"; // Setting up the maximum frequency at 1300 MHz
+          DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
+          ChangeCPUinfor(CPUname, DATAname, DATAaddress);
 
-					CPUname = "Dynamic Mode";
-					DATAname = "current min frequency";
-					DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
-					ReadCPUinfor(CPUname, DATAname, DATAaddress);
-					DATAname = "current MAX frequency";
-					DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
-					ReadCPUinfor(CPUname, DATAname, DATAaddress);
-				} else {
-					// set to lower processing state
-					// set the frequency range between 51 Mhz and 700 Mhz
-					DATAname = "51000"; // Setting up the minimum frequency 51 Mhz
-					DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
-					ChangeCPUinfor(CPUname, DATAname, DATAaddress);
-					DATAname = "700000"; // Setting up the maximum frequency at 1300 MHz
-					DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
-					ChangeCPUinfor(CPUname, DATAname, DATAaddress);
+          CPUname = "Dynamic Mode";
+          DATAname = "current min frequency";
+          DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
+          ReadCPUinfor(CPUname, DATAname, DATAaddress);
+          DATAname = "current MAX frequency";
+          DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
+          ReadCPUinfor(CPUname, DATAname, DATAaddress);
+        } else {
+          // set to lower processing state
+          // set the frequency range between 51 Mhz and 700 Mhz
+          DATAname = "51000"; // Setting up the minimum frequency 51 Mhz
+          DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
+          ChangeCPUinfor(CPUname, DATAname, DATAaddress);
+          DATAname = "700000"; // Setting up the maximum frequency at 1300 MHz
+          DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
+          ChangeCPUinfor(CPUname, DATAname, DATAaddress);
 
-					CPUname = "Dynamic Mode";
-					DATAname = "current min frequency";
-					DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
-					ReadCPUinfor(CPUname, DATAname, DATAaddress);
-					DATAname = "current MAX frequency";
-					DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
-					ReadCPUinfor(CPUname, DATAname, DATAaddress);
-				}
-		}
-	}
+          CPUname = "Dynamic Mode";
+          DATAname = "current min frequency";
+          DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
+          ReadCPUinfor(CPUname, DATAname, DATAaddress);
+          DATAname = "current MAX frequency";
+          DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
+          ReadCPUinfor(CPUname, DATAname, DATAaddress);
+        }
+    }
+  }
 \end{lstlisting}
-TODO
+Listing \ref{lst:DFS_2} and \ref{lst:DFS_2_2} shows our implementation of dynamic frequency scaling mode 2. For this mode we though about the phone states which affect the scarcity of power. We determined that the wireless radio state and the charging state of the phone were significant enough to be determining factors in how we choose to manage the processor frequency.
+
+In the case of the wireless radio the following train of logic was applied. If the wireless radio is on, then we are likely to be interacting with a web page. If we are interacting with a web page then we will certainly benefit from a more responsive device. Therefore we elect to put the phone in a higher power state while the wireless radio is on. We save energy by setting the phone in a lower power state when the wireless radio is off.
+The decision making for the charging state is straightforward. If the phone is charging then we don't need to worry about power consumption, even if the battery is low.
 
 \subsection{Dynamic Frequency Scaling Mode Mixed}
 \begin{lstlisting}[float=*,caption={Dynamic Frequency Scaling Mode Mixed},label={lst:DFS_mixed},numbers=left]
 private void setDFS_Mixed(double cpu_load) {
-		// get the battery level
-		IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-		Intent batteryStatus = this.registerReceiver(null, ifilter);
+    // get the battery level
+    IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+    Intent batteryStatus = this.registerReceiver(null, ifilter);
 
-		int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
-		int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+    int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+    int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
 
-		float battery_percent = level / (float)scale;
+    float battery_percent = level / (float)scale;
 
-		// get the charging state
-		int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
-		boolean is_charging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
-				status == BatteryManager.BATTERY_STATUS_FULL;
+    // get the charging state
+    int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+    boolean is_charging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
+        status == BatteryManager.BATTERY_STATUS_FULL;
 
-		// determine if we are charging
-		if(is_charging){
-			// if we are charging we don't care about power usage.... set to high performance mode
-			PMbutton2.performClick();
-		}else {
-			// vary the processor frequency based on the battery level.
-			// the higher the battery level, the higher the frequency.
-			// anywhere from 100000 khz to 1300000 khz
-			double step_size = 100.0/13.0;
-			int load_fraction = new Double(Math.ceil(battery_percent / step_size)).intValue();
+    // determine if we are charging
+    if(is_charging){
+      // if we are charging we don't care about power usage.... set to high performance mode
+      PMbutton2.performClick();
+    }else {
+      // vary the processor frequency based on the battery level.
+      // the higher the battery level, the higher the frequency.
+      // anywhere from 100000 khz to 1300000 khz
+      double step_size = 100.0/13.0;
+      int load_fraction = new Double(Math.ceil(battery_percent / step_size)).intValue();
 
-			// load_fraction is at greatest 1
-			int high_frequency = 100000 * Integer.valueOf(load_fraction * 13);
-			int low_frequency = high_frequency;
+      // load_fraction is at greatest 1
+      int high_frequency = 100000 * Integer.valueOf(load_fraction * 13);
+      int low_frequency = high_frequency;
 
-			// set to fairly high processing state
-			// set the frequency range between 700 Mhz and 1.3 Ghz
-			DATAname = String.valueOf(low_frequency); // Setting up the minimum frequency at low frequency
-			DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
-			ChangeCPUinfor(CPUname, DATAname, DATAaddress);
-			DATAname = String.valueOf(high_frequency); // Setting up the maximum frequency at high frequency
-			DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
-			ChangeCPUinfor(CPUname, DATAname, DATAaddress);
+      // set to fairly high processing state
+      // set the frequency range between 700 Mhz and 1.3 Ghz
+      DATAname = String.valueOf(low_frequency); // Setting up the minimum frequency at low frequency
+      DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
+      ChangeCPUinfor(CPUname, DATAname, DATAaddress);
+      DATAname = String.valueOf(high_frequency); // Setting up the maximum frequency at high frequency
+      DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
+      ChangeCPUinfor(CPUname, DATAname, DATAaddress);
 
-			CPUname = "Dynamic Mode";
-			DATAname = "current min frequency";
-			DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
-			ReadCPUinfor(CPUname, DATAname, DATAaddress);
-			DATAname = "current MAX frequency";
-			DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
-			ReadCPUinfor(CPUname, DATAname, DATAaddress);
-		}
-	}
+      CPUname = "Dynamic Mode";
+      DATAname = "current min frequency";
+      DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
+      ReadCPUinfor(CPUname, DATAname, DATAaddress);
+      DATAname = "current MAX frequency";
+      DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
+      ReadCPUinfor(CPUname, DATAname, DATAaddress);
+    }
+  }
 \end{lstlisting}
 TODO
 
@@ -329,7 +333,7 @@ Equation \ref{eq-example} demonstrates example equation.
 
 %% This bit generates the references.  This part starts to get
 %% slightly tricky.
-\bibliographystyle{unsrt}	% Order by citation
+\bibliographystyle{unsrt} % Order by citation
 \bibliography{report}
 
 \end{document}
