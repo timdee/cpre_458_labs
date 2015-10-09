@@ -454,15 +454,16 @@ protected double ReadCPUload() {
 			// vary the processor frequency based on the battery level.
 			// the higher the battery level, the higher the frequency.
 			// anywhere from 100000 khz to 1300000 khz
-			double step_size = 100.0/13.0;
-			int load_fraction = new Double(Math.ceil(battery_percent / step_size)).intValue();
+			double step_size = 1.0/12.0;
+
+			// pretend like the cpu_load is less if the battery percent is lower
+			int load_fraction = new Double(Math.ceil( (cpu_load * battery_percent) / step_size)).intValue();
 
 			// load_fraction is at greatest 1
-			int high_frequency = 100000 * Integer.valueOf(load_fraction * 13);
+			int high_frequency = 100000 * (Integer.valueOf(load_fraction) + 1);
 			int low_frequency = high_frequency;
 
 			// set to fairly high processing state
-			// set the frequency range between 700 Mhz and 1.3 Ghz
 			DATAname = String.valueOf(low_frequency); // Setting up the minimum frequency at low frequency
 			DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
 			ChangeCPUinfor(CPUname, DATAname, DATAaddress);

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Arch Linux) (preloaded format=pdflatex 2015.9.20)  8 OCT 2015 10:06
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Arch Linux) (preloaded format=pdflatex 2015.9.20)  9 OCT 2015 02:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -289,19 +289,41 @@ e
 \c@lstlisting=\count117
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <14.4> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 89.
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 95.
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 96.
 
+Overfull \hbox (6.85982pt too wide) in paragraph at lines 92--94
+\OT1/ptm/m/n/10 con-sump-tion data anal-y-sis, and anal-y-sis of com-pu-ta-tion
+ time.
+ []
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 96.
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 97.
 (/usr/share/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
-Overfull \hbox (1.01672pt too wide) in paragraph at lines 238--238
-[]\OT1/ptm/b/n/12 Dynamic Fre-quency Scal-ing Mode Mixed 
+Overfull \hbox (1.72008pt too wide) in paragraph at lines 127--128
+\OT1/ptm/m/n/10 Listing 1[] de-scribes our im-ple-men-ta-tion of high per-for-m
+ance
  []
 
 
-LaTeX Warning: File `example.png' not found on input line 308.
+Overfull \hbox (7.68016pt too wide) in paragraph at lines 158--160
+\OT1/ptm/m/n/10 Listing 2[] de-scribes our im-ple-men-ta-tion of dy-namic fre-q
+uency
+ []
+
+
+Overfull \hbox (1.01672pt too wide) in paragraph at lines 243--243
+[]\OT1/ptm/b/n/12 Dynamic Fre-quency Scal-ing Mode Mixed 
+ []
+
+[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
+
+
+
+] [2] [3] [4] [5]
+
+LaTeX Warning: File `example.png' not found on input line 329.
 
 
 ! Package pdftex.def Error: File `example.png' not found.
@@ -310,36 +332,31 @@ See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.308 ...4\textwidth,keepaspectratio]{example.png}
+l.329 ...4\textwidth,keepaspectratio]{example.png}
                                                   
 ? 
 No file lab_1_report.bbl.
-[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
-
-
-
-] [2] [3] [4] [5]
-(./lab_1_report.aux) ) 
+[6] (./lab_1_report.aux) ) 
 Here is how much of TeX's memory you used:
- 4384 strings out of 493089
- 61754 string characters out of 6140694
- 389564 words of memory out of 5000000
- 7782 multiletter control sequences out of 15000+600000
+ 4385 strings out of 493089
+ 61763 string characters out of 6140694
+ 396787 words of memory out of 5000000
+ 7783 multiletter control sequences out of 15000+600000
  19140 words of font info for 46 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 38i,16n,72p,252b,1159s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/
-share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texmf-dist/fonts/type1/
-public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb>
-</usr/share/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texmf-dis
-t/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times
-/utmr8a.pfb>
-Output written on lab_1_report.pdf (5 pages, 93747 bytes).
+ 38i,16n,72p,460b,1159s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc}</
+usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.
+pfb></usr/share/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texmf
+-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/t
+imes/utmr8a.pfb>
+Output written on lab_1_report.pdf (6 pages, 97926 bytes).
 PDF statistics:
- 53 PDF objects out of 1000 (max. 8388607)
- 37 compressed objects within 1 object stream
+ 56 PDF objects out of 1000 (max. 8388607)
+ 39 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
