@@ -3,6 +3,7 @@ package com.example.test;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.hardware.display.DisplayManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.BatteryManager;
@@ -18,6 +19,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 import android.app.Activity;
 import android.os.Handler;
+import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -40,7 +43,7 @@ public class MainActivity extends Activity {
     public String DATAaddress;
     public	float CPUusage = 0;
 
-    
+	private volatile boolean button_pressed;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -72,25 +75,8 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-
-				OPERATIONmessage("[Low Performance Mode] *************************************************");
-
-				DATAname = "340000"; // Setting up the minimum frequency at 340 MHz
-				DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
-				ChangeCPUinfor(CPUname, DATAname, DATAaddress);
-				DATAname = "340000"; // Setting up the maximum frequency at 340 MHz
-				DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
-				ChangeCPUinfor(CPUname, DATAname, DATAaddress);
-
-				CPUname = "Low Power";
-				DATAname = "current min frequency";
-				DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
-				ReadCPUinfor(CPUname, DATAname, DATAaddress);
-				DATAname = "current MAX frequency";
-				DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
-				ReadCPUinfor(CPUname, DATAname, DATAaddress);
-
-				OPERATIONmessage("[Low Performance Mode] *************************************************");
+				button_pressed = false;
+				setLowPerformanceMode();
 
 			}
 		});
@@ -103,27 +89,8 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-
-				OPERATIONmessage("[High Performance Mode] ###########################################");
-				//TODO Please program for High Performance Mode here (done)
-
-				DATAname = "1300000"; // Setting up the minimum frequency 1300 Mhz
-				DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
-				ChangeCPUinfor(CPUname, DATAname, DATAaddress);
-				DATAname = "1300000"; // Setting up the maximum frequency at 1300 MHz
-				DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
-				ChangeCPUinfor(CPUname, DATAname, DATAaddress);
-
-				CPUname = "High Power";
-				DATAname = "current min frequency";
-				DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
-				ReadCPUinfor(CPUname, DATAname, DATAaddress);
-				DATAname = "current MAX frequency";
-				DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
-				ReadCPUinfor(CPUname, DATAname, DATAaddress);
-
-				OPERATIONmessage("[High Performance Mode] ###########################################");
-
+				button_pressed = false;
+				setHighPerformanceMode();
 
 			}
 		});
@@ -139,24 +106,40 @@ public class MainActivity extends Activity {
 
 				OPERATIONmessage("[Dynamic Performance Mode] ========================================");
 				//TODO Please program for Dynamic Frequency scaling Mode I or II or Mixed here. (done)
-				// mode values table
-				// value : meaning
-				// 1 : Dynamic Frequency Scaling Mode I
-				// 2 : Dynamic Frequency Scaling Mode II
-				// 3 : Dynamic Frequency Scaling Mode Mixed
-				int mode = 3;
+				button_pressed=true;
 
-				// determine the current load of the processors
-				double load = ReadCPUload();
+				(new Thread() {
+					public void run() {
+						// do stuff
 
-				//call functions which implement the different Dynamic Frequency scaling Modes
-				if(mode == 1){
-					setDFS_1(load);
-				}else if(mode == 2){
-					setDFS_2();
-				}else if (mode == 3){
-					setDFS_Mixed(load);
+				while(button_pressed == true) {
+					// mode values table
+					// value : meaning
+					// 1 : Dynamic Frequency Scaling Mode I
+					// 2 : Dynamic Frequency Scaling Mode II
+					// 3 : Dynamic Frequency Scaling Mode Mixed
+					int mode = 3;
+
+					// determine the current load of the processors
+					double load = ReadCPUload();
+
+					//call functions which implement the different Dynamic Frequency scaling Modes
+					if (mode == 1) {
+						setDFS_1(load);
+					} else if (mode == 2) {
+						setDFS_2();
+					} else if (mode == 3) {
+						setDFS_Mixed(load);
+					}
+
+					try {
+						this.sleep(1000);
+					}catch(Exception e){
+						e.printStackTrace();
+					}
 				}
+					}
+				}).start();
 
 				OPERATIONmessage("[Dynamic Performance Mode] ========================================");
 			}
@@ -274,7 +257,7 @@ protected CharSequence ReadCPUinfor(String CPUname, String DATAname, String DATA
 	   }
 	   in.close();
 	  } catch(IOException ex){
-	   ex.printStackTrace();
+		  ex.printStackTrace();
 	  }
 	  return result;
 	 }
@@ -296,8 +279,7 @@ protected double ReadCPUload() {
 
 			while(in.read(re) != -1) {
 				stat += new String(re);
-				//read the entire input stream
-				OPERATIONmessage2("CPU load = "+new String(re));
+				//read the entire input strea
 				//result = result + new String(re);
 			}
 
@@ -308,16 +290,93 @@ protected double ReadCPUload() {
 			Scanner stat_scanner = new Scanner(stat);
 
 			load = stat_scanner.nextLine();
-			//String[] toks = stat_scanner.nextLine().split(" ");
+			String[] toks = stat_scanner.nextLine().split(" ");
 
-			result = Double.valueOf(load);
+			//do the cpu load calculation based on the first line of /proc/stat
+			int user_time = Integer.valueOf(toks[1]);
+			int nice_time = Integer.valueOf(toks[2]);
+			int system_time = Integer.valueOf(toks[3]);
+			int idle_time = Integer.valueOf(toks[4]);
+			int iowait = Integer.valueOf(toks[5]);
+			int irq = Integer.valueOf(toks[6]);
+			int softirq = Integer.valueOf(toks[7]);
+			int steal = Integer.valueOf(toks[8]);
+			int guest = Integer.valueOf(toks[9]);
+			int guest_nice = Integer.valueOf(toks[10]);
+
+			// Guest time is already accounted in usertime
+			int usertime = user_time - guest;
+			int nicetime = nice_time - guest_nice;
+			// Fields existing on kernels >= 2.6
+			// (and RHEL's patched kernel 2.4...)
+			int idlealltime = idle_time + iowait;
+			int systemalltime = system_time + irq + softirq;
+			int virtalltime = guest + guest_nice;
+			int totaltime = usertime + nicetime + systemalltime + idlealltime + steal + virtalltime;
+
+			result = ((double)(totaltime - idlealltime))/totaltime;
+			OPERATIONmessage2("CPU load = "+ result + "\n");
 		} catch(IOException ex){
 			ex.printStackTrace();
 		} catch(Exception e){
 			e.printStackTrace();
 		}
-
+		Log.d("jfkfkldsj",Double.toString(result));
 		return result;
+	}
+
+	/**
+	 * low performance mode
+	 */
+	private void setLowPerformanceMode(){
+
+
+		OPERATIONmessage("[Low Performance Mode] *************************************************");
+
+		DATAname = "340000"; // Setting up the minimum frequency at 340 MHz
+		DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
+		ChangeCPUinfor(CPUname, DATAname, DATAaddress);
+		DATAname = "340000"; // Setting up the maximum frequency at 340 MHz
+		DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
+		ChangeCPUinfor(CPUname, DATAname, DATAaddress);
+
+		CPUname = "Low Power";
+		DATAname = "current min frequency";
+		DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
+		ReadCPUinfor(CPUname, DATAname, DATAaddress);
+		DATAname = "current MAX frequency";
+		DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
+		ReadCPUinfor(CPUname, DATAname, DATAaddress);
+
+		OPERATIONmessage("[Low Performance Mode] *************************************************");
+	}
+
+	/**
+	 * set high performance mode
+	 */
+	private void setHighPerformanceMode(){
+
+
+		OPERATIONmessage("[High Performance Mode] ###########################################");
+		//TODO Please program for High Performance Mode here (done)
+
+		DATAname = "1300000"; // Setting up the minimum frequency 1300 Mhz
+		DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
+		ChangeCPUinfor(CPUname, DATAname, DATAaddress);
+		DATAname = "1300000"; // Setting up the maximum frequency at 1300 MHz
+		DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
+		ChangeCPUinfor(CPUname, DATAname, DATAaddress);
+
+		CPUname = "High Power";
+		DATAname = "current min frequency";
+		DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
+		ReadCPUinfor(CPUname, DATAname, DATAaddress);
+		DATAname = "current MAX frequency";
+		DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
+		ReadCPUinfor(CPUname, DATAname, DATAaddress);
+
+		OPERATIONmessage("[High Performance Mode] ###########################################");
+
 	}
 
 	/**
@@ -328,10 +387,12 @@ protected double ReadCPUload() {
 		// determine if I should go to a power mode
 		if(cpu_load < .2){
 			// go to low performance mode
-			PMbutton1.performClick();
+			setLowPerformanceMode();
+			Log.d("low","power");
 		}else if(cpu_load > .9){
 			//go to high performance mode
-			PMbutton2.performClick();
+			setHighPerformanceMode();
+			Log.d("High", "power");
 		}else{
 			// set the frequency range between 51 Mhz and 1.3 Ghz
 			DATAname = "51000"; // Setting up the minimum frequency 51 Mhz
@@ -348,12 +409,13 @@ protected double ReadCPUload() {
 			DATAname = "current MAX frequency";
 			DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
 			ReadCPUinfor(CPUname, DATAname, DATAaddress);
+			Log.d("Middle", "power");
 		}
 	}
 
 	/**
 	 * set processor to dynamic frequency scaling mode 2 (done)
-	 * @param cpu_load
+	 *
 	 */
 	private void setDFS_2(){
 		// get the battery level
@@ -365,12 +427,14 @@ protected double ReadCPUload() {
 
 		float battery_percent = level / (float)scale;
 
-		// get the wireless radio state
-		ConnectivityManager connectivityManager = (ConnectivityManager)
-				this.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-		NetworkInfo network_info = connectivityManager.getActiveNetworkInfo();
-		boolean is_wireless_on = (network_info != null);
+		// determine whether the screen is on
+		boolean is_display_on = false;
+		DisplayManager dm = (DisplayManager) this.getSystemService(Context.DISPLAY_SERVICE);
+		for (Display display : dm.getDisplays()) {
+			if (display.getState() != Display.STATE_OFF) {
+				is_display_on = true;
+			}
+		}
 
 		// get the charging state
 		int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
@@ -380,16 +444,18 @@ protected double ReadCPUload() {
 		// determine if we are charging
 		if(is_charging){
 			// if we are charging we don't care about power usage.... set to high performance mode
-			PMbutton2.performClick();
+			setHighPerformanceMode();
+			Log.d("high","performance");
 		}else if(battery_percent < .3) {
 			// we want to conserve energy because we are almost out of it, set to low performance mode
-			PMbutton1.performClick();
+			setLowPerformanceMode();
+			Log.d("low","performance");
 		}else{
 				// if we're not charging and not low battery we have some decisions to make
 				// if the wireless radio is on we are likely doing something online.
 				// If we are doing something we will like a more responsive device
 				// so allow the processor to vary between two fairly high frequency states
-				if (is_wireless_on) {
+				if (is_display_on) {
 					// set to fairly high processing state
 					// set the frequency range between 700 Mhz and 1.3 Ghz
 					DATAname = "700000"; // Setting up the minimum frequency 51 Mhz
@@ -424,6 +490,7 @@ protected double ReadCPUload() {
 					DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
 					ReadCPUinfor(CPUname, DATAname, DATAaddress);
 				}
+			Log.d("Moderate","Performance");
 		}
 	}
 
@@ -449,7 +516,7 @@ protected double ReadCPUload() {
 		// determine if we are charging
 		if(is_charging){
 			// if we are charging we don't care about power usage.... set to high performance mode
-			PMbutton2.performClick();
+			setHighPerformanceMode();
 		}else {
 			// vary the processor frequency based on the battery level.
 			// the higher the battery level, the higher the frequency.
@@ -462,6 +529,9 @@ protected double ReadCPUload() {
 			// load_fraction is at greatest 1
 			int high_frequency = 100000 * (Integer.valueOf(load_fraction) + 1);
 			int low_frequency = high_frequency;
+
+			Log.d("low_frequency",new Integer(low_frequency).toString());
+			Log.d("high_frequency", new Integer(high_frequency).toString());
 
 			// set to fairly high processing state
 			DATAname = String.valueOf(low_frequency); // Setting up the minimum frequency at low frequency

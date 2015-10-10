@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Arch Linux) (preloaded format=pdflatex 2015.9.20)  9 OCT 2015 02:53
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Arch Linux) (preloaded format=pdflatex 2015.9.20)  10 OCT 2015 10:39
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -340,7 +340,7 @@ No file lab_1_report.bbl.
 Here is how much of TeX's memory you used:
  4385 strings out of 493089
  61763 string characters out of 6140694
- 396787 words of memory out of 5000000
+ 396788 words of memory out of 5000000
  7783 multiletter control sequences out of 15000+600000
  19140 words of font info for 46 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -353,7 +353,7 @@ onts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.
 pfb></usr/share/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texmf
 -dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/t
 imes/utmr8a.pfb>
-Output written on lab_1_report.pdf (6 pages, 97926 bytes).
+Output written on lab_1_report.pdf (6 pages, 97925 bytes).
 PDF statistics:
  56 PDF objects out of 1000 (max. 8388607)
  39 compressed objects within 1 object stream
