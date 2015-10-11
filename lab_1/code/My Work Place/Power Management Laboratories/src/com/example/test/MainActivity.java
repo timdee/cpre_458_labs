@@ -19,6 +19,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import android.app.Activity;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
@@ -199,13 +200,19 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
+				int check_usage = 1;
+
+				if(check_usage == 0) {
+					OPERATIONmessage("[Current CPU usage] ///////////////////////////////////////");
+					//TODO Please program for CPU load. (done?)
+					ReadCPUload();
+
+					OPERATIONmessage("[Current CPU usage] ///////////////////////////////////////");
+				}else if(check_usage == 1){
+					intense_computation();
+				}
 
 
-				OPERATIONmessage("[Current CPU usage] ///////////////////////////////////////");
-				//TODO Please program for CPU load. (done?)
-				ReadCPUload();
-
-				OPERATIONmessage("[Current CPU usage] ///////////////////////////////////////");
 				return;
 
 			}
@@ -321,7 +328,7 @@ protected double ReadCPUload() {
 		} catch(Exception e){
 			e.printStackTrace();
 		}
-		Log.d("jfkfkldsj",Double.toString(result));
+		Log.d("cpu_load", Double.toString(result));
 		return result;
 	}
 
@@ -445,7 +452,7 @@ protected double ReadCPUload() {
 		if(is_charging){
 			// if we are charging we don't care about power usage.... set to high performance mode
 			setHighPerformanceMode();
-			Log.d("high","performance");
+			Log.d("high", "performance");
 		}else if(battery_percent < .3) {
 			// we want to conserve energy because we are almost out of it, set to low performance mode
 			setLowPerformanceMode();
@@ -549,6 +556,74 @@ protected double ReadCPUload() {
 			DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
 			ReadCPUinfor(CPUname, DATAname, DATAaddress);
 		}
+	}
+
+	/**
+	 * preforms computationally intense task
+	 */
+	private long result_factorial;
+	private void intense_computation(){
+		int computation = 3;
+
+		// do factorial of n recursivly, measure computation time
+		long before_time = SystemClock.currentThreadTimeMillis();
+
+		result_factorial=11111l;
+		long n = 33;
+		for(int i=0;i<50;i++) {
+			if(computation == 1) {
+				recursive_factorial(n);
+			}else if(computation == 2){
+				square_big_numbers(n);
+			}else {
+				fibonacci(n);
+			}
+		}
+
+		long run_time = SystemClock.currentThreadTimeMillis() - before_time;
+
+		Log.d("Factorial Result", new Long(result_factorial).toString());
+
+		//print the run_time as op message
+		OPERATIONmessage2("Run Time" + run_time);
+	}
+
+	/**
+	 * squares all of the numbers up to n and adds them
+	 * @param n
+	 * @return
+	 */
+	private long square_big_numbers(long n){
+		if(n <= 1 ){
+			return 1;
+		}
+
+		return square_big_numbers(n-1) + n^2;
+	}
+
+	/**
+	 * computes the nth number in the fibonacci sequence
+	 * @param number
+	 * @return
+	 */
+	private long fibonacci(long number){
+		if ((number == 0) || (number == 1)) // base cases
+			return number;
+		else
+			return fibonacci(number - 1) + fibonacci(number - 2);
+	}
+
+	/**
+	 * takes factorial of i
+	 * @param i
+	 * @return
+	 */
+	private long recursive_factorial(long i){
+		if(i <= 1){
+			return 1;
+		}
+
+		return recursive_factorial(i-1)*i;
 	}
 
 //******************************************* [Operation message] ********************************************
