@@ -89,7 +89,18 @@
 \abstract{This report contains a description and analysis of the findings during Lab 1 of CprE 458, Real Time Systems. Contained herein is all relevant program code, and the results from having run this code.}
 
 \section{Introduction}
-This paper has sections discussing program code, energy consumption data analysis, and analysis of computation time. Each of these sections discuss design decisions and why those decisions were made.
+This paper has sections discussing theory, program code, energy consumption data analysis, and analysis of computation time. Each of these sections discuss design decisions and the motivation behind those decisions those decisions were made.
+The interesting component to this lab is that it has some clear real world applications. We are able to see how the processor frequency has an effect on both performance and energy consumption. 
+This gives insight into design decisions which are made about processors in mobile devices. For example, the processors in mobile devices tend to be designed to run at a lower frequency than a desktop computer. This makes sense as power consumption increases linearly with frequency. 
+
+% theory of:
+% how processor frequency affects power consumption
+% how processor frequency affects computation time
+% lecture 12 contains the relevant information
+\section{Theory}
+\subsection{Power Consumption}
+Power consumed by a processor is related to frequency of the processor by $P \propto V^2*F$ where P is power, V is voltage, and F is the frequency
+\subsection{Computation Time}
 TODO
 
 \section{Part 1 - Code}
@@ -126,7 +137,48 @@ PMbutton2.setOnClickListener(new View.OnClickListener() {
 \end{lstlisting}
 Listing \ref{lst:HPM} describes our implementation of high performance mode. This code was straightforward due to its similarity with low performance mode.
 
-\subsection{Dynamic Frequency Scaling Mode I}
+\subsection{Dynamic Frequency Scaling}
+\begin{lstlisting}[caption={Dynamic Frequency Scaling Mode Execution},label={lst:DFS_thread},numbers=left]
+button_pressed=true;
+
+        (new Thread() {
+          public void run() {
+            // do stuff
+
+        while(button_pressed == true) {
+          // mode values table
+          // value : meaning
+          // 1 : Dynamic Frequency Scaling Mode I
+          // 2 : Dynamic Frequency Scaling Mode II
+          // 3 : Dynamic Frequency Scaling Mode Mixed
+          int mode = 3;
+
+          // determine the current load of the processors
+          double load = ReadCPUload();
+
+          //call functions which implement the different Dynamic Frequency scaling Modes
+          if (mode == 1) {
+            setDFS_1(load);
+          } else if (mode == 2) {
+            setDFS_2();
+          } else if (mode == 3) {
+            setDFS_Mixed(load);
+          }
+
+          try {
+            this.sleep(1000);
+          }catch(Exception e){
+            e.printStackTrace();
+          }
+        }
+          }
+        }).start();
+\end{lstlisting}
+An interesting problem in this lab exercise is getting the dynamic frequency scaling decisions to be made continuously. We had some difficulty doing this at first. Before we realized the need to set the values of the processor on a time interval, we were confused by why the processor value would always stay the same after the first call to Dynamic Frequency Scaling mode X.
+Upon discovery of this design necessity we employed the following scheme. The code shown in Listing \ref{lst:DFS_thread} was employed to run the code for the DFS mode continuously until another frequency mode is selected. 
+This is accomplished by using a while loop to run the DFS code on a new thread separate from the main thread. The condition of the while loop is a boolean variable. This boolean variable is set to true before the loop begins. When either of High Performance Mode button or Low Performance Mode buttons are pressed, this boolean variable is set to false.
+
+\subsubsection{Dynamic Frequency Scaling Mode I}
 \begin{lstlisting}[float=*,caption={Dynamic Frequency Scaling Mode I},label={lst:DFS_1},numbers=left]
 private void setDFS_1(double cpu_load){
     // determine if I should go to a power mode
@@ -158,7 +210,7 @@ private void setDFS_1(double cpu_load){
 Listing \ref{lst:DFS_1} describes our implementation of dynamic frequency scaling mode I. This mode varies the frequency range according to according to the CPU load. Lower processor frequencies will conserve power while higher processor frequencies will allow for increased performance. 
 Certain CPU loads require that the processor be set to high performance mode or low performance mode. To accomplish this we use the performClick() method attached to the low performance mode and high performance mode buttons. This has the same effect as the user pressing the button which corresponds to these modes.
 
-\subsection{Dynamic Frequency Scaling Mode II}
+\subsubsection{Dynamic Frequency Scaling Mode II}
 \begin{lstlisting}[float=*,caption={Dynamic Frequency Scaling Mode II},label={lst:DFS_2},numbers=left]
   private void setDFS_2(){
     // get the battery level
@@ -245,7 +297,7 @@ Listings \ref{lst:DFS_2} and \ref{lst:DFS_2_2} show our implementation of dynami
 In the case of the screen state the following train of logic was applied. If the screen is on, then we are likely to be interacting with an application. If we are interacting with an application than we will certainly benefit from a more responsive device. Therefore we elect to put the phone in a higher power state while the screen is on. We save energy by setting the phone in a lower power state when the screen radio is off.
 The decision making for the charging state is straightforward. If the phone is charging then we don't need to worry about power consumption, even if the battery is low.
 
-\subsection{Dynamic Frequency Scaling Mode Mixed}
+\subsubsection{Dynamic Frequency Scaling Mode Mixed}
 \begin{lstlisting}[float=*,caption={Dynamic Frequency Scaling Mode Mixed},label={lst:DFS_mixed},numbers=left]
   private void setDFS_Mixed(double cpu_load) {
     // get the battery level
