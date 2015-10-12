@@ -160,7 +160,7 @@ Certain CPU loads require that the processor be set to high performance mode or 
 
 \subsection{Dynamic Frequency Scaling Mode II}
 \begin{lstlisting}[float=*,caption={Dynamic Frequency Scaling Mode II},label={lst:DFS_2},numbers=left]
-private void setDFS_2(){
+  private void setDFS_2(){
     // get the battery level
     IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
     Intent batteryStatus = this.registerReceiver(null, ifilter);
@@ -170,12 +170,14 @@ private void setDFS_2(){
 
     float battery_percent = level / (float)scale;
 
-    // get the wireless radio state
-    ConnectivityManager connectivityManager = (ConnectivityManager)
-        this.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-    NetworkInfo network_info = connectivityManager.getActiveNetworkInfo();
-    boolean is_wireless_on = (network_info != null);
+    // determine whether the screen is on
+    boolean is_display_on = false;
+    DisplayManager dm = (DisplayManager) this.getSystemService(Context.DISPLAY_SERVICE);
+    for (Display display : dm.getDisplays()) {
+      if (display.getState() != Display.STATE_OFF) {
+        is_display_on = true;
+      }
+    }
 
     // get the charging state
     int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
@@ -188,16 +190,18 @@ private void setDFS_2(){
 // determine if we are charging
     if(is_charging){
       // if we are charging we don't care about power usage.... set to high performance mode
-      PMbutton2.performClick();
+      setHighPerformanceMode();
+      Log.d("high","performance");
     }else if(battery_percent < .3) {
       // we want to conserve energy because we are almost out of it, set to low performance mode
-      PMbutton1.performClick();
+      setLowPerformanceMode();
+      Log.d("low","performance");
     }else{
         // if we're not charging and not low battery we have some decisions to make
         // if the wireless radio is on we are likely doing something online.
         // If we are doing something we will like a more responsive device
         // so allow the processor to vary between two fairly high frequency states
-        if (is_wireless_on) {
+        if (is_display_on) {
           // set to fairly high processing state
           // set the frequency range between 700 Mhz and 1.3 Ghz
           DATAname = "700000"; // Setting up the minimum frequency 51 Mhz
@@ -232,12 +236,13 @@ private void setDFS_2(){
           DATAaddress = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
           ReadCPUinfor(CPUname, DATAname, DATAaddress);
         }
+      Log.d("Moderate","Performance");
     }
   }
 \end{lstlisting}
-Listings \ref{lst:DFS_2} and \ref{lst:DFS_2_2} show our implementation of dynamic frequency scaling mode 2. For this mode we though about the phone states which affect the scarcity of power. We determined that the wireless radio state and the charging state of the phone were significant enough to be determining factors in how we choose to manage the processor frequency.
+Listings \ref{lst:DFS_2} and \ref{lst:DFS_2_2} show our implementation of dynamic frequency scaling mode 2. For this mode we though about the phone states which affect the scarcity of power. We determined that the screen state (on or off) and the charging state of the phone were significant enough to be determining factors in how we choose to manage the processor frequency.
 
-In the case of the wireless radio the following train of logic was applied. If the wireless radio is on, then we are likely to be interacting with a web page. If we are interacting with a web page then we will certainly benefit from a more responsive device. Therefore we elect to put the phone in a higher power state while the wireless radio is on. We save energy by setting the phone in a lower power state when the wireless radio is off.
+In the case of the screen state the following train of logic was applied. If the screen is on, then we are likely to be interacting with an application. If we are interacting with an application than we will certainly benefit from a more responsive device. Therefore we elect to put the phone in a higher power state while the screen is on. We save energy by setting the phone in a lower power state when the screen radio is off.
 The decision making for the charging state is straightforward. If the phone is charging then we don't need to worry about power consumption, even if the battery is low.
 
 \subsection{Dynamic Frequency Scaling Mode Mixed}
@@ -260,7 +265,7 @@ The decision making for the charging state is straightforward. If the phone is c
     // determine if we are charging
     if(is_charging){
       // if we are charging we don't care about power usage.... set to high performance mode
-      PMbutton2.performClick();
+      setHighPerformanceMode();
     }else {
       // vary the processor frequency based on the battery level.
       // the higher the battery level, the higher the frequency.
@@ -273,6 +278,9 @@ The decision making for the charging state is straightforward. If the phone is c
       // load_fraction is at greatest 1
       int high_frequency = 100000 * (Integer.valueOf(load_fraction) + 1);
       int low_frequency = high_frequency;
+
+      Log.d("low_frequency",new Integer(low_frequency).toString());
+      Log.d("high_frequency", new Integer(high_frequency).toString());
 
       // set to fairly high processing state
       DATAname = String.valueOf(low_frequency); // Setting up the minimum frequency at low frequency
@@ -299,10 +307,138 @@ We set load fraction to be an integer ranging between 0 and 12 depending on the 
 battery percent causes the program to pretend like the cpu load is smaller than reality.
 
 \subsection{Measuring Computation Time}
-\begin{lstlisting}[float=*,caption={Measuring Computation Time},label={lst:MCT},numbers=left]
-  //TODO
+\begin{lstlisting}[caption={Measuring Computation Time - Intense Task Launcher},label={lst:MCT_launcher},numbers=left]
+  private long result_factorial;
+  private void intense_computation(){
+    int computation = 3;
+
+    // do factorial of n recursivly, measure computation time
+    long before_time = SystemClock.currentThreadTimeMillis();
+
+    result_factorial=11111l;
+    long n = 33;
+    for(int i=0;i<50;i++) {
+      if(computation == 1) {
+        recursive_factorial(n);
+      }else if(computation == 2){
+        square_big_numbers(n);
+      }else {
+        fibonacci(n);
+      }
+    }
+
+    long run_time = SystemClock.currentThreadTimeMillis() - before_time;
+
+    Log.d("Factorial Result", new Long(result_factorial).toString());
+
+    //print the run_time as op message
+    OPERATIONmessage2("Run Time" + run_time);
+  }
 \end{lstlisting}
-Listing \ref{lst:MCT} depicts the code we used to measure computation time under each of the different modes.
+Listing \ref{lst:MCT_launcher} depicts the code we used to measure computation time under each of the different modes. Depending on the value of the computation variable, the code will run one of three computationally intense functions. These functions constitute each of the loads we tested for computation time. When running the code we had to vary the number of times the for loop ran in order to make the computation time manageable. 
+We ran recursive\_factorial() ten million times, square\_big\_numbers() ten million times, and fibonacci() 50 times. Each of these tests took about ten seconds to run.
+
+\begin{lstlisting}[caption={Measuring Computation Time - Sum of Squares},label={lst:MCT_square_sum},numbers=left]
+  private long square_big_numbers(long n){
+    if(n <= 1 ){
+      return 1;
+    }
+
+    return square_big_numbers(n-1) + n^2;
+  }
+\end{lstlisting}
+Listing \ref{lst:MCT_square_sum} depicts a test which computes the sum on the square of all the numbers from 1 to n. This constitutes a significant computation when it is run ten million times.
+TODO
+
+\begin{lstlisting}[caption={Measuring Computation Time - Fibonacci},label={lst:MCT_fibonacci},numbers=left]
+private long fibonacci(long number){
+    if ((number == 0) || (number == 1)) // base cases
+      return number;
+    else
+      return fibonacci(number - 1) + fibonacci(number - 2);
+  }
+\end{lstlisting}
+Listing \ref{lst:MCT_fibonacci} depicts a test which computes the nth fibonacci number. This constitutes a significant computation when it is run fifty times.
+TODO
+
+\begin{lstlisting}[caption={Measuring Computation Time - Factorial},label={lst:MCT_factorial},numbers=left]
+  private long recursive_factorial(long i){
+    if(i <= 1){
+      return 1;
+    }
+
+    return recursive_factorial(i-1)*i;
+  }
+\end{lstlisting}
+Listing \ref{lst:MCT_factorial} depicts a test which computes the factorial of n. This constitutes a significant computation when it is run ten million times.
+TODO
+
+\subsection{Computing CPU Load}
+\begin{lstlisting}[caption={Computing CPU Load},label={lst:cpu_load},numbers=left]
+protected double ReadCPUload() {
+
+    ProcessBuilder cmd;
+    double result=0.0;
+
+    try{
+
+      String[] args = {"/system/bin/cat", "/proc/stat"};
+      cmd = new ProcessBuilder(args);
+
+      Process process = cmd.start();
+      InputStream in = process.getInputStream();
+      byte[] re = new byte[1024];
+      String stat = "";
+
+      while(in.read(re) != -1) {
+        stat += new String(re);
+        //read the entire input strea
+        //result = result + new String(re);
+      }
+
+      in.close();
+
+      // parse stat for the load data
+      String load;
+      Scanner stat_scanner = new Scanner(stat);
+
+      load = stat_scanner.nextLine();
+      String[] toks = stat_scanner.nextLine().split(" ");
+
+      //do the cpu load calculation based on the first line of /proc/stat
+      int user_time = Integer.valueOf(toks[1]);
+      int nice_time = Integer.valueOf(toks[2]);
+      int system_time = Integer.valueOf(toks[3]);
+      int idle_time = Integer.valueOf(toks[4]);
+      int iowait = Integer.valueOf(toks[5]);
+      int irq = Integer.valueOf(toks[6]);
+      int softirq = Integer.valueOf(toks[7]);
+      int steal = Integer.valueOf(toks[8]);
+      int guest = Integer.valueOf(toks[9]);
+      int guest_nice = Integer.valueOf(toks[10]);
+
+      // Guest time is already accounted in usertime
+      int usertime = user_time - guest;
+      int nicetime = nice_time - guest_nice;
+      // Fields existing on kernels >= 2.6
+      // (and RHEL's patched kernel 2.4...)
+      int idlealltime = idle_time + iowait;
+      int systemalltime = system_time + irq + softirq;
+      int virtalltime = guest + guest_nice;
+      int totaltime = usertime + nicetime + systemalltime + idlealltime + steal + virtalltime;
+
+      result = ((double)(totaltime - idlealltime))/totaltime;
+      OPERATIONmessage2("CPU load = "+ result + "\n");
+    } catch(IOException ex){
+      ex.printStackTrace();
+    } catch(Exception e){
+      e.printStackTrace();
+    }
+    Log.d("cpu_load", Double.toString(result));
+    return result;
+  }
+\end{lstlisting}
+Listing \ref{lst:cpu_load} show the process for computing cpu load from the information given in the /proc/stat file.
 TODO
 
 %we should say how we did each of the tests. We should also say what we used to generate each of the loads.
@@ -324,29 +460,13 @@ TODO
 TODO
 
 % example figure
-\begin{figure}[!hbt]
-\begin{center}
-\includegraphics[width=.4\textwidth,keepaspectratio]{example.png}
-\end{center}
-\caption{IR-Transmitter}
-\label{FIG-TRANSMITTER}
-\end{figure}
-
-% example equation
-\begin{equation}
-\begin{split}
-\frac{V_{out}-V_-}{R2}-\frac{V_--V_{in}}{R1}=0 \\
-R1(V_{out}-V_-)=R2(V_--V_{in}) \\
-V_{out}=\frac{R1V_-+R2V_--R2V{in}}{R1} \\
-V_-=0 \\
-V_{out}=\frac{-V_{in}R2}{R1} \\
-\frac{V_{out}}{V_{in}}=\frac{-R2}{R1} \\ \\
-\hline \\
-\frac{V_{out}}{V_{in}}=\frac{47000}{47}=1000 \\
-\end{split}
-\label{eq-example}
-\end{equation}
-Equation \ref{eq-example} demonstrates example equation.
+%\begin{figure}[!hbt]
+%\begin{center}
+%\includegraphics[width=.4\textwidth,keepaspectratio]{example.png}
+%\end{center}
+%\caption{IR-Transmitter}
+%\label{FIG-TRANSMITTER}
+%\end{figure}
 
 %% This bit generates the references.  This part starts to get
 %% slightly tricky.

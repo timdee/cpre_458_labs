@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Arch Linux) (preloaded format=pdflatex 2015.9.20)  10 OCT 2015 10:39
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Arch Linux) (preloaded format=pdflatex 2015.10.11)  11 OCT 2015 20:32
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -313,50 +313,46 @@ uency
  []
 
 
-Overfull \hbox (1.01672pt too wide) in paragraph at lines 243--243
+Overfull \hbox (1.01672pt too wide) in paragraph at lines 248--248
 []\OT1/ptm/b/n/12 Dynamic Fre-quency Scal-ing Mode Mixed 
  []
+
+
+LaTeX Warning: Float too large for page by 3.2615pt on input line 302.
 
 [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
 
 
 ] [2] [3] [4] [5]
+Overfull \hbox (6.52216pt too wide) in paragraph at lines 316--318
+[][][][][][]  
+ []
 
-LaTeX Warning: File `example.png' not found on input line 329.
 
+Overfull \hbox (6.52216pt too wide) in paragraph at lines 330--332
+[][][][][][] 
+ []
 
-! Package pdftex.def Error: File `example.png' not found.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.329 ...4\textwidth,keepaspectratio]{example.png}
-                                                  
-? 
+[6]
 No file lab_1_report.bbl.
-[6] (./lab_1_report.aux) ) 
+[7] (./lab_1_report.aux) ) 
 Here is how much of TeX's memory you used:
- 4385 strings out of 493089
- 61763 string characters out of 6140694
- 396788 words of memory out of 5000000
- 7783 multiletter control sequences out of 15000+600000
- 19140 words of font info for 46 fonts, out of 8000000 for 9000
+ 4447 strings out of 493089
+ 62631 string characters out of 6140693
+ 406386 words of memory out of 5000000
+ 7849 multiletter control sequences out of 15000+600000
+ 18171 words of font info for 42 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 38i,16n,72p,460b,1159s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,8n,72p,475b,1580s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc}</
-usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texmf-dist/fonts/ty
-pe1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsf
-onts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.
-pfb></usr/share/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texmf
--dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/t
-imes/utmr8a.pfb>
-Output written on lab_1_report.pdf (6 pages, 97925 bytes).
+usr/share/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texmf-dist/
+fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/u
+tmr8a.pfb>
+Output written on lab_1_report.pdf (7 pages, 63715 bytes).
 PDF statistics:
- 56 PDF objects out of 1000 (max. 8388607)
- 39 compressed objects within 1 object stream
+ 41 PDF objects out of 1000 (max. 8388607)
+ 28 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
