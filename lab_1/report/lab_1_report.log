@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Arch Linux) (preloaded format=pdflatex 2015.10.11)  12 OCT 2015 14:38
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Arch Linux) (preloaded format=pdflatex 2015.10.11)  13 OCT 2015 00:15
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -289,29 +289,17 @@ e
 \c@lstlisting=\count117
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <14.4> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 89.
-
-Overfull \hbox (6.85982pt too wide) in paragraph at lines 92--94
-\OT1/ptm/m/n/10 con-sump-tion data anal-y-sis, and anal-y-sis of com-pu-ta-tion
- time.
- []
-
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 97.
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 98.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 105.
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 122.
+
+
 (/usr/share/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
-Overfull \hbox (1.72008pt too wide) in paragraph at lines 128--129
+Overfull \hbox (1.72008pt too wide) in paragraph at lines 152--153
 \OT1/ptm/m/n/10 Listing 1[] de-scribes our im-ple-men-ta-tion of high per-for-m
 ance
- []
-
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 171.
-
-Overfull \hbox (7.68016pt too wide) in paragraph at lines 200--202
-\OT1/ptm/m/n/10 Listing 3[] de-scribes our im-ple-men-ta-tion of dy-namic fre-q
-uency
  []
 
 [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
@@ -319,40 +307,55 @@ uency
 
 
 ] [2]
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 195.
 
-LaTeX Warning: Float too large for page by 3.2615pt on input line 344.
+Overfull \hbox (7.68016pt too wide) in paragraph at lines 224--226
+\OT1/ptm/m/n/10 Listing 3[] de-scribes our im-ple-men-ta-tion of dy-namic fre-q
+uency
+ []
 
-[3]
-Overfull \hbox (6.52216pt too wide) in paragraph at lines 358--360
+
+LaTeX Warning: Float too large for page by 3.2615pt on input line 368.
+
+[3] [4] [5] [6]
+Overfull \hbox (6.52216pt too wide) in paragraph at lines 382--384
 [][][][][][]  
  []
 
 
-Overfull \hbox (6.52216pt too wide) in paragraph at lines 372--374
+Overfull \hbox (6.52216pt too wide) in paragraph at lines 396--398
 [][][][][][] 
  []
 
-[4] [5] [6] [7]
+[7]
 No file lab_1_report.bbl.
-[8
+[8] (./lab_1_report.aux)
 
-] (./lab_1_report.aux) ) 
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ) 
 Here is how much of TeX's memory you used:
- 4456 strings out of 493089
- 62739 string characters out of 6140693
- 363527 words of memory out of 5000000
- 7857 multiletter control sequences out of 15000+600000
- 19797 words of font info for 44 fonts, out of 8000000 for 9000
+ 4458 strings out of 493089
+ 62767 string characters out of 6140693
+ 398722 words of memory out of 5000000
+ 7859 multiletter control sequences out of 15000+600000
+ 20251 words of font info for 46 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 38i,8n,72p,475b,1576s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc}</us
-r/share/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texmf-dist/fo
-nts/type1/urw/times/utmb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utm
-r8a.pfb>
-Output written on lab_1_report.pdf (8 pages, 66073 bytes).
+ 38i,8n,72p,475b,1566s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmmi7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/s
+hare/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/pu
+blic/amsfonts/cm/cmsy7.pfb></usr/share/texmf-dist/fonts/type1/urw/courier/ucrr8
+a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf
+-dist/fonts/type1/urw/times/utmr8a.pfb>
+Output written on lab_1_report.pdf (8 pages, 125579 bytes).
 PDF statistics:
- 44 PDF objects out of 1000 (max. 8388607)
- 30 compressed objects within 1 object stream
+ 72 PDF objects out of 1000 (max. 8388607)
+ 51 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

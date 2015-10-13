@@ -91,17 +91,31 @@
 \section{Introduction}
 This paper has sections discussing theory, program code, energy consumption data analysis, and analysis of computation time. Each of these sections discuss design decisions and the motivation behind those decisions those decisions were made.
 The interesting component to this lab is that it has some clear real world applications. We are able to see how the processor frequency has an effect on both performance and energy consumption. 
-This gives insight into design decisions which are made about processors in mobile devices. For example, the processors in mobile devices tend to be designed to run at a lower frequency than a desktop computer. This makes sense as power consumption increases linearly with frequency. 
+This gives insight into design decisions which are made about processors in mobile devices. For example, the processors in mobile devices tend to be designed to run at a lower frequency than a desktop computer. This makes sense as power consumption increases with frequency. 
 
 % theory of:
 % how processor frequency affects power consumption
 % how processor frequency affects computation time
-% lecture 12 contains the relevant information
+% lecture 10 contains the relevant information
 \section{Theory}
+We have learned about varying strategies for decreasing power consumption in mobile systems. 
+The power consumption of a processor depends both on the voltage applied to the processor, and the frequency at which the processor is run. Following from this fact are two unique strategies of minimizing the power consumed by a processor. One strategy requires varying the voltage applied to the processor. This method is used by the Apple A7 and Qualcomm Snapdragon processors. 
+Another method is reducing the frequency of the processor when execution at a higher frequency provides small or no benefit. Situations where the device is underloaded are good candidates for reducing the frequency.
+
 \subsection{Power Consumption}
-Power consumed by a processor is related to frequency of the processor by $P \propto V^2*F$ where P is power, V is voltage, and F is the frequency
+Power consumed by a processor is related to frequency of the processor by $P \propto V^2*F$ where $P$ is power consumed, $V$ is voltage, and $F$ is frequency at which the processor is ran.
+This relationship implies power consumption increases as frequency and voltage increase. From this we deduce that decreasing the frequency or voltage will yield a net decrease in the power consumption. 
+
+Decreasing the frequency has an effect on the runtime of tasks. A lower frequency means tasks will run slower. Thus we are wise to consider the total energy consumed by a task instead of just its $P = \frac{energy}{time}$.
+Consider a task $T$ run at two different frequencies, $F_{1}$ and $F_{2}$. Where $F_{2} = F_{1}*2.$.
+Energy consumed by task is $E_{T} = K*CC*F^2$ where $CC$ is the number of clock cycles task $T$ will take and $K$ is a constant. In this case the ratio of energy taken to compute the task at frequency $F_{2}$ compared to frequency $F_{1}$ is $\frac{K*CC*F_{2}^2}{K*CC*F_{1}^2} = \frac{K*CC*4*F_{1}^2}{K*CC*F_{1}^2} = 4$.
+
+In this particular situation it takes four times as much energy to execute this task at the higher frequency. This result shows an exponential increase in the energy usage with increases in frequency. This exponential increase represents the general relationship between energy consumption and processor frequency.
+
 \subsection{Computation Time}
-TODO
+In this lab exercise we explore how computation time is affected by the adjustment of the processor frequency.
+Computation time of a task $T$ can be represented by $\frac{CC}{F}$ where CC is the number of clock cycles in task $T$ and $F$ is the frequency at which the task is run.
+This relationship implies there should be a linear decrease in the computation time as frequency increases.
 
 \section{Part 1 - Code}
 \subsection{High Performance Mode}
@@ -400,7 +414,6 @@ We ran recursive\_factorial() ten million times, square\_big\_numbers() ten mill
   }
 \end{lstlisting}
 Listing \ref{lst:MCT_square_sum} depicts a test which computes the sum on the square of all the numbers from 1 to n. This constitutes a significant computation when it is run ten million times.
-TODO
 
 \begin{lstlisting}[caption={Measuring Computation Time - Fibonacci},label={lst:MCT_fibonacci},numbers=left]
 private long fibonacci(long number){
@@ -411,7 +424,6 @@ private long fibonacci(long number){
   }
 \end{lstlisting}
 Listing \ref{lst:MCT_fibonacci} depicts a test which computes the nth fibonacci number. This constitutes a significant computation when it is run fifty times.
-TODO
 
 \begin{lstlisting}[caption={Measuring Computation Time - Factorial},label={lst:MCT_factorial},numbers=left]
   private long recursive_factorial(long i){
@@ -423,7 +435,6 @@ TODO
   }
 \end{lstlisting}
 Listing \ref{lst:MCT_factorial} depicts a test which computes the factorial of n. This constitutes a significant computation when it is run ten million times.
-TODO
 
 \subsection{Computing CPU Load}
 \begin{lstlisting}[caption={Computing CPU Load},label={lst:cpu_load},numbers=left]
