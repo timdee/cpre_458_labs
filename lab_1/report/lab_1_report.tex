@@ -32,7 +32,7 @@
 }
 
 %% Set the folder where pictures are located
-\graphicspath{ {images/} }
+\graphicspath{ {figures/} }
 
 %% Here I adjust the margins
 
@@ -86,7 +86,7 @@
 %% Next comes the abstract, notice the curly-braces surrounding the
 %% text.
 
-\abstract{This report contains a description and analysis of the findings during Lab 1 of CprE 458, Real Time Systems. Contained herein is all relevant program code, and the results from having run this code.}
+\abstract{This report contains a description and analysis of the findings during Lab 1 of CprE 458, Real Time Systems. Contained herein is all relevant program code, and the results from having run this code. Results measure the effect of varying processor frequency control mechanisms on energy consumption and computation time.}
 
 \section{Introduction}
 This paper has sections discussing theory, program code, energy consumption data analysis, and analysis of computation time. Each of these sections discuss design decisions and the motivation behind those decisions those decisions were made.
@@ -501,8 +501,7 @@ protected double ReadCPUload() {
     return result;
   }
 \end{lstlisting}
-Listing \ref{lst:cpu_load} show the process for computing cpu load from the information given in the /proc/stat file.
-TODO
+Listing \ref{lst:cpu_load} shows the process for computing cpu load from the information given in the /proc/stat file. The information in this file is used to compute the percentage of the CPU which is currently utilized by tasks.
 
 %we should say how we did each of the tests. We should also say what we used to generate each of the loads.
 \section{Part 2 - Data Analysis}
@@ -510,26 +509,32 @@ TODO
 %might also be useful to include description of the testing.
 %must include graphs of each test result
 \subsection{Measuring energy consumption}
-TODO
+The PowerTutor application suggested in the laboratory description is used to gather the data presented in this section. Three different loads were applied to the Nexus 7 tablet while it was set to each of the power modes. We observe both the time a task takes to run and the average power consumption during the time period the application ran. Together these figures allow us to compute the total energy consumed by the task as $E_{total} = P_{average}*T$ where $E$ is total energy, $P$ is average power consumed by the task, and $T$ is the time taken by the task.
 
 \subsection{Comparison and Analysis}
-TODO
+\begin{figure}[!hbt]
+\begin{center}
+\includegraphics[width=.4\textwidth,keepaspectratio]{energy_vs_load.png}
+\end{center}
+\caption{fig:Energy Vs Load}
+\label{FIG-TRANSMITTER}
+\end{figure}
+
+There are three different loads we used with our five different modes.  Load \#1 was a 30 second Youtube video, load \#2 was 30 seconds playing Temple Run game on the Nexus, and load \#3 was recording a video.  According to our results, we found difficulty determining much difference in the results from Load \#1.  Looking at our graph the low performance had higher energy consumption than high power which isn’t what is expected.  The Scaling modes performed as expected in Load \#1.  For Load \#2, the low and high performance performed as expected.  The high performance mode used more energy than the low energy mode.  The scaling modes performed as expected in this simulation.  The dynamic scaling mixed mode is being the most efficient in both loads by using the least amount of energy.  Load \#3 did worked as expected for the low and high power modes.  The high power consumed more energy because it used the higher frequency than the lower energy mode.  As for the scaling modes, 1 and 2 are working correctly, but the mixed mode used the most energy so it did not work as intended.  Even though each of these measured loads were consistent in the way we measured them, we cannot account for the other processes in the CPU and what the Android operating system is doing in the background.  Therefore we feel some error could be gaged towards this.  
 
 \section{Extra Part - Measuring Computation Time}
-TODO
+\begin{figure}[!hbt]
+\begin{center}
+\includegraphics[width=.4\textwidth,keepaspectratio]{time_vs_load.png}
+\end{center}
+\caption{fig:Computation Time Vs Load}
+\label{FIG-TRANSMITTER}
+\end{figure}
+We created three different loads to use with our five different power modes.  Load \#1 is computing 33!, 10000000 times, the load \#2 is sum the squares of the numbers up to 33, 10000000 times, and load \#3 is computing the 3rd Fibonacci number 50 times.  For Load \#1 the expected results were not comparable with the results we achieved.  The low performance mode used more time than the high performance.  The scaling modes were all similar to the expected results.  For Load \#2 the low and high performance ran as expected due to the higher frequency in the CPU for the high performance.  The Scaling modes all stayed similarly close.  The scaled mix mode also took the least amount of time to run which is expected.  The last load did not run as expected for the low and high performance.  The low performance ran faster than the high performance.  The scaling modes all about ran the same.  Other than the third load, the majority of our results line up with the theoretical results.  
 
 % we should sum up the results
 \section{Conclusion}
-TODO
-
-% example figure
-%\begin{figure}[!hbt]
-%\begin{center}
-%\includegraphics[width=.4\textwidth,keepaspectratio]{example.png}
-%\end{center}
-%\caption{IR-Transmitter}
-%\label{FIG-TRANSMITTER}
-%\end{figure}
+From this lab we learned how frequency can affects the CPU power consumption and time of the computations.  By using these different modes we were able to get real data about how frequency influences CPU time.  The low and high power frequency modes allow us to see the change that the higher frequencies have over the lower frequencies on the CPU.  The higher frequency has a lower computation time, but uses more power.  The lower frequency mode takes longer for computation time while it uses less power.  We also were able to see how different events such as low battery, radio state, charging, and CPU load can be used to differentiate the frequency provided for the CPU.  The scaling modes tended to run about the same for computation time and energy consumption.  This could be due to similar frequencies in the setup of the scale modes.  After looking at our results we feel that the scaling mixed mode would be the most beneficial.  This is because it based on the CPU load at that moment and the results from our labs show that.  This lab used the theory of CPU load we learned from class, and incorporated real life situations that we can measure on the mobile devices.  
 
 %% This bit generates the references.  This part starts to get
 %% slightly tricky.
