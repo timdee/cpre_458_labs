@@ -1,0 +1,13 @@
+package gui;
+
+import javax.swing.JFrame;
+
+/**
+ * contains the car and processor panels.
+ * 
+ * @author element
+ *
+ */
+public class MainFrame extends JFrame {
+	
+}
