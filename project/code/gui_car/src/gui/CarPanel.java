@@ -2,21 +2,22 @@ package gui;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
 import characters.Car;
+import characters.Cone;
+import characters.MainCar;
+import characters.Sign;
+import compute.CarPanelState;
 
 public class CarPanel extends JPanel {
 	private static final long serialVersionUID = -7055815099049883098L;
 
+	private CarPanelState state;
+
 	private int width;
 	private int height;
-	private Car main_car;
-
-	private ArrayList<Character> obstacles;
-	private ArrayList<Character> other_cars;
 
 	public CarPanel(int w, int h) {
 		// call parent constructor
@@ -30,20 +31,19 @@ public class CarPanel extends JPanel {
 		this.width = w;
 		this.height = h;
 
+		// initialize the state
+		this.state = new CarPanelState();
+
 		// make a new main car
-		this.main_car = new Car();
+		state.main_car = new MainCar(w, h);
+	}
 
-		main_car.color = Color.BLUE;
-		main_car.height = (int) (this.height * .1);
-		main_car.width = main_car.height / 2;
-		main_car.x_pos = ((int) ((this.width / 2) + width * .05));
-		main_car.y_pos = this.height - main_car.height - (int) (this.height * .05);
+	public CarPanelState getState() {
+		return this.state;
+	}
 
-		// TODO make obstacles
-		this.obstacles = new ArrayList<Character>();
-
-		// TODO make other_cars
-		this.other_cars = new ArrayList<Character>();
+	public void setState(CarPanelState state) {
+		this.state = state;
 	}
 
 	protected void paintComponent(Graphics g) {
@@ -54,7 +54,8 @@ public class CarPanel extends JPanel {
 		draw_road(g);
 		draw_obstacles(g);
 		draw_other_cars(g);
-		draw_car(g, main_car);
+		draw_signs(g);
+		state.main_car.draw(g);
 	}
 
 	/**
@@ -71,14 +72,19 @@ public class CarPanel extends JPanel {
 	private void draw_road(Graphics g) {
 		// draw the vertical road
 		g.setColor(Color.DARK_GRAY);
-		g.fillRect(((int) ((width * .8) / 2)), 0, ((int) (width * .2)), height);
+		// g.fillRect(((int) ((width * .8) / 2)), 0, ((int) (width * .2)),
+		// height);
 
 		// draw the horizontal road
-		g.fillRect(0, ((int) ((height - (width * .2)) / 2)), width, ((int) (width * .2)));
+		int road_height = (int) (height * .4);
+		g.fillRect(0, height / 2 - road_height / 2, width, road_height);
 
 		// TODO draw vertical lines
+		g.setColor(Color.YELLOW);
 
 		// TODO draw horizontal lines
+		int line_height = (int) (height * .01);
+		g.fillRect(0, height / 2 - line_height / 2, width, line_height);
 	}
 
 	/**
@@ -87,7 +93,9 @@ public class CarPanel extends JPanel {
 	 * @param g
 	 */
 	private void draw_obstacles(Graphics g) {
-		// TODO
+		for (Cone c : state.obstacles) {
+			c.draw(g);
+		}
 	}
 
 	/**
@@ -96,17 +104,19 @@ public class CarPanel extends JPanel {
 	 * @param g
 	 */
 	private void draw_other_cars(Graphics g) {
-		// TODO
+		for (Car c : state.other_cars) {
+			c.draw(g);
+		}
 	}
 
 	/**
-	 * draws the car based on parameters in the car class. This is the main
-	 * character.
+	 * draw the sign array
 	 * 
 	 * @param g
 	 */
-	private void draw_car(Graphics g, Car c) {
-		g.setColor(c.color);
-		g.fillRect(c.x_pos, c.y_pos, c.width, c.height);
+	private void draw_signs(Graphics g) {
+		for (Sign c : state.signs) {
+			c.draw(g);
+		}
 	}
 }
