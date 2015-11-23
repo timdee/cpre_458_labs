@@ -22,6 +22,8 @@ public class CarPanelController implements Runnable {
 	CarPanel car_panel;
 	CarPanelState target_state;
 
+	// increase speed every this number of increments
+	private final int speed_increment = 15;
 	private volatile boolean running;
 
 	public CarPanelController(CarPanel car_panel) {
@@ -116,11 +118,22 @@ public class CarPanelController implements Runnable {
 	}
 
 	/**
+	 * Cones Signs and other cars move differently than the main car.
+	 * 
+	 * Their movement depends on the speed of the main car. Plus their own
+	 * movement in the case of other cars.
+	 */
+	/**
 	 * move all obstacles if they require movement
 	 */
 	private void move_obstacles() {
-		// TODO
 		CarPanelState state = this.car_panel.getState();
+
+		// for each cone
+		for (int i = 0; i < state.obstacles.size(); i++) {
+			// move toward the car at the car's speed
+			state.obstacles.get(i).x_pos -= state.main_car.speed / speed_increment;
+		}
 
 		this.car_panel.setState(state);
 	}
@@ -129,8 +142,38 @@ public class CarPanelController implements Runnable {
 	 * move any other cars
 	 */
 	private void move_other_cars() {
-		// TODO
 		CarPanelState state = this.car_panel.getState();
+
+		// for each cone
+		for (int i = 0; i < state.other_cars.size(); i++) {
+			// move toward the car at the car's speed. This accounts for the
+			// main_car movement
+			state.other_cars.get(i).x_pos -= state.main_car.speed / speed_increment;
+			this.target_state.other_cars.get(i).x_pos -= state.main_car.speed / speed_increment;
+
+			// now add in the movement of this car
+			// if x_pos is differing
+			if ((state.other_cars.get(i).x_pos - target_state.other_cars.get(i).x_pos) != 0) {
+				if ((state.other_cars.get(i).x_pos - target_state.other_cars.get(i).x_pos) < 0) {
+					// x_pos is smaller than it should be
+					state.other_cars.get(i).x_pos++;
+				} else {
+					// x_pos is bigger than it shoudl be
+					state.other_cars.get(i).x_pos--;
+				}
+			}
+
+			// if y_pos is differing
+			if ((state.other_cars.get(i).y_pos - target_state.other_cars.get(i).y_pos) != 0) {
+				if ((state.other_cars.get(i).y_pos - target_state.other_cars.get(i).y_pos) < 0) {
+					// y_pos is smaller than it should be
+					state.other_cars.get(i).y_pos++;
+				} else {
+					// y_pos is bigger than it shoudl be
+					state.other_cars.get(i).y_pos--;
+				}
+			}
+		}
 
 		this.car_panel.setState(state);
 	}
@@ -139,17 +182,21 @@ public class CarPanelController implements Runnable {
 	 * move any other cars
 	 */
 	private void move_signs() {
-		// TODO
 		CarPanelState state = this.car_panel.getState();
+
+		// for each cone
+		for (int i = 0; i < state.signs.size(); i++) {
+			// move toward the car at the car's speed
+			state.signs.get(i).x_pos -= state.main_car.speed / speed_increment;
+		}
 
 		this.car_panel.setState(state);
 	}
 
 	/**
-	 * move any other cars
+	 * move the road
 	 */
 	private void move_road() {
-		// TODO
 		CarPanelState state = this.car_panel.getState();
 
 		// if away from target state, move toward target state
@@ -164,7 +211,7 @@ public class CarPanelController implements Runnable {
 		}
 
 		// update lines to be in the proper spot based on line speed
-		state.road.line_offset = (state.road.line_offset + (state.road.line_speed / 15)) % (2000 / 10);
+		state.road.line_offset = (state.road.line_offset + (state.road.line_speed / speed_increment)) % (2000 / 10);
 
 		this.car_panel.setState(state);
 	}
@@ -190,6 +237,7 @@ public class CarPanelController implements Runnable {
 		CarPanelState state = this.car_panel.getState();
 
 		state.obstacles.add(cone);
+		this.target_state.obstacles.add(new Cone(cone));
 
 		this.car_panel.setState(state);
 	}
@@ -201,6 +249,7 @@ public class CarPanelController implements Runnable {
 		CarPanelState state = this.car_panel.getState();
 
 		state.signs.add(sign);
+		this.target_state.signs.add(new Sign(sign));
 
 		this.car_panel.setState(state);
 	}
@@ -212,6 +261,7 @@ public class CarPanelController implements Runnable {
 		CarPanelState state = this.car_panel.getState();
 
 		state.other_cars.add(car);
+		this.target_state.other_cars.add(new Car(car));
 
 		this.car_panel.setState(state);
 	}

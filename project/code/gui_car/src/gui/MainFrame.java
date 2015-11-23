@@ -4,6 +4,9 @@ import java.awt.GridLayout;
 
 import javax.swing.JFrame;
 
+import characters.Car;
+import characters.Cone;
+import characters.Sign;
 import compute.CarPanelController;
 
 /**
@@ -31,8 +34,9 @@ public class MainFrame extends JFrame {
 
 		// add the panels to this frame
 		CarPanel car_panel = new CarPanel(this.width, this.height);
+		ProcessorPanel processor_panel = new ProcessorPanel();
 		this.add(car_panel);
-		this.add(new ProcessorPanel());
+		this.add(processor_panel);
 
 		// start any necessary threads
 		CarPanelController car_controller = new CarPanelController(car_panel);
@@ -44,6 +48,8 @@ public class MainFrame extends JFrame {
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
+		
+		// START SIMULATION THREAD
 
 		// comment out to not do test functions
 		test(car_controller);
@@ -52,10 +58,20 @@ public class MainFrame extends JFrame {
 	// preforms test functions
 	// this is also an example of how to use the car controller
 	private void test(CarPanelController car_controller) {
+		int obstacle_start_x = width / 2;
+		int obstacle_start_y = height / 4;
+
 		// submit other car, sign, cones
-		// car_controller.submit_car(new Car());
-		// car_controller.submit_sign(new Sign());
-		// car_controller.submit_cone(new Cone());
+		Car car = (new Car(obstacle_start_x - 300, obstacle_start_y));
+		car.facing = Car.Facing.LEFT;
+		car.speed = 15;
+		car_controller.submit_car(car);
+
+		car_controller.submit_sign(new Sign(obstacle_start_x - 600, obstacle_start_y, Sign.SignType.STOP));
+
+		car_controller.submit_sign(new Sign(obstacle_start_x - 900, obstacle_start_y, Sign.SignType.SPEED));
+
+		car_controller.submit_cone(new Cone(obstacle_start_x, obstacle_start_y));
 
 		// move the car
 		car_controller.set_target_speed(20);
