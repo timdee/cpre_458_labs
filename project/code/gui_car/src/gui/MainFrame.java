@@ -15,6 +15,7 @@ import compute.CarPanelController;
 public class MainFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 
+	// do not change size anymore... it might screw things up
 	public final int width = 2000;
 	public final int height = 600;
 
@@ -49,7 +50,28 @@ public class MainFrame extends JFrame {
 	}
 
 	// preforms test functions
+	// this is also an example of how to use the car controller
 	private void test(CarPanelController car_controller) {
+		car_controller.set_target_speed(20);
+		car_controller.move_up(50);
+
+		try {
+			Thread.sleep(3000);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		car_controller.set_target_speed(40);
+		car_controller.move_down(100);
+
+		try {
+			Thread.sleep(3000);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		car_controller.move_up(50);
+		car_controller.set_target_speed(0);
 		car_controller.finish();
 	}
 }

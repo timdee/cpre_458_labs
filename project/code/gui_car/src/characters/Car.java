@@ -16,6 +16,8 @@ public class Car extends Character {
 	 */
 	public Car(Car car) {
 		super(car);
+		
+		this.speed = car.speed;
 	}
 
 	public void reset() {

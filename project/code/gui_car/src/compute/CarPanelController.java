@@ -56,6 +56,8 @@ public class CarPanelController implements Runnable {
 		move_car();
 		move_obstacles();
 		move_other_cars();
+		move_signs();
+		move_road();
 
 		// cause the panel and its children to repaint
 		this.car_panel.repaint();
@@ -91,6 +93,17 @@ public class CarPanelController implements Runnable {
 			}
 		}
 
+		// if speed is differing
+		if ((state.main_car.speed - target_state.main_car.speed) != 0) {
+			if ((state.main_car.speed - target_state.main_car.speed) < 0) {
+				// y_pos is smaller than it should be
+				state.main_car.speed++;
+			} else {
+				// y_pos is bigger than it shoudl be
+				state.main_car.speed--;
+			}
+		}
+
 		// if color differing
 		if ((state.main_car.color != target_state.main_car.color)) {
 			state.main_car.color = target_state.main_car.color;
@@ -104,6 +117,9 @@ public class CarPanelController implements Runnable {
 	 */
 	private void move_obstacles() {
 		// TODO
+		CarPanelState state = this.car_panel.getState();
+
+		this.car_panel.setState(state);
 	}
 
 	/**
@@ -111,6 +127,43 @@ public class CarPanelController implements Runnable {
 	 */
 	private void move_other_cars() {
 		// TODO
+		CarPanelState state = this.car_panel.getState();
+
+		this.car_panel.setState(state);
+	}
+
+	/**
+	 * move any other cars
+	 */
+	private void move_signs() {
+		// TODO
+		CarPanelState state = this.car_panel.getState();
+
+		this.car_panel.setState(state);
+	}
+
+	/**
+	 * move any other cars
+	 */
+	private void move_road() {
+		// TODO
+		CarPanelState state = this.car_panel.getState();
+
+		// if away from target state, move toward target state
+		if ((state.road.line_speed - target_state.road.line_speed) != 0) {
+			if ((state.road.line_speed - target_state.road.line_speed) < 0) {
+				// x_pos is smaller than it should be
+				state.road.line_speed++;
+			} else {
+				// x_pos is bigger than it should be
+				state.road.line_speed--;
+			}
+		}
+
+		// update lines to be in the proper spot based on line speed
+		state.road.line_offset = (state.road.line_offset + (state.road.line_speed / 15)) % (2000 / 10);
+
+		this.car_panel.setState(state);
 	}
 
 	public void stop() {
@@ -122,31 +175,26 @@ public class CarPanelController implements Runnable {
 	 * ***************************************************
 	 */
 	/**
-	 * slow down
+	 * sets the target speed of the car. target_speed corresponds to the speed
+	 * limit as depicted on the signs.
 	 */
-	public void slow_down() {
-
-	}
-
-	/**
-	 * speed up
-	 */
-	public void speed_up() {
-
+	public void set_target_speed(int target_speed) {
+		this.target_state.main_car.speed = target_speed;
+		this.target_state.road.line_speed = -1 * target_speed;
 	}
 
 	/**
 	 * move up
 	 */
-	public void move_up() {
-
+	public void move_up(int amount) {
+		this.target_state.main_car.y_pos -= amount;
 	}
 
 	/**
 	 * move down
 	 */
-	public void move_down() {
-
+	public void move_down(int amount) {
+		this.target_state.main_car.y_pos += amount;
 	}
 
 	public void finish() {

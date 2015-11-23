@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import characters.Car;
 import characters.Cone;
+import characters.MainCar;
+import characters.Road;
 import characters.Sign;
 
 /**
@@ -14,7 +16,8 @@ import characters.Sign;
  *
  */
 public class CarPanelState {
-	public Car main_car;
+	public MainCar main_car;
+	public Road road;
 
 	public ArrayList<Cone> obstacles;
 	public ArrayList<Car> other_cars;
@@ -28,7 +31,8 @@ public class CarPanelState {
 	 * copy constructor
 	 */
 	public CarPanelState(CarPanelState state) {
-		this.main_car = new Car(state.main_car);
+		this.main_car = new MainCar(state.main_car);
+		this.road = new Road(state.road);
 
 		this.obstacles = new ArrayList<Cone>(state.obstacles);
 		this.other_cars = new ArrayList<Car>(state.other_cars);
@@ -36,7 +40,7 @@ public class CarPanelState {
 	}
 
 	private void reset() {
-		main_car = new Car();
+		main_car = new MainCar();
 		obstacles = new ArrayList<Cone>();
 		other_cars = new ArrayList<Car>();
 		signs = new ArrayList<Sign>();

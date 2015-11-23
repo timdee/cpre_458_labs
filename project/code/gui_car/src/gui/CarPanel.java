@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import characters.Car;
 import characters.Cone;
 import characters.MainCar;
+import characters.Road;
 import characters.Sign;
 import compute.CarPanelState;
 
@@ -36,6 +37,9 @@ public class CarPanel extends JPanel {
 
 		// make a new main car
 		state.main_car = new MainCar(w, h);
+
+		// make a new road
+		state.road = new Road(w, h);
 	}
 
 	public CarPanelState getState() {
@@ -51,11 +55,12 @@ public class CarPanel extends JPanel {
 
 		// call methods to preform different drawing operations
 		draw_background(g);
-		draw_road(g);
+		state.road.draw(g);
 		draw_obstacles(g);
 		draw_other_cars(g);
 		draw_signs(g);
 		state.main_car.draw(g);
+		state.main_car.draw_speed(g);
 	}
 
 	/**
@@ -64,27 +69,6 @@ public class CarPanel extends JPanel {
 	private void draw_background(Graphics g) {
 		g.setColor(Color.GREEN);
 		g.fillRect(0, 0, width, height);
-	}
-
-	/**
-	 * draw the road on which the car will drive
-	 */
-	private void draw_road(Graphics g) {
-		// draw the vertical road
-		g.setColor(Color.DARK_GRAY);
-		// g.fillRect(((int) ((width * .8) / 2)), 0, ((int) (width * .2)),
-		// height);
-
-		// draw the horizontal road
-		int road_height = (int) (height * .4);
-		g.fillRect(0, height / 2 - road_height / 2, width, road_height);
-
-		// TODO draw vertical lines
-		g.setColor(Color.YELLOW);
-
-		// TODO draw horizontal lines
-		int line_height = (int) (height * .01);
-		g.fillRect(0, height / 2 - line_height / 2, width, line_height);
 	}
 
 	/**
