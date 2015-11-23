@@ -52,6 +52,12 @@ public class MainFrame extends JFrame {
 	// preforms test functions
 	// this is also an example of how to use the car controller
 	private void test(CarPanelController car_controller) {
+		// submit other car, sign, cones
+		// car_controller.submit_car(new Car());
+		// car_controller.submit_sign(new Sign());
+		// car_controller.submit_cone(new Cone());
+
+		// move the car
 		car_controller.set_target_speed(20);
 		car_controller.move_up(50);
 

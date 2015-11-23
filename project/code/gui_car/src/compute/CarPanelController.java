@@ -1,5 +1,8 @@
 package compute;
 
+import characters.Car;
+import characters.Cone;
+import characters.Sign;
 import gui.CarPanel;
 import sensors.SensorData;
 
@@ -168,6 +171,49 @@ public class CarPanelController implements Runnable {
 
 	public void stop() {
 		this.running = false;
+	}
+
+	/*****************************************************
+	 * provide methods to submit obstacles
+	 * 
+	 * once an ostacle goes off screen, it will reset to the end.
+	 * 
+	 * This means obstacles will come like a they were on a circular conveyer
+	 * belt.
+	 * 
+	 * ***************************************************
+	 */
+	/**
+	 * adds a cone at the point specified in the code
+	 */
+	public void submit_cone(Cone cone) {
+		CarPanelState state = this.car_panel.getState();
+
+		state.obstacles.add(cone);
+
+		this.car_panel.setState(state);
+	}
+
+	/**
+	 * adds a sign at the point specified in the code
+	 */
+	public void submit_sign(Sign sign) {
+		CarPanelState state = this.car_panel.getState();
+
+		state.signs.add(sign);
+
+		this.car_panel.setState(state);
+	}
+
+	/**
+	 * adds a car at the point specified in the code
+	 */
+	public void submit_car(Car car) {
+		CarPanelState state = this.car_panel.getState();
+
+		state.other_cars.add(car);
+
+		this.car_panel.setState(state);
 	}
 
 	/*****************************************************
