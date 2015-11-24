@@ -151,7 +151,7 @@ public class CarPanelController implements Runnable {
 			state.other_cars.get(i).x_pos -= state.main_car.speed / speed_increment;
 			this.target_state.other_cars.get(i).x_pos -= state.main_car.speed / speed_increment;
 
-			// now add in the movement of this car
+			// now add in movement of this car
 			// if x_pos is differing
 			if ((state.other_cars.get(i).x_pos - target_state.other_cars.get(i).x_pos) != 0) {
 				if ((state.other_cars.get(i).x_pos - target_state.other_cars.get(i).x_pos) < 0) {
@@ -261,7 +261,10 @@ public class CarPanelController implements Runnable {
 		CarPanelState state = this.car_panel.getState();
 
 		state.other_cars.add(car);
+
+		// set the car to move toward our car
 		this.target_state.other_cars.add(new Car(car));
+		target_state.other_cars.get(target_state.other_cars.size() - 1).x_pos = -1 * car.width;
 
 		this.car_panel.setState(state);
 	}

@@ -18,7 +18,7 @@ public class MainCar extends Car {
 		this.width = this.height * 2;
 		this.x_pos = width / 20;
 		this.y_pos = (height / 2) + this.height / 2;
-		this.speed = 1;
+		this.speed = 0;
 	}
 
 	/**
