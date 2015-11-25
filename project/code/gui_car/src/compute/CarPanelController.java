@@ -73,6 +73,10 @@ public class CarPanelController implements Runnable {
 
 	}
 
+	/**
+	 * move the main car
+	 * 
+	 */
 	private void move_car() {
 		CarPanelState state = this.car_panel.getState();
 
@@ -113,6 +117,9 @@ public class CarPanelController implements Runnable {
 		if ((state.main_car.color != target_state.main_car.color)) {
 			state.main_car.color = target_state.main_car.color;
 		}
+
+		// update the total distance moved by the main car based on its speed
+		state.main_car.total_moved += state.main_car.speed / this.speed_increment;
 
 		this.car_panel.setState(state);
 	}

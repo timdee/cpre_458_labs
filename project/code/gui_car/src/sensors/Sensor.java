@@ -1,6 +1,7 @@
 package sensors;
 
 import characters.Character;
+import characters.MainCar;
 import compute.CarPanelState;
 
 public abstract class Sensor {
@@ -23,11 +24,29 @@ public abstract class Sensor {
 	 * @param c_2
 	 * @return
 	 */
-	protected double compute_distance(Character c_1, Character c_2) {
-		int x_dist = Math.abs(c_1.x_pos - c_2.x_pos);
-		int y_dist = Math.abs(c_1.y_pos - c_2.y_pos);
+	// protected double compute_distance(Character c_1, Character c_2) {
+	// int x_dist = Math.abs(c_1.x_pos - c_2.x_pos);
+	// int y_dist = Math.abs(c_1.y_pos - c_2.y_pos);
+	//
+	// return Math.sqrt(x_dist ^ 2 + y_dist ^ 2);
+	// // return x_dist;
+	// }
 
-		return Math.sqrt(x_dist ^ 2 + y_dist ^ 2);
+	/**
+	 * computing distance is a little different for the main car. Distance
+	 * referrs to distance of the object in front of the car.
+	 * 
+	 * @param c_1
+	 * @param c_2
+	 * @return
+	 */
+	protected double compute_distance(MainCar c_1, Character c_2) {
+		int x_dist = c_2.x_pos - (c_1.total_moved + c_1.x_pos);
+		//System.out.println(x_dist > 0 ? x_dist : 0);
+		// int y_dist = Math.abs(c_1.y_pos - c_2.y_pos);
+		
+		// return Math.sqrt(x_dist ^ 2 + y_dist ^ 2);
+		return (x_dist > 0) ? x_dist : 0;
 	}
 
 	/**
@@ -37,8 +56,8 @@ public abstract class Sensor {
 	 * @param c_2
 	 * @return
 	 */
-	protected boolean is_within_range(Character c_1, Character c_2) {
-		return (compute_distance(c_1, c_2) < range);
+	protected boolean is_within_range(MainCar c_1, Character c_2) {
+		return ((compute_distance(c_1, c_2) < range) && (compute_distance(c_1, c_2) > 0));
 	}
 
 	/**

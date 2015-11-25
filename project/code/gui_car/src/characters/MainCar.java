@@ -5,7 +5,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 
 public class MainCar extends Car {
-
+	public int total_moved;
+	
 	public MainCar() {
 		this(2000, 500);
 	}
@@ -19,6 +20,8 @@ public class MainCar extends Car {
 		this.x_pos = width / 20;
 		this.y_pos = (height / 2) + this.height / 2;
 		this.speed = 0;
+		
+		this.total_moved = 0;
 	}
 
 	/**
@@ -32,6 +35,7 @@ public class MainCar extends Car {
 		this.y_pos = mc.y_pos;
 
 		this.speed = mc.speed;
+		this.total_moved = mc.total_moved;
 	}
 
 	/**
