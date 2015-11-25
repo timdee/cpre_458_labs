@@ -14,7 +14,10 @@ public class GuiCar {
 		// set up the scheduling algorithm
 		SchedulingAlgorithm scheduling_algorithm = new EDF();
 
+		// set up the nubmer of processors
+		int number_of_processors = 1;
+
 		// start the gui window
-		new MainFrame(scheduling_algorithm);
+		new MainFrame(scheduling_algorithm, number_of_processors);
 	}
 }
