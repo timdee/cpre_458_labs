@@ -1,6 +1,8 @@
 package main;
 
 import gui.MainFrame;
+import scheduler.EDF;
+import scheduler.SchedulingAlgorithm;
 
 /**
  * this class is designed to be the main class to run everything. It's only
@@ -9,7 +11,10 @@ import gui.MainFrame;
 public class GuiCar {
 
 	public static void main(String[] args) {
+		// set up the scheduling algorithm
+		SchedulingAlgorithm scheduling_algorithm = new EDF();
+
 		// start the gui window
-		new MainFrame();
+		new MainFrame(scheduling_algorithm);
 	}
 }

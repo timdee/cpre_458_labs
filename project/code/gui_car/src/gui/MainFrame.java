@@ -4,12 +4,10 @@ import java.awt.GridLayout;
 
 import javax.swing.JFrame;
 
-import characters.Car;
-import characters.Cone;
-import characters.Sign;
 import compute.CarPanelController;
 import compute.ProcessingController;
 import compute.ProcessorPanelController;
+import scheduler.SchedulingAlgorithm;
 import simulation.Simulate;
 
 /**
@@ -28,7 +26,7 @@ public class MainFrame extends JFrame {
 	/**
 	 * constructor which knows how to create this Frame.
 	 */
-	public MainFrame() {
+	public MainFrame(SchedulingAlgorithm scheduling_algorithm) {
 		// call parent constructor
 		super("Real Time Car Simulation");
 
@@ -44,7 +42,7 @@ public class MainFrame extends JFrame {
 		// start any necessary threads
 		CarPanelController car_controller = new CarPanelController(car_panel);
 		ProcessorPanelController processor_controller = new ProcessorPanelController(processor_panel);
-		ProcessingController processing_controller = new ProcessingController();
+		ProcessingController processing_controller = new ProcessingController(scheduling_algorithm);
 
 		Thread car_controller_thread = new Thread(car_controller);
 		Thread processor_controller_thread = new Thread(processor_controller);
