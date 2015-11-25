@@ -9,7 +9,6 @@ import compute.CarPanelState;
  *
  */
 public class SensorData {
-	public SpeedSensor speed_sensor;
 	public StopSignSensor stop_sign_sensor;
 	public SpeedSignSensor speed_sign_sensor;
 	public OtherCarSensor other_car_sensor;
@@ -17,7 +16,6 @@ public class SensorData {
 
 	public SensorData(CarPanelState state) {
 		// construct all sensors
-		this.speed_sensor = new SpeedSensor(state);
 		this.stop_sign_sensor = new StopSignSensor(state);
 		this.other_car_sensor = new OtherCarSensor(state);
 		this.cone_sensor = new ConeSensor(state);
