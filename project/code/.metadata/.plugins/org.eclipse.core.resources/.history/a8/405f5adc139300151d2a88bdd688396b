@@ -1,0 +1,16 @@
+package sensors;
+
+import compute.CarPanelState;
+
+public class SpeedSignSensor extends Sensor {
+	public ArrayList<Sign> signs;
+	
+	public SpeedSignSensor(CarPanelState state) {
+		super(state);
+	}
+
+	@Override
+	protected void compute() {
+		
+	}
+}

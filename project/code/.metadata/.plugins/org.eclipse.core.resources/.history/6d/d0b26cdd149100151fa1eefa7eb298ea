@@ -1,0 +1,13 @@
+package sensors;
+
+import compute.CarPanelState;
+
+public class SpeedSensor extends Sensor {
+	
+	public SpeedSensor(CarPanelState state) {
+		super(state);
+
+		// compute the sensor data
+
+	}
+}

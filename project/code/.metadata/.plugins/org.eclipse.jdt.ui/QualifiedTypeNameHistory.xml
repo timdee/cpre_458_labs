@@ -2,4 +2,14 @@
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="java.util.Timer"/>
 <fullyQualifiedTypeName name="java.awt.Color"/>
+<fullyQualifiedTypeName name="characters.Car.Facing"/>
+<fullyQualifiedTypeName name="characters.Character"/>
+<fullyQualifiedTypeName name="characters.Sign.SignType"/>
+<fullyQualifiedTypeName name="sensors.SpeedSignSensor"/>
+<fullyQualifiedTypeName name="scheduler.Scheduler"/>
+<fullyQualifiedTypeName name="scheduler.Processor"/>
+<fullyQualifiedTypeName name="java.lang.System"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="scheduler.Task.Nature"/>
+<fullyQualifiedTypeName name="scheduler.Task.Action"/>
 </qualifiedTypeNameHistroy>

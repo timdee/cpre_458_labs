@@ -1,0 +1,18 @@
+package sensors;
+
+import java.util.ArrayList;
+
+import characters.Car;
+import compute.CarPanelState;
+
+public class OtherCarSensor extends Sensor {
+	ArrayList<Car> other_cars;
+	ArrayList<Double> other_car_distance;
+	ArrayList<Integer> other_car_speed;
+
+	public OtherCarSensor(CarPanelState state) {
+		super(state);
+	}
+
+	// TODO
+}

@@ -1,0 +1,14 @@
+package compute;
+
+/**
+ * holds all variables related to the state of the car pannel. Modifying this
+ * will affect the car panel.
+ * 
+ * @author element
+ *
+ */
+public class CarPanelState {
+	public CarPanelState() {
+
+	}
+}

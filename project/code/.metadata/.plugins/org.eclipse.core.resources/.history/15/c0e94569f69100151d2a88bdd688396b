@@ -1,0 +1,17 @@
+package compute;
+
+/**
+ * this class controls the processor panel. The Idea behind this is that
+ * anything the car panel needs to do will be controled by this class.
+ * 
+ * This provides a nice interface for interacting with the gui.
+ * 
+ * Needs to be able to perform all the functions of the tasks.
+ * 
+ * Will also update the positions / colors of obstacles.
+ * 
+ * This will need to run on its own thread.
+ */
+public class ProcessorPanelController {
+
+}

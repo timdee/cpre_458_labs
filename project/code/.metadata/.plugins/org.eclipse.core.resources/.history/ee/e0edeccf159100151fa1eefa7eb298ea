@@ -1,0 +1,10 @@
+package sensors;
+
+import compute.CarPanelState;
+
+public class StopSignSensor extends Sensor {
+	public StopSignSensor(CarPanelState state) {
+		super(state);
+	}
+
+}

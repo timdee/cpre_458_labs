@@ -1,0 +1,20 @@
+package sensors;
+
+import java.util.ArrayList;
+
+import characters.Cone;
+import compute.CarPanelState;
+
+public class ConeSensor extends Sensor {
+	public ArrayList<Cone> cones;
+	public ArrayList<Double> distances;
+
+	public ConeSensor(CarPanelState state) {
+		super(state);
+	}
+
+	@Override
+	protected void compute() {
+		
+	}
+}

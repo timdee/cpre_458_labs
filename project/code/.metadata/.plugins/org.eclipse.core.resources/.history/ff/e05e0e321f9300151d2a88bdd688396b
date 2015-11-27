@@ -1,0 +1,41 @@
+package compute;
+
+import scheduler.Scheduler;
+
+/**
+ * controls the back end processing.
+ * 
+ * This includes: 1) scheduler 2) task queues
+ * 
+ */
+public class ProcessingController implements Runnable {
+	private ProcessingState processing_state;
+
+	public ProcessingController(Scheduler scheduler) {
+		this.processing_state = new ProcessingState(scheduler);
+	}
+
+	@Override
+	public void run() {
+		while (true) {
+			try {
+				// update every 10 ms (100 fps)
+				Thread.sleep(10);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			// ask the state to update itself
+			processing_state.update(10L);
+		}
+	}
+
+	/**
+	 * return the state of the processing.
+	 * 
+	 * @return
+	 */
+	public ProcessingState get_state() {
+
+	}
+}

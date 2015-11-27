@@ -1,9 +1,0 @@
-package characters;
-
-public class Car {
-	public int Color color;
-	
-	public Car(){
-		
-	}
-}

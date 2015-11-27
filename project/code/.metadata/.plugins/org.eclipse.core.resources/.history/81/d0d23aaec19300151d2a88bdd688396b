@@ -1,0 +1,29 @@
+package scheduler;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * this class represents a scheduler. It will take in a scheduling algorithm in
+ * the constructor. It will then schedule task sents with this scheduling
+ * algorithm.
+ * 
+ * @author element
+ *
+ */
+public class Scheduler {
+	private SchedulingAlgorithm scheduling_algorithm;
+
+	public Scheduler(SchedulingAlgorithm scheduling_algorithm) {
+		this.scheduling_algorithm = scheduling_algorithm;
+	}
+
+	/**
+	 * returns the task set in scheduled order. null if not schedulable.
+	 */
+	public ArrayList<List<Task>> schedule(List<Task> tasks) {
+		ArrayList<Task> array_list_tasks = new ArrayList<Task>(tasks);
+
+		return (ArrayList<Task>) this.scheduling_algorithm.schedule(array_list_tasks);
+	}
+}

@@ -1,0 +1,10 @@
+package sensors;
+
+public class SpeedSensor extends Sensor {
+	@Override
+	protected void compute_data() {
+		// TODO Auto-generated method stub
+
+	}
+
+}

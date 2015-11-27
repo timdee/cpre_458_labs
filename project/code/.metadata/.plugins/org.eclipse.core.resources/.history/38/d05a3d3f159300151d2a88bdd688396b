@@ -1,0 +1,16 @@
+package sensors;
+
+import java.util.ArrayList;
+
+import compute.CarPanelState;
+
+public class StopSignSensor extends Sensor {
+	public StopSignSensor(CarPanelState state) {
+		super(state);
+	}
+
+	@Override
+	protected void compute() {
+		
+	}
+}

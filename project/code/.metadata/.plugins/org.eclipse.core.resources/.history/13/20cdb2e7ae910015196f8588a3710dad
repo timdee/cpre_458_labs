@@ -1,0 +1,5 @@
+package sensors;
+
+public class SpeedSignSensor extends Sensor {
+
+}

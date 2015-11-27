@@ -1,0 +1,44 @@
+package scheduler;
+
+/**
+ * Represents a task to be completed by a processor
+ * 
+ * @author element
+ *
+ */
+public class Task {
+	// how the task sould be run (just once) or (at period for ever)
+	public enum Nature {
+		PERIODIC, APERIODIC;
+	}
+
+	// says what action should be conducted upon task completion
+	public enum Action {
+		NONE, SET_CAR_SPEED, MOVE_UP_CAR, MOVE_DOWN_CAR, READ_CONE_SENSOR, READ_OTHER_CAR_SENSOR, READ_SPEED_SIGN_SENSOR, READ_STOP_SIGN_SENSOR;
+	}
+
+	public int deadline;
+	public int computation_time_remaining;
+	public int period;
+
+	public Nature nature;
+	public Action action;
+
+	public Task(int computation_time, int period, int deadline, Nature nature, Action action) {
+		this.computation_time_remaining = computation_time;
+		this.period = period;
+		this.deadline = deadline;
+
+		this.nature = nature;
+		this.action = action;
+	}
+
+	public Task(Task task) {
+		this.computation_time_remaining = task.computation_time_remaining;
+		this.period = task.period;
+		this.deadline = task.deadline;
+
+		this.nature = task.nature;
+		this.action = task.action;
+	}
+}

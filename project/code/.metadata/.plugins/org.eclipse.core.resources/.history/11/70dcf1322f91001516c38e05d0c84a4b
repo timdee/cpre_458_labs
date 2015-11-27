@@ -1,0 +1,10 @@
+package characters;
+
+import java.awt.Graphics;
+
+public class Sign extends Character {
+	@Override
+	public void draw(Graphics g) {
+
+	}
+}

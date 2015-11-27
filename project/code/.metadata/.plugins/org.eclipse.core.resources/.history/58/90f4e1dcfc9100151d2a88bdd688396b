@@ -1,0 +1,11 @@
+package compute;
+
+/**
+ * controls the back end processing.
+ * 
+ * This includes: 1) scheduler 2) task queues
+ * 
+ */
+public class ProcessingController implements Runnable {
+	// TODO
+}

@@ -1,0 +1,30 @@
+package characters;
+
+import java.awt.Color;
+import java.awt.Graphics;
+
+public class Cone extends Character {
+
+	public Cone(int width, int height) {
+
+	}
+
+	@Override
+	public void draw(Graphics g) {
+		// cone consists of a rounded rectange and two circles
+		int center_x = this.x_pos + 20;
+		int center_y = this.y_pos + 20;
+
+		// rounded rectangle
+		g.setColor(Color.orange);
+		g.fillRoundRect(center_x - 20, center_y - 20, 40, 40, 10, 10);
+
+		// first circle
+		g.setColor(Color.white);
+		g.fillOval(center_x, center_y, 30, 30);
+
+		// second circle
+		g.setColor(Color.orange);
+		g.fillOval(center_x, center_y, 20, 20);
+	}
+}

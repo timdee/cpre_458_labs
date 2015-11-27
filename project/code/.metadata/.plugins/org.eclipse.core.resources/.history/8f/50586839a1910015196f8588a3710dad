@@ -1,0 +1,18 @@
+package characters;
+
+import java.awt.Graphics;
+
+public class Road extends Character {
+
+	public Road(Road r) {
+		super(r);
+	}
+
+	@Override
+	public void draw(Graphics g) {
+		// TODO Auto-generated method stub
+
+	}
+	// TODO
+
+}

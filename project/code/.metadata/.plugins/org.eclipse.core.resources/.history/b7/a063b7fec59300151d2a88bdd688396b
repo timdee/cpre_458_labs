@@ -1,0 +1,99 @@
+package compute;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import scheduler.Processor;
+import scheduler.Scheduler;
+import scheduler.SchedulingAlgorithm;
+import scheduler.Task;
+
+/**
+ * captures all information about the processing state.
+ * 
+ * This includes:
+ * 
+ * 1) scheduler task queue 2) scheduler 4) processors task queues 5) processors
+ * 
+ * @author element
+ *
+ */
+public class ProcessingState {
+	private ArrayList<Task> scheduler_task_queue;
+	private Scheduler scheduler;
+
+	private ArrayList<Processor> processors;
+
+	public ProcessingState(SchedulingAlgorithm scheduling_algorithm, int n_processors) {
+		this.scheduler_task_queue = new ArrayList<Task>();
+		this.scheduler = new Scheduler(scheduling_algorithm);
+
+		// set up processors
+		this.processors = new ArrayList<Processor>();
+
+		for (int i = 0; i < n_processors; i++) {
+			processors.add(new Processor());
+		}
+	}
+
+	/**
+	 * add a task to the processing state. new tasks go in the scheduler queue
+	 */
+	public void add_task(Task task) {
+		this.scheduler_task_queue.add(task);
+	}
+
+	/**
+	 * updates task data with the amount of time that has passed. preforms all
+	 * necessary actions based on the time.
+	 * 
+	 * @param time
+	 */
+	public void update(long time) {
+		// schedule tasks into the processor queues
+		run_scheduler();
+
+		// run the processors for the specified time
+		update_processors(time);
+	}
+
+	private void run_scheduler() {
+		// run the scheduler on the task queue for the number of processors
+		ArrayList<List<Task>> schedule = scheduler.schedule(scheduler_task_queue, this.processors.size());
+
+		// based on what the schedule returns, we can populate the processor
+		// task queues
+		// TODO populate the processor task queues
+		// TODO update processors is incorrect
+		// TODO write multiprocessor versions of scheduling algorithms
+	}
+
+	private void update_processors(long time) {
+		// preform updates in an incremental fashion
+		for (int i = 0; i < time; i++) {
+			// if a task has completed, run the scheduler at the point it
+			// completes.
+			// remember the only tasks who's computation time is decreasing are
+			// the ones in the processors.
+			for (Processor p : processors) {
+				// first, decrement the computation time of the thing in this
+				// processor
+				p.task.computation_time_remaining--;
+
+				if (p.task.computation_time_remaining <= 0) {
+					// TODO if a task has finished, we need to perform its
+					// complete action
+					// TODO
+
+					// if the task has finished, get the next thing out of the
+					// queue
+					// set the current processor task to the smallest thing in
+					// the queue
+					if (p.task_queue.isEmpty() == false) {
+						p.task = p.task_queue.get(0);
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,16 @@
+package compute;
+
+import java.util.TimerTask;
+
+/**
+ * This class updates the CarPanel
+ * @author element
+ *
+ */
+public class CarPanelUpdateTask extends TimerTask {
+	@Override
+	public void run() {
+		
+	}
+
+}

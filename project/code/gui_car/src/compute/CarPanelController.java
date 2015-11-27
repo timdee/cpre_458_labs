@@ -19,8 +19,8 @@ import sensors.SensorData;
  * This will need to run on its own thread.
  */
 public class CarPanelController implements Runnable {
-	CarPanel car_panel;
-	CarPanelState target_state;
+	public CarPanel car_panel;
+	public CarPanelState target_state;
 
 	// increase speed every this number of increments
 	private final int speed_increment = 15;

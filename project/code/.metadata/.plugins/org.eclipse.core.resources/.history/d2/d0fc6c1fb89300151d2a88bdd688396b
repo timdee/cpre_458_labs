@@ -1,0 +1,22 @@
+package scheduler;
+
+/**
+ * Represents a task to be completed by a processor
+ * 
+ * @author element
+ *
+ */
+public class Task {
+	// how the task sould be run (just once) or (at period for ever)
+	public enum Nature {
+		PERIODIC, APERIODIC;
+	}
+
+	// says what action should be conducted upon task completion
+
+	public int deadline;
+	public int computation_time_remaining;
+	public int period;
+
+	public Nature nature;
+}

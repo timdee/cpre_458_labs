@@ -1,0 +1,5 @@
+package scheduler;
+
+public abstract class SchedulingAlgorithm {
+
+}

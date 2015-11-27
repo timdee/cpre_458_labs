@@ -1,0 +1,12 @@
+package scheduler;
+
+/**
+ * holds a number of tasks. This class is broken out to hopefully make it easier
+ * to represent visually in processor panel.
+ * 
+ * @author element
+ *
+ */
+public class TaskQueue {
+
+}

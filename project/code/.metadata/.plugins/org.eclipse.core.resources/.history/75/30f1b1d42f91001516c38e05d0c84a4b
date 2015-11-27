@@ -1,0 +1,21 @@
+package characters;
+
+import java.awt.Graphics;
+
+public class Sign extends Character {
+	public enum SignType {
+		STOP, SPEED;
+	}
+
+	public SignType type;
+
+	public Sign() {
+		super();
+		this.type = SignType.STOP;
+	}
+
+	@Override
+	public void draw(Graphics g) {
+
+	}
+}
