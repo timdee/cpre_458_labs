@@ -1,8 +1,11 @@
 package scheduler;
 
+import characters.Cone;
+import characters.MainCar;
 import compute.CarPanelController;
 import compute.CarPanelState;
 import compute.ProcessingController;
+import sensors.SensorData;
 
 /**
  * Represents a task to be completed by a processor
@@ -83,20 +86,25 @@ public class Task {
 			this.car_panel_controller.move_down(this.set_point);
 			break;
 		case READ_CONE_SENSOR:
-			System.out.println("read cone sensor");
-			// determine if the car is going to hit the cone, and what to do to
-			// avoid it
-			// overlap is relative to car
 			CarPanelState car_panel_state = this.car_panel_controller.car_panel.getState();
-			// upper_overlap = car_panel_state.main_car.y_pos -;
-			// lower_overlap = this.car_panel_controller.car_panel.getState().;
+			SensorData sensor_data = this.car_panel_controller.get_sensor_data();
 
+			System.out.println(sensor_data.cone_sensor.cones);
+
+			// what to do to avoid hitting the cone
 			// if the bottom of the car will hit the cone, move up
-			if (true) {
+			for (Cone cone : sensor_data.cone_sensor.cones) {
+				int cone_distance = cone.x_pos - car_panel_state.main_car.x_pos;
+				// System.out.println("read cone sensor, distance: " +
+				// cone_distance);
 
-			} else {
-				// the top of the car will hit, so move down
-				// this.car_panel_controller.move_down(amount);
+				if (will_collide(car_panel_state.main_car, cone)) {
+					System.out.println("collision emminent");
+					// the bottom of the car will hit, so move up
+
+					// the top of the car will hit, so move down
+					// this.processing_controller.add_task(task);
+				}
 			}
 			break;
 		case READ_OTHER_CAR_SENSOR:
@@ -112,5 +120,31 @@ public class Task {
 
 			break;
 		}
+	}
+
+	private boolean will_collide(MainCar main_car, Cone c) {
+		// determine if the car is going to hit the cone,
+		// upper_overlap = car_panel_state.main_car.y_pos -;
+		// lower_overlap = this.car_panel_controller.car_panel.getState().;
+
+		// calculate the overlap
+		boolean overlap = false;
+
+		int car_top = main_car.y_pos;
+		int car_bottom = main_car.y_pos + main_car.height;
+		int character_top = c.y_pos;
+		int character_bottom = c.y_pos + c.height;
+
+		// if character top is inbetween car top and bottom then collision
+		if (character_top > car_bottom && character_top < car_top) {
+			overlap = true;
+		}
+
+		// if car bottom is between cone top and bottom, then collision
+		if (character_bottom > car_bottom && character_top < car_top) {
+			overlap = true;
+		}
+
+		return overlap;
 	}
 }

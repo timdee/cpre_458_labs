@@ -20,7 +20,7 @@ import sensors.SensorData;
  */
 public class CarPanelController implements Runnable {
 	public CarPanel car_panel;
-	public CarPanelState target_state;
+	public volatile CarPanelState target_state;
 
 	// increase speed every this number of increments
 	private final int speed_increment = 15;
@@ -120,6 +120,8 @@ public class CarPanelController implements Runnable {
 
 		// update the total distance moved by the main car based on its speed
 		state.main_car.total_moved += state.main_car.speed / this.speed_increment;
+
+		//System.out.println(state.main_car.x_pos);
 
 		this.car_panel.setState(state);
 	}

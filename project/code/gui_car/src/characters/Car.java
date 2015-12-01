@@ -21,6 +21,7 @@ public class Car extends Character {
 		this.color = Color.red;
 		this.x_pos = x_pos;
 		this.y_pos = y_pos;
+		this.origional_x_pos = x_pos;
 	}
 
 	/**
@@ -29,6 +30,7 @@ public class Car extends Character {
 	public Car(Car car) {
 		super(car);
 
+		this.facing = car.facing;
 		this.speed = car.speed;
 	}
 

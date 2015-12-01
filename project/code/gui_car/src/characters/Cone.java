@@ -10,17 +10,19 @@ public class Cone extends Character {
 		this.height = 60;
 		this.x_pos = x_pos;
 		this.y_pos = y_pos;
+		this.origional_x_pos = x_pos;
 	}
-	
+
 	/**
 	 * copy constructor
 	 */
-	public Cone(Cone c){
+	public Cone(Cone c) {
 		this.color = c.color;
 		this.width = c.width;
 		this.height = c.height;
 		this.x_pos = c.x_pos;
 		this.y_pos = c.y_pos;
+		this.origional_x_pos = x_pos;
 	}
 
 	@Override

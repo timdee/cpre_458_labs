@@ -11,8 +11,8 @@ public abstract class Sensor {
 	protected int range;
 
 	public Sensor(CarPanelState state) {
-		this.car_panel_state = new CarPanelState(state);
-		this.range = 1000;
+		this.car_panel_state = state;
+		this.range = 2000;
 
 		compute();
 	}
@@ -41,11 +41,9 @@ public abstract class Sensor {
 	 * @return
 	 */
 	protected double compute_distance(MainCar c_1, Character c_2) {
-		int x_dist = c_2.x_pos - (c_1.total_moved + c_1.x_pos);
-		//System.out.println(x_dist > 0 ? x_dist : 0);
-		// int y_dist = Math.abs(c_1.y_pos - c_2.y_pos);
+		//int x_dist = c_2.x_pos - (c_1.total_moved + c_1.x_pos + c_1.width);
+		int x_dist = c_2.origional_x_pos - (c_1.total_moved + c_1.x_pos + c_1.width);
 		
-		// return Math.sqrt(x_dist ^ 2 + y_dist ^ 2);
 		return (x_dist > 0) ? x_dist : 0;
 	}
 
