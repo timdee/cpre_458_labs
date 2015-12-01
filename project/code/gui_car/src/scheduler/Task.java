@@ -2,6 +2,7 @@ package scheduler;
 
 import characters.Cone;
 import characters.MainCar;
+import characters.Sign;
 import compute.CarPanelController;
 import compute.CarPanelState;
 import compute.ProcessingController;
@@ -75,6 +76,9 @@ public class Task {
 	 * submit aperiodic tasks based on the sensor data.
 	 */
 	public void preform_action() {
+		CarPanelState car_panel_state;
+		SensorData sensor_data;
+
 		int actuator_comp_time = 50;
 		int actuator_deadline = 100;
 		Nature actuator_nature = Task.Nature.APERIODIC;
@@ -91,12 +95,12 @@ public class Task {
 			this.car_panel_controller.move_down(this.set_point);
 			break;
 		case READ_CONE_SENSOR:
-			CarPanelState car_panel_state = this.car_panel_controller.car_panel.getState();
-			SensorData sensor_data = this.car_panel_controller.get_sensor_data();
+			car_panel_state = this.car_panel_controller.car_panel.getState();
+			sensor_data = this.car_panel_controller.get_sensor_data();
 
 			int move_up = 0;
 			int move_down = 0;
-			
+
 			System.out.println("cone sensor:\t" + sensor_data.cone_sensor.cones);
 
 			// what to do to avoid hitting the cone
@@ -142,8 +146,23 @@ public class Task {
 
 			break;
 		case READ_STOP_SIGN_SENSOR:
-			System.out.println("read stop sign sensor");
+			car_panel_state = this.car_panel_controller.car_panel.getState();
+			sensor_data = this.car_panel_controller.get_sensor_data();
 
+			System.out.println("stop sensor:\t" + sensor_data.stop_sign_sensor.signs);
+
+			// what to do to avoid hitting the cone
+			// if the bottom of the car will hit the cone, move up
+			for (Sign sign : sensor_data.stop_sign_sensor.signs) {
+				// check the distance to the sign. If the sign is within 300,
+				// slow down
+				int main_car_x = car_panel_state.main_car.origional_x_pos + car_panel_state.main_car.total_moved;
+				if (sign.origional_x_pos - main_car_x < 300) {
+					Task task = new Task(actuator_comp_time, 0, actuator_deadline, actuator_nature,
+							Task.Action.SET_CAR_SPEED, this.processing_controller, this.car_panel_controller, 0);
+					this.processing_controller.add_task(task);
+				}
+			}
 			break;
 		}
 	}
@@ -167,7 +186,7 @@ public class Task {
 			overlap = true;
 		}
 
-		//System.out.println(overlap);
+		// System.out.println(overlap);
 		return overlap;
 	}
 }
