@@ -24,6 +24,7 @@ public class Sign extends Character {
 		this.speed_limit = 50;
 
 		this.origional_x_pos = x_pos;
+		this.origional_y_pos = y_pos;
 	}
 
 	/**
@@ -36,6 +37,7 @@ public class Sign extends Character {
 		this.speed_limit = s.speed_limit;
 
 		this.origional_x_pos = s.x_pos;
+		this.origional_y_pos = s.y_pos;
 	}
 
 	@Override

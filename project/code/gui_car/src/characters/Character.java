@@ -16,6 +16,7 @@ public abstract class Character {
 	public int x_pos;
 	public int y_pos;
 	public int origional_x_pos;
+	public int origional_y_pos;
 
 	public Character() {
 		this.color = Color.black;
@@ -24,6 +25,7 @@ public abstract class Character {
 		this.x_pos = 0;
 		this.y_pos = 0;
 		this.origional_x_pos = 0;
+		this.origional_y_pos = 0;
 	}
 
 	/**
@@ -36,6 +38,7 @@ public abstract class Character {
 		this.width = c.width;
 		this.color = c.color;
 		this.origional_x_pos = c.x_pos;
+		this.origional_y_pos = c.y_pos;
 	}
 
 	public abstract void draw(Graphics g);

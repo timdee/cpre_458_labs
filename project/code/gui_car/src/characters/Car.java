@@ -22,6 +22,7 @@ public class Car extends Character {
 		this.x_pos = x_pos;
 		this.y_pos = y_pos;
 		this.origional_x_pos = x_pos;
+		this.origional_y_pos = y_pos;
 	}
 
 	/**

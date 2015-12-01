@@ -22,6 +22,9 @@ public class MainCar extends Car {
 		this.speed = 0;
 		
 		this.total_moved = 0;
+		
+		this.origional_x_pos = x_pos;
+		this.origional_y_pos = y_pos;
 	}
 
 	/**
