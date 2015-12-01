@@ -1,5 +1,6 @@
 package scheduler;
 
+import characters.Car;
 import characters.Cone;
 import characters.MainCar;
 import characters.Sign;
@@ -135,15 +136,68 @@ public class Task {
 					this.processing_controller.add_task(task);
 				}
 			}
-
 			break;
 		case READ_OTHER_CAR_SENSOR:
-			System.out.println("read other car sensor");
+			car_panel_state = this.car_panel_controller.car_panel.getState();
+			sensor_data = this.car_panel_controller.get_sensor_data();
 
+			move_up = 0;
+			move_down = 0;
+
+			System.out.println("car sensor:\t" + sensor_data.other_car_sensor.other_cars);
+
+			// what to do to avoid hitting the cone
+			// if the bottom of the car will hit the cone, move up
+			for (Car car : sensor_data.other_car_sensor.other_cars) {
+				if (will_collide(car_panel_state.main_car, car)) {
+					// check if the top of the cone will hit the car
+					if ((car.y_pos < car_panel_state.main_car.y_pos + car_panel_state.main_car.height)
+							&& (car.y_pos > car_panel_state.main_car.y_pos)) {
+						// the bottom of the car will hit, so move up
+						move_down++;
+					} else {
+						// the top of the car will hit, so move down
+						// this.processing_controller.add_task(task);
+						move_up++;
+					}
+				}
+			}
+
+			// if we need to move decide what task we need to insert
+			if (move_up + move_down > 0) {
+				// see if more obstacles would be avoided by moving up or down
+				if (move_down > move_up) {
+					Task task = new Task(actuator_comp_time, 0, actuator_deadline, actuator_nature,
+							Task.Action.MOVE_DOWN_CAR, this.processing_controller, this.car_panel_controller,
+							actuator_movement_amount);
+					this.processing_controller.add_task(task);
+				} else {
+					Task task = new Task(actuator_comp_time, 0, actuator_deadline, actuator_nature,
+							Task.Action.MOVE_UP_CAR, this.processing_controller, this.car_panel_controller,
+							actuator_movement_amount);
+					this.processing_controller.add_task(task);
+				}
+			}
 			break;
 		case READ_SPEED_SIGN_SENSOR:
-			System.out.println("read speed sign sensor");
+			car_panel_state = this.car_panel_controller.car_panel.getState();
+			sensor_data = this.car_panel_controller.get_sensor_data();
 
+			System.out.println("speed sensor:\t" + sensor_data.speed_sign_sensor.signs);
+
+			// what to do to avoid hitting the cone
+			// if the bottom of the car will hit the cone, move up
+			for (Sign sign : sensor_data.speed_sign_sensor.signs) {
+				// check the distance to the sign. If the sign is within 300,
+				// slow down
+				int main_car_x = car_panel_state.main_car.origional_x_pos + car_panel_state.main_car.total_moved;
+				if (sign.origional_x_pos - main_car_x < 1000) {
+					Task task = new Task(actuator_comp_time, 0, actuator_deadline, actuator_nature,
+							Task.Action.SET_CAR_SPEED, this.processing_controller, this.car_panel_controller,
+							sign.speed_limit);
+					this.processing_controller.add_task(task);
+				}
+			}
 			break;
 		case READ_STOP_SIGN_SENSOR:
 			car_panel_state = this.car_panel_controller.car_panel.getState();
@@ -167,7 +221,36 @@ public class Task {
 		}
 	}
 
+	/**
+	 * determine if the main car will collide with cone
+	 */
 	private boolean will_collide(MainCar main_car, Cone c) {
+		// calculate the overlap
+		boolean overlap = false;
+
+		int car_top = main_car.y_pos;
+		int car_bottom = main_car.y_pos + main_car.height;
+		int character_top = c.y_pos;
+		int character_bottom = c.y_pos + c.height;
+
+		// if character top is inbetween car top and bottom then collision
+		if ((character_top < car_bottom) && (character_top > car_top)) {
+			overlap = true;
+		}
+
+		// if car bottom is between cone top and bottom, then collision
+		if ((character_bottom < car_bottom) && (character_bottom > car_top)) {
+			overlap = true;
+		}
+
+		// System.out.println(overlap);
+		return overlap;
+	}
+	
+	/**
+	 * determine if the main car will collide with car
+	 */
+	private boolean will_collide(MainCar main_car, Car c) {
 		// calculate the overlap
 		boolean overlap = false;
 

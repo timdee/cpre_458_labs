@@ -28,6 +28,8 @@ public class EDF implements SchedulingAlgorithm {
 			}
 		}
 
+		System.out.println(scheduled_tasks);
+
 		scheduled_tasks_list.add(scheduled_tasks);
 
 		return scheduled_tasks_list;
