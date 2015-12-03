@@ -3,6 +3,10 @@ package compute;
 import java.util.ArrayList;
 import java.util.List;
 
+import characters.Labels;
+import characters.Sign;
+import characters.TaskBlock;
+import characters.TaskTable;
 import scheduler.Processor;
 import scheduler.Scheduler;
 import scheduler.SchedulingAlgorithm;
@@ -21,14 +25,24 @@ import scheduler.Task.Nature;
  *
  */
 public class ProcessingState {
-	private ArrayList<Task> scheduler_task_queue;
+	public ArrayList<Task> scheduler_task_queue;
 	private Scheduler scheduler;
 
 	private ArrayList<Processor> processors;
+	
+	public ArrayList<TaskTable> taskHolders;
+	public ArrayList<Labels> labels;
+	public ArrayList<TaskBlock> taskBlocks;
+	public ArrayList<Sign> signs;
 
 	public ProcessingState(SchedulingAlgorithm scheduling_algorithm, int n_processors) {
 		this.scheduler_task_queue = new ArrayList<Task>();
 		this.scheduler = new Scheduler(scheduling_algorithm);
+		
+		this.taskHolders = new ArrayList<TaskTable>();
+		this.taskBlocks = new ArrayList<TaskBlock>();
+		this.labels = new ArrayList<Labels>();
+		this.signs = new ArrayList<Sign>();
 
 		// set up processors
 		this.processors = new ArrayList<Processor>();
@@ -122,5 +136,40 @@ public class ProcessingState {
 				}
 			}
 		}
+	}
+	
+
+	/*****************************************************
+	 * provide methods to submit obstacles
+	 *
+	 * once an ostacle goes off screen, it will reset to the end.
+	 *
+	 * This means obstacles will come like a they were on a circular conveyer
+	 * belt.
+	 *
+	 * ***************************************************
+	 */
+	/**
+	 * adds a cone at the point specified in the code
+	 */
+	public void submit_task_table(TaskTable taskTable) {
+		this.taskHolders.add(taskTable);
+
+	}
+
+	/**
+	 * adds a cone at the point specified in the code
+	 */
+	public void submit_labels(Labels label) {
+		this.labels.add(label);
+
+	}
+	
+	/**
+	 * adds a sign at the point specified in the code
+	 */
+	public void submit_signs(Sign sign) {
+		this.signs.add(sign);
+
 	}
 }

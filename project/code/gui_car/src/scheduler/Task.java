@@ -4,6 +4,7 @@ import characters.Car;
 import characters.Cone;
 import characters.MainCar;
 import characters.Sign;
+import characters.TaskBlock;
 import compute.CarPanelController;
 import compute.CarPanelState;
 import compute.ProcessingController;
@@ -36,6 +37,9 @@ public class Task {
 
 	public ProcessingController processing_controller;
 	public CarPanelController car_panel_controller;
+	
+	//Brent added this
+		public TaskBlock taskBlock;
 
 	// either the car speed or elevation depending on the task.
 	public int set_point;
@@ -54,6 +58,9 @@ public class Task {
 		this.car_panel_controller = car_panel_controller;
 
 		this.set_point = set_point;
+		
+		//added by Brent
+		taskBlock = new TaskBlock(this);
 	}
 
 	public Task(Task task) {
