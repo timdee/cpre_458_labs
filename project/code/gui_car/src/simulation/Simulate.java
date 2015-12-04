@@ -2,7 +2,9 @@ package simulation;
 
 import characters.Car;
 import characters.Cone;
+import characters.Labels;
 import characters.Sign;
+import characters.TaskTable;
 import compute.CarPanelController;
 import compute.ProcessingController;
 import compute.ProcessorPanelController;
@@ -47,6 +49,9 @@ public class Simulate implements Runnable {
 
 		// create obstacles
 		setup_obstacles();
+		
+		//create processor panel parts
+		setup_processor_panel();
 
 		// start the car moving
 		this.car_panel_controller.set_target_speed(50);
@@ -131,6 +136,41 @@ public class Simulate implements Runnable {
 		car.facing = Car.Facing.LEFT;
 		car.speed = -20;
 		this.car_panel_controller.submit_car(car);
+	}
+	
+	//set up processor panel
+	private void setup_processor_panel() {
+
+		TaskTable taskTable = new TaskTable(20,125);
+		this.processing_controller.get_state().submit_task_table(taskTable);
+
+		taskTable = new TaskTable(20,250);
+		this.processing_controller.get_state().submit_task_table(taskTable);
+		taskTable = new TaskTable(825,175);
+		this.processing_controller.get_state().submit_task_table(taskTable);
+
+
+		Labels label = new Labels(205,40,"Scheduler Queue");
+		this.processing_controller.get_state().submit_labels(label);
+
+		label = new Labels(5,55,"Periodic");
+		this.processing_controller.get_state().submit_labels(label);
+
+		label = new Labels(5,165,"Aperiodic");
+		this.processing_controller.get_state().submit_labels(label);
+		
+		label = new Labels(1025,40,"Processor Queue");
+		this.processing_controller.get_state().submit_labels(label);
+		
+		label = new Labels(1560,40,"Processor");
+		this.processing_controller.get_state().submit_labels(label);
+		
+		Sign sign = new Sign(550,5,Sign.SignType.SCHEDULE,"EDF");
+		this.processing_controller.get_state().submit_signs(sign);
+		
+		sign = new Sign(1400,60,Sign.SignType.SINGLE_PROCESSOR);
+		this.processing_controller.get_state().submit_signs(sign);
+
 	}
 
 	/**

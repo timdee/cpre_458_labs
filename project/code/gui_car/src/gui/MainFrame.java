@@ -48,6 +48,11 @@ public class MainFrame extends JFrame {
 		Thread processor_controller_thread = new Thread(processor_controller);
 		Thread processing_controller_thread = new Thread(processing_controller);
 
+		
+		//added by Brent
+		processor_panel.setState(processing_controller.get_state());
+				
+				
 		// start these threads, but they don't act atonamously. Simulate thread
 		// will use them to perform the simulation.
 		car_controller_thread.start();

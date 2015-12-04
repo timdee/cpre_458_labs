@@ -37,7 +37,7 @@ public class ProcessorPanelController implements Runnable {
 			// TODO need to cause the panel to update (visually) based on the
 			// state
 			// TODO
-
+			set_processing_state(this.processor_panel.getState());
 			// cause the processor panel to be repainted
 			processor_panel.repaint();
 			processor_panel.revalidate();
