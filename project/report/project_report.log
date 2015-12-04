@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Arch Linux) (preloaded format=pdflatex 2015.10.11)  4 DEC 2015 04:11
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Arch Linux) (preloaded format=pdflatex 2015.10.11)  4 DEC 2015 05:18
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -289,44 +289,54 @@ e
 \c@lstlisting=\count117
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <14.4> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 121.
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 152.
 
-<figures/code_layout.png, id=1, 962.59625pt x 647.41875pt>
-File: figures/code_layout.png Graphic file (type png)
+Overfull \hbox (3.37958pt too wide) in paragraph at lines 162--167
+[]\OT1/ptm/m/n/10 Basic func-tion-al-ity for this project will con-sist of achi
+ev-
+ []
 
-<use figures/code_layout.png>
-Package pdftex.def Info: figures/code_layout.png used on input line 171.
-(pdftex.def)             Requested size: 195.126pt x 131.23pt.
- [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
+[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
 
 
 ]
+Overfull \hbox (1.72975pt too wide) in paragraph at lines 174--178
+\OT1/ptm/m/n/10 this project will ac-com-plish its pri-mary ob-jec-tive. The pr
+ob-
+ []
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 180.
+<figures/code_layout.png, id=8, 962.59625pt x 647.41875pt>
+File: figures/code_layout.png Graphic file (type png)
+
+<use figures/code_layout.png>
+Package pdftex.def Info: figures/code_layout.png used on input line 199.
+(pdftex.def)             Requested size: 195.126pt x 131.23pt.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 201.
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 203.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 229.
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 231.
 
  (/usr/share/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
-)
-Overfull \hbox (40.5221pt too wide) in paragraph at lines 256--257
+) [2 <./figures/code_layout.png>] [3]
+Overfull \hbox (40.5221pt too wide) in paragraph at lines 284--285
 [][][][][][][][][][][][][]  
  []
 
-[2 <./figures/code_layout.png>] [3]
-Overfull \hbox (64.82211pt too wide) in paragraph at lines 317--319
+
+Overfull \hbox (64.82211pt too wide) in paragraph at lines 345--347
 [][][][][][][][][][][][][][][][][]  
  []
 
-[4] [5] [6]
-Overfull \hbox (10.50009pt too wide) in paragraph at lines 562--566
+[4] [5]
+Overfull \hbox (10.50009pt too wide) in paragraph at lines 593--597
 \OT1/ptm/m/n/10 have if it was a nor-mal well-defined, highly-structured projec
 t.
  []
 
 No file project_report.bbl.
-[7
+[6] [7] [8
 
 ] (./project_report.aux)
 
@@ -334,20 +344,20 @@ LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
  ) 
 Here is how much of TeX's memory you used:
- 4482 strings out of 493089
- 63354 string characters out of 6140693
+ 4483 strings out of 493089
+ 63363 string characters out of 6140693
  279924 words of memory out of 5000000
- 7880 multiletter control sequences out of 15000+600000
+ 7881 multiletter control sequences out of 15000+600000
  19797 words of font info for 44 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 38i,8n,72p,382b,1576s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,8n,72p,382b,1556s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texmf-dist/fon
 ts/type1/urw/courier/ucrr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/ut
 mb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmr8a.pfb>
-Output written on project_report.pdf (7 pages, 144076 bytes).
+Output written on project_report.pdf (8 pages, 146833 bytes).
 PDF statistics:
- 44 PDF objects out of 1000 (max. 8388607)
- 29 compressed objects within 1 object stream
+ 47 PDF objects out of 1000 (max. 8388607)
+ 31 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 

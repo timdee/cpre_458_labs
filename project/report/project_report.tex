@@ -140,13 +140,41 @@ The implementation of this system will need to visually represent a car driving 
 There will also need to be clear obstacles presented to the car.
 Internally our program will need to use the ideas presented in Real-Time Systems to cause the car to react to the obstacles.
 This internal state will also need to be visually depicted.
-%TODO
+
+The idea for an autonomous driving simulation was inspired by Google Car.
+Understanding what challenges need to be overcome overcome to make a system such as this possible is a very interesting prospect.
+While this implementation project is very far from approaching the complexity level of Google Car, simplified versions of the challenges will remain.
+Specifically these challenges involve reading data from the \'world\', deciding what actions to take based on that data, and preforming actions based on those decisions.
 
 \section{Introduction}
 %TODO
 
 \section{Objectives and Scope}
-%TODO
+The scope of this project is rather large.
+The incorporation of two GUI components adds an amount of difficulty over and above simply a simulation of tasks going though a processor.
+This extra complexity has a large value though as it puts the problem of implementing a real-time system into a real-life context.
+Generating tasks based on the state of a GUI is much more visually interesting as well.
+
+The goal will be able to implement everything in a modular way. If this can be done, then it will be easy to get a basic level of functionality while working toward a more complete implementation.
+A specific example of this might be implementing scheduler interface. Classes which implement that interface could then preform all scheduling operations.
+In this, a simple scheduler may be implemented swiftly and immediately while a more complex, desirable, scheduler can be implemented once the basic functionality is in place.
+
+Basic functionality for this project will consist of achieving a functional level for all logical components.
+A component has achieved a functional level if it can take input and provide the appropriate output.
+A basic functional level for a scheduler then might be defined as the ability to take a list of tasks as parameters and produce a correct schedule.
+A desirable functional level for the same scheduler might be an efficient algorithm for completing a correct schedule.
+A desirable functional level for all schedulers might be the implementation of a very interesting scheduler, or a multi-processor scheduler.
+
+The primary objective though is to learn of the challenges involved in the implementation of a real-time system.
+Put in simple terms, how do you read information from a world which is generating data, analyze that data to decide how to react to it, and cause a reaction based on the decision.
+The functions of reading and reacting to information are greatly simplified in our virtual world compared to the real world.
+In the real world there is a vary large amount of noise data, while in our virtual world there are significantly fewer data sources and these data sources provide clean data.
+Processing data derived from our virtual world is simplified by virtue of it having less noise when compared to real-world data.
+
+Despite the simplified nature implicit in a virtual world, this project will accomplish its primary objective.
+The problems faced when dealing with noisy data and specific actuator implementations are problems outside of the scope of this class which delves into the theory of real-time systems.
+Given these conditions, the fact the the \'world\' is more simple allows the primary objective of this project to be accomplished more easily because this puts the emphasis of the implementation on the theory of a real-time system's operation.
+Contrast this with a physical implementation where the main concern might be on data acquisition and actuator implementation.
 
 \section{Solution Approach}
 \subsection{Algorithms}
