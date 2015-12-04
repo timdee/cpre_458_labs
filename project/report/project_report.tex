@@ -200,7 +200,7 @@ A specific example of this is objects which represent a graphical element knowin
 % how this class interacts with other classes
 \subsubsection{MainFrame}
 % code used to set up the threads
-\begin{lstlisting}[caption={Setup Threads},label={lst:threads},numbers=left]
+\begin{lstlisting}[float=*,caption={Setup Threads},label={lst:threads},numbers=left]
 // add the panels to this frame
 CarPanel car_panel = new CarPanel(this.width, this.height);
 ProcessorPanel processor_panel = new ProcessorPanel();
@@ -246,10 +246,15 @@ while (true) {
   }
 
   // provide the SensorData to the ProcessingController
-  this.processing_controller.set_sensor_data(this.car_panel_controller.get_sensor_data());
+  this.processing_controller.
+    set_sensor_data(
+      this.car_panel_controller.
+      get_sensor_data());
 
   // provide the processing state to the processor panel
-  this.processor_panel_controller.set_processing_state(this.processing_controller.get_state());
+  this.processor_panel_controller.
+    set_processing_state(this.processing_controller.
+      get_state());
 }
 \end{lstlisting}
 
@@ -300,7 +305,7 @@ while (true) {
 %TODO
 
 \subsubsection{ProcessorPanelController}
-\begin{lstlisting}[caption={},label={lst:ProcessingPanelController},numbers=left]
+\begin{lstlisting}[caption={Processing Panel Update Procedure},label={lst:ProcessingPanelController},numbers=left]
 while (true) {
   try {
     // update every 10 ms (100 fps)
@@ -332,7 +337,7 @@ This shows how components are asked to draw themselves.
 %TODO
 
 \subsubsection{CarPanelState}
-\begin{lstlisting}[caption={},label={lst:CarPanelState},numbers=left]
+\begin{lstlisting}[caption={Car Panel State maintains all objects drawn on the screen},label={lst:CarPanelState},numbers=left]
 public MainCar main_car;
 public Road road;
 
@@ -345,7 +350,7 @@ public ArrayList<Sign> signs;
 %TODO
 
 \subsubsection{Character}
-\begin{lstlisting}[caption={},label={lst:character},numbers=left]
+\begin{lstlisting}[caption={Sample Implementation of a Character},label={lst:character},numbers=left]
 public void draw(Graphics g) {
   // draw the body of the car
   g.setColor(this.color);
@@ -369,7 +374,7 @@ public void draw(Graphics g) {
 %TODO
 
 \subsubsection{SensorData}
-\begin{lstlisting}[caption={},label={lst:SensorData},numbers=left]
+\begin{lstlisting}[caption={Sensor Data maintains a number of sensors},label={lst:SensorData},numbers=left]
 public StopSignSensor stop_sign_sensor;
 public SpeedSignSensor speed_sign_sensor;
 public OtherCarSensor other_car_sensor;
@@ -380,7 +385,7 @@ public ConeSensor cone_sensor;
 %TODO
 
 \subsubsection{Sensor}
-\begin{lstlisting}[caption={Implementation of Sensor},label={lst:sensor},numbers=left]
+\begin{lstlisting}[float=*,caption={Implementation of Sensor},label={lst:sensor},numbers=left]
 public class StopSignSensor extends Sensor {
   public ArrayList<Sign> signs;
   public ArrayList<Double> distances;
@@ -411,7 +416,7 @@ public class StopSignSensor extends Sensor {
 %TODO
 
 \subsubsection{ProcessingState}
-\begin{lstlisting}[caption={},label={lst:ProcessingState},numbers=left]
+\begin{lstlisting}[float=*,caption={Scheduler call and task queue manipulation},label={lst:ProcessingState},numbers=left]
 private void update_processors(long time) {
   // preform updates in an incremental fashion
   for (int i = 0; i < time; i++) {
@@ -461,20 +466,22 @@ private void update_processors(long time) {
 %TODO
 
 \subsubsection{Task}
-\begin{lstlisting}[caption={},label={lst:task},numbers=left]
+\begin{lstlisting}[caption={Tasks know how to preform their actions},label={lst:task},numbers=left]
 // says what action should be conducted upon task completion
 public enum Action {
   NONE, SET_CAR_SPEED, MOVE_UP_CAR, MOVE_DOWN_CAR, READ_CONE_SENSOR, READ_OTHER_CAR_SENSOR, READ_SPEED_SIGN_SENSOR, READ_STOP_SIGN_SENSOR;
 }
 
-public void preform_action()
+public void preform_action();
 \end{lstlisting}
 
 \ref{lst:task}
+Based on their action, tasks will choose to do different things in the preform\_action method.
+Whenever a task reads a sensor, it will start any appropriate aperiodic tasks.
 %TODO
 
 \subsubsection{Scheduler}
-\begin{lstlisting}[caption={},label={lst:scheduler},numbers=left]
+\begin{lstlisting}[caption={The scheduler uses a scheduling algorithm to choose the order of tasks},label={lst:scheduler},numbers=left]
 /**
  * returns the task set in scheduled order. null if not schedulable.
  */
@@ -490,7 +497,7 @@ public ArrayList<List<Task>> schedule(List<Task> tasks, int n_processors) {
 %TODO
 
 \subsubsection{SchedulingAlgorithm}
-\begin{lstlisting}[caption={},label={lst:SchedulingAlgorithm},numbers=left]
+\begin{lstlisting}[caption={Scheduling Algorithm interface},label={lst:SchedulingAlgorithm},numbers=left]
 public interface SchedulingAlgorithm {
   /**
    * returns a schedule of all tasks for n processors. Each processor has a
@@ -504,6 +511,7 @@ public interface SchedulingAlgorithm {
 \end{lstlisting}
 
 \ref{lst:SchedulingAlgorithm}
+any number of these might be implemented
 %TODO
 
 \subsubsection{Processor}
@@ -528,6 +536,16 @@ protected void paintComponent(Graphics g) {
 \end{lstlisting}
 
 \ref{lst:ProcessorPanel}
+%TODO
+
+\subsection{Implemented Scheduling Algorithms}
+\subsubsection{EDF}
+%TODO
+
+\subsubsection{RMS}
+%TODO
+
+\subsubsection{TODO}
 %TODO
 
 % put a picture of the GUI screen here

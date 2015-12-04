@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Arch Linux) (preloaded format=pdflatex 2015.10.11)  3 DEC 2015 20:00
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Arch Linux) (preloaded format=pdflatex 2015.10.11)  4 DEC 2015 04:11
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -310,69 +310,44 @@ LaTeX Font Info:    Try loading font information for OT1+pcr on input line 203.
  (/usr/share/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
-Overfull \hbox (11.92224pt too wide) in paragraph at lines 212--213
-[][][][][][]  
+Overfull \hbox (40.5221pt too wide) in paragraph at lines 256--257
+[][][][][][][][][][][][][]  
  []
 
-
-Overfull \hbox (17.32224pt too wide) in paragraph at lines 213--215
-[][][][][][] 
- []
-
-
-Overfull \hbox (248.4219pt too wide) in paragraph at lines 249--251
-[][][][][][][][][][][][][][][][][][][][][][][]  
- []
-
-
-Overfull \hbox (275.42188pt too wide) in paragraph at lines 252--253
-[][][][][][][][][][][][][][][][][][][][][][][]  
- []
-
-[2 <./figures/code_layout.png>]
-Overfull \hbox (64.82211pt too wide) in paragraph at lines 312--314
+[2 <./figures/code_layout.png>] [3]
+Overfull \hbox (64.82211pt too wide) in paragraph at lines 317--319
 [][][][][][][][][][][][][][][][][]  
  []
 
-[3]
-Overfull \hbox (63.22205pt too wide) in paragraph at lines 398--399
-[][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (132.3219pt too wide) in paragraph at lines 403--404
-[][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (41.62198pt too wide) in paragraph at lines 431--432
-[][][][][][][][][][] 
- []
-
-[4]
-Overfull \hbox (10.50009pt too wide) in paragraph at lines 547--551
+[4] [5] [6]
+Overfull \hbox (10.50009pt too wide) in paragraph at lines 562--566
 \OT1/ptm/m/n/10 have if it was a nor-mal well-defined, highly-structured projec
 t.
  []
 
 No file project_report.bbl.
-[5] (./project_report.aux) ) 
+[7
+
+] (./project_report.aux)
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ) 
 Here is how much of TeX's memory you used:
- 4481 strings out of 493089
- 63336 string characters out of 6140693
- 228924 words of memory out of 5000000
- 7879 multiletter control sequences out of 15000+600000
+ 4482 strings out of 493089
+ 63354 string characters out of 6140693
+ 279924 words of memory out of 5000000
+ 7880 multiletter control sequences out of 15000+600000
  19797 words of font info for 44 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 38i,8n,72p,382b,1560s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc}
-</usr/share/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texmf-dis
-t/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times
-/utmr8a.pfb>
-Output written on project_report.pdf (5 pages, 142650 bytes).
+ 38i,8n,72p,382b,1576s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texmf-dist/fon
+ts/type1/urw/courier/ucrr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/ut
+mb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmr8a.pfb>
+Output written on project_report.pdf (7 pages, 144076 bytes).
 PDF statistics:
- 36 PDF objects out of 1000 (max. 8388607)
- 23 compressed objects within 1 object stream
+ 44 PDF objects out of 1000 (max. 8388607)
+ 29 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 
