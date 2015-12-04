@@ -1,7 +1,0 @@
-package compute;
-
-import java.util.TimerTask;
-
-public class CarPanelUpdateTask extends TimerTask {
-
-}

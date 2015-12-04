@@ -8,8 +8,8 @@
 <fullyQualifiedTypeName name="sensors.SpeedSignSensor"/>
 <fullyQualifiedTypeName name="scheduler.Scheduler"/>
 <fullyQualifiedTypeName name="scheduler.Processor"/>
-<fullyQualifiedTypeName name="java.lang.System"/>
 <fullyQualifiedTypeName name="java.util.List"/>
-<fullyQualifiedTypeName name="scheduler.Task.Nature"/>
 <fullyQualifiedTypeName name="scheduler.Task.Action"/>
+<fullyQualifiedTypeName name="scheduler.Task.Nature"/>
+<fullyQualifiedTypeName name="java.lang.System"/>
 </qualifiedTypeNameHistroy>

@@ -49,7 +49,7 @@ public class Simulate implements Runnable {
 		setup_obstacles();
 
 		// start the car moving
-		this.car_panel_controller.set_target_speed(45);
+		this.car_panel_controller.set_target_speed(50);
 
 		// set up all the periodic tasks
 		setup_periodic_tasks();
@@ -67,7 +67,7 @@ public class Simulate implements Runnable {
 			// System.out.println(this.car_panel_controller.get_sensor_data().cone_sensor.distances);
 			// provide the SensorData to the ProcessingController
 			this.processing_controller.set_sensor_data(this.car_panel_controller.get_sensor_data());
-
+		
 			// provide the processing state to the processor panel
 			this.processor_panel_controller.set_processing_state(this.processing_controller.get_state());
 
