@@ -42,6 +42,9 @@
 \textheight 9in     % Bottom margin is not set explicitly
 \columnsep 0.25in   % separation between columns
 
+%% set the line spacing
+\linespread{1}
+
 %% Define a macro for inserting postscript images
 %% ==============================================
 %% This is a macro which nominally takes 3 parameters, 
@@ -176,20 +179,15 @@ The problems faced when dealing with noisy data and specific actuator implementa
 Given these conditions, the fact the the \'world\' is more simple allows the primary objective of this project to be accomplished more easily because this puts the emphasis of the implementation on the theory of a real-time system's operation.
 Contrast this with a physical implementation where the main concern might be on data acquisition and actuator implementation.
 
-\section{Solution Approach}
-\subsection{Algorithms}
-%TODO
-
-% give an example of our thing running i suppose?
-\subsection{Solution Sample}
-%TODO
-
+%
+% I removed a section here because I don't think it would be necessary or useful
+%
 \section{Simulation}
 We seek to implement a system which demonstrates how the ideas from Real Time Systems may be applied to the autonomous driving problem.
 For this, we choose to implement three distinct logical components.
 First, we create an entity which keeps track of the state of the \'world\'. This entity will need to show this \'world\' based on the current state, and update the state. It will also need to derive information from the current state of the \'world\' which will enable the processing entity to know if it needs to cause the car to react to an obstacle.
 Second, there must exist a sort of processing unit which maintains a list of tasks and performs the scheduling. This processing unit takes information from the first entity which maintains the state of the \'world\', using this information to modify on what element  processing will be done.
-Third, There is a unit which takes in information regarding the state of the processing and shows it visually.
+Third, there is a unit which takes in information regarding the state of the processing and shows it visually.
 
 % block diagram of classes should probabally go here
 \subsection{Simulation Model}
@@ -209,9 +207,19 @@ The Simulate thread, in turn, controls three additional threads. Each of these t
 Arrows represent the flow of information.
 
 In the diagram it can be seen that information flows from CarPanelState to SensorData to ProcessingState and finally to ProcessorPanelController.
-Each of these objects or threads consume the information produced by the previous.object or thread.
+Each of these objects or threads consume the information produced by the previous object or thread.
 CarPanelState is updated by CarPanelController using logic which is consistent with the laws of physics.
 This means if an object has a nonzero speed than it will move in accordance with that speed on each update of the panel.
+
+SensorData is the mechanism by which information about the CarPanelState is communicated to  ProcessingState.
+SensorData maintains a list of sensors which interpret the CarPanelState. These Sensors in turn make relevant information about the state accessible.
+ProcessingState communicates information about the state of the processing to the ProcessorPanelController.
+ProcessorPanelController in turn uses this to represent the information visually.
+
+The diagram also depicts several threads.
+Each of these thread will have jurisdiction over one of the logical components of the program. For example, CarPanelController will control how the CarPanel is updated and allow for the acquisition of information about the CarPanelState by other components.
+Distributing the responsibility in this way makes the responsibilities of each portion of the program very clear.
+This aids in simplicity of implementation and allows for easier debugging in the sense that when there is an error, the offending code is more easily located.
 %TODO
 
 % present code and explanations for design choices here
@@ -259,7 +267,7 @@ simulator_thread.start();
 This class is used to establish properties of the main window for program simulation.
 The goal of this class is to arrange the different visual components of the program and begin the simulation.
 Here is where necessary design decisions about how the responsibilities of the program are delegated.
-The choice was made to divide the responsibility among three different threads. An addition thread is used to coordinate activity between these threads.
+The choice was made to divide the responsibility among three different threads. An additional thread is used to coordinate activity among these other threads.
 Listing \ref{lst:threads} shows the initialization of threads and how they are given to the fourth thread to be managed.
 
 \subsubsection{Simulate}
@@ -287,10 +295,20 @@ while (true) {
 \end{lstlisting}
 
 
-This thread has two goals. It's primary purpose is to coordinate activity between the threads which manage the visual components and the processing.
-This thread's secondary goal is to set up all of the obstacles and periodic tasks used in the simulation.
-\ref{lst:simulate}
-%TODO
+This thread has two goals. 
+It's primary purpose is to coordinate activity among the other threads which manage the visual components and the processing.
+This thread's secondary goal is to set up all of the obstacles and periodic tasks used in the simulation. 
+Periodic tasks, once submitted to the ProcessingController, will be re-injected into the task queue every time their period has expired.
+The only method by which obstacles may be inserted at this time is by creating them and giving them to the CarPanelController.
+The original plan for implementing the obstacle generation was to create a thread which would insert obstacles occasionally.
+This is something we were not able to implement due to time constraints.
+
+Listing \ref{lst:simulate} describes the update procedure.
+The SensorData construct is taken from the CarPanelController and given to the ProcessingController thread to be utilized by the currently running periodic and aperiodic tasks.
+The processing state is taken from the ProcessingController and given to the ProcessorPanelController to be drawn.
+This update procedure happens at a frequency greater than the update procedures in the other threads.
+The purpose of this increased frequency is to attempt to ensure the data the ProcessingController and ProcessingPanelController are using are not stale.
+This is what is meant by \"coordinate activity among the other threads\".
 
 \subsubsection{CarPanelController}
 \begin{lstlisting}[caption={Panel Update Procedure},label={lst:carpanelcontroller},numbers=left]
@@ -587,8 +605,48 @@ protected void paintComponent(Graphics g) {
 %TODO
 
 \subsection{Learning}
-%TODO
+The primary objective of this project was to learn about the challenges involved in implementing a real time system.
+It seems this goal was accomplished. We feel that we have a much more complete understanding of the ideas in this course.
+It is one thing to speak about theory. It is an entirely different thing to implement the theory.
+There was also learning concerning the specific problems involved in implementing a GUI simulation.
+Something which is seemingly trivial, such as a car driving on a road, can present interesting problems making it exceptionally challenging.
 
+Learning in the context of real-time systems was benefited by
+creating something and seeing what issues present themselves in practice allows a person to understand the motivation behind doing things in a particular way.
+For instance, a person might ask, \"Why not just complete the tasks in the order they arrive?\". Before doing this project, I would have probably answered in terms of the theory of real-time system.
+Such an answer might involve why we must maintain priorities for tasks so these tasks meet their deadline.
+After doing this project, I can now answer in the context of a real-life example. I can say
+\it why \normalfont
+tasks must meet their deadlines and give illustrative examples of what might happen should a task miss it's deadline.
+
+%TODO talk more about real-time systems learning
+
+There was also significant knowledge acquisition in our ability to create GUI simulation simulations.
+There are many interesting problems related to attempting to visually realize data.
+One of the first challenges we faced in creating our solution was designing the organizational structure in a modular way which would allow for the addition of new components.
+To overcome this challenge we decided to delegate work as far as possible.
+This way any additional objects, such as a new obstacle or sign, would not have to worry about any of the structure above them.
+In some sense the goal was to maintain a separation of responsibility. In this paradigm delegating work as far as possible was the algorithm used to accomplish that.
+
+Another significant issue in creating a GUI simulation is fluid motion.
+To enable objects to move fluidly on the screen is not trivial; doing this requires the state of the objects to be updated in a very specific way.
+CarPanelController initiates an update of CarPanel every 10 milliseconds. This equates to roughly 100 frames per second. Of course it will be less because the frequency of updates in reality is $fps = \frac{1000 ms}{1 s} \times \frac{1 frame}{10ms + n}$ where $n$ is the time in milliseconds taken by the code that describes what is to be drawn on the panel.
+If the screen is not updated frequently enough, then the movement will appear choppy.
+This is why it is necessary to update so many times. Likely the screen is only updated around 60 times per second due to the refresh rate of most monitors, having our program preform the update around 100 times per second allows us to always meet this number of frames.
+
+Another component of the fluid moment problem, apart from when to draw to the screen, is deciding what to draw to the screen.
+We found that if you try to move objects more than one or two pixels at a time then the objects will appear choppy.
+This gave rise to a really neat way of updating the CarPanelState from which the objects in the CarPanel are drawn.
+CarPanelController maintains two states. 
+One state is the target state which is updated by external sources, namely tasks, when these sources want to tell the car to move somewhere on the screen.
+The other state is the real state that is given to CarPanel to be drawn.
+Every time CarPanelController updates, the real state is moved one step closer to the target state.
+For instance, 
+if the y position of the main car in the real state is greater than the y position of the main car in the target state, 
+than the y position of the car in the real state will be decremented before being given to the CarPanel to be drawn.
+In this way, objects are only moved one or two pixels at a time, assuming the refresh rate of the monitor running this program is above $50hz$.
+
+% what was good, what was bad
 \subsection{Suggestions}
 It is good that the project is open-ended.
 This gave us an opportunity to learn in a way which is interesting to us.
@@ -599,8 +657,6 @@ I think it would be better if the project began earlier in the semester.
 Having the start of the project be less than three weeks before dead week put a huge strain on time at this point in the semester.
 I understand that it doesn't make sense to start the project before a significant amount of material has been covered.
 Potentially making the report requirement slightly less substantial would help.
-%TODO
-
 
 % listing example
 %\begin{lstlisting}[float=*,caption={Dynamic Frequency Scaling Mode II},label={lst:DFS_2},numbers=left]
