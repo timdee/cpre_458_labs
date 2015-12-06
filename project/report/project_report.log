@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Arch Linux) (preloaded format=pdflatex 2015.10.11)  4 DEC 2015 18:47
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Arch Linux) (preloaded format=pdflatex 2015.10.11)  6 DEC 2015 10:20
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -342,38 +342,68 @@ Overfull \hbox (40.5221pt too wide) in paragraph at lines 292--293
  []
 
 [3] [4]
-Overfull \hbox (64.82211pt too wide) in paragraph at lines 363--365
+Overfull \hbox (64.82211pt too wide) in paragraph at lines 375--377
 [][][][][][][][][][][][][][][][][]  
  []
 
-[5] [6] [7]
-Overfull \hbox (10.50009pt too wide) in paragraph at lines 651--655
+[5]
+Overfull \hbox (2.70023pt too wide) in paragraph at lines 501--506
+[]\OT1/ptm/m/n/10 In List-ing 10[] a sam-ple child of the Sen-sor class is show
+n.
+ []
+
+[6]
+Overfull \hbox (0.44006pt too wide) in paragraph at lines 577--582
+[]\OT1/ptm/m/n/10 Listing 12[] de-scribes the ba-sic prop-er-ties of a task. Ta
+sks
+ []
+
+
+Overfull \hbox (8.28976pt too wide) in paragraph at lines 602--607
+\OT1/ptm/m/n/10 null if the list of tasks pro-vided as a pa-ram-e-ter is not sc
+hedule-
+ []
+
+[7] [8]
+Overfull \hbox (4.70021pt too wide) in paragraph at lines 626--630
+\OT1/ptm/m/n/10 Sched-uler in or-der to de-ter-mine how the sched-ule will sche
+d-
+ []
+
+
+Overfull \hbox (7.82976pt too wide) in paragraph at lines 626--630
+\OT1/ptm/m/n/10 ule some-thing, it will call the sched-ule method of the schedu
+l-
+ []
+
+[9]
+Overfull \hbox (10.50009pt too wide) in paragraph at lines 724--728
 \OT1/ptm/m/n/10 have if it was a nor-mal well-defined, highly-structured projec
 t.
  []
 
 No file project_report.bbl.
-[8] (./project_report.aux) ) 
+[10] (./project_report.aux) ) 
 Here is how much of TeX's memory you used:
  4491 strings out of 493089
  63444 string characters out of 6140693
- 273924 words of memory out of 5000000
+ 256924 words of memory out of 5000000
  7887 multiletter control sequences out of 15000+600000
  21935 words of font info for 48 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 38i,8n,72p,395b,1576s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc}
-</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texmf-dist/fonts/
-type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmr7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10
-.pfb></usr/share/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texm
-f-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/
-times/utmr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on project_report.pdf (8 pages, 198304 bytes).
+ 38i,8n,72p,488b,1576s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc
+}</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmr7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy1
+0.pfb></usr/share/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/tex
+mf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-dist/fonts/type1/urw
+/times/utmr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on project_report.pdf (10 pages, 207451 bytes).
 PDF statistics:
- 71 PDF objects out of 1000 (max. 8388607)
- 49 compressed objects within 1 object stream
+ 77 PDF objects out of 1000 (max. 8388607)
+ 53 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 

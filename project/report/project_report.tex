@@ -357,8 +357,10 @@ while (true) {
 }
 \end{lstlisting}
 
-Listing \ref{lst:ProcessingController} depicts the update process for processing controller
-%TODO
+Listing \ref{lst:ProcessingController} depicts the update process for processing controller. This method calls the update process of the processing state every 10 milliseconds. This is necessary to ensure the processing state is being updated at a similar rate as the CarPanelState.
+The processing\_state.update method preforms updates in an incremental way based on the amount of time which has elapsed since the last update. This is why we provide the argument 1L. This will cause the state to update as if 1 unit of time has passed.
+
+The purpose of the ProcessingController is to manage all aspects of the processing. This means deciding how much to update the processing\_state, and modifying the processing state based on what is going on in the rest of the program. ProcessingController is also responsible for updating the sensor data in the processing state, and for introducing new tasks into the processing state.
 
 \subsubsection{ProcessorPanelController}
 \begin{lstlisting}[caption={Processing Panel Update Procedure},label={lst:ProcessingPanelController},numbers=left]
@@ -378,8 +380,7 @@ while (true) {
 }
 \end{lstlisting}
 
-\ref{lst:ProcessingPanelController}
-%TODO
+Listing \ref{lst:ProcessingPanelController} shows the update procedure for the ProcessingPanelController. This ProcessingPanelController is responsible for managing the updates of the ProcessorPanel. It first updates the state of the ProcessingPanel. Then it calls the necessary methods to have the panel and its children repaint themselves. This class also mediates interactions between the ProcessorPanel and the rest of the program.
 
 \subsubsection{CarPanel}
 \begin{lstlisting}[caption={Ask Signs to Draw Themselves},label={lst:CarPanel},numbers=left]
@@ -388,9 +389,17 @@ for (Sign c : state.signs) {
 }
 \end{lstlisting}
 
-\ref{lst:CarPanel} illustrates the design philosophy. 
-This shows how components are asked to draw themselves.
-%TODO
+Listing \ref{lst:CarPanel} illustrates the design philosophy followed by the program as a whole. 
+The CarPanel maintains a state. This state is set by the CarPanelController on each update. From the state the CarPanel asks each of the visual components to draw themselves. 
+In this way, the task of drawing the objects on the screen is delegated as far as possible.
+It also allows the tasks of deciding where to draw the the objects and the actual drawing of the objects to be separated.
+This aids in the simplicity of the code.
+
+More specific the separation of tasks is as follows.
+First the CarPanelController decides where all of the elements need to be drawn on the screen. The CarPanelController then hands this information off to the CarPanel which asks all of the items to draw themselves.
+The classes created to represent the items handle the actual drawing of the item.
+In addition to keeping the code simple, this allows all information relevant to an item to be kept in the same class.
+The Sign class, for example, contains information about what should be on the Sign and where the Sign should be as well as information about how to draw the Sign to the screen.
 
 \subsubsection{CarPanelState}
 \begin{lstlisting}[caption={Car Panel State maintains all objects drawn on the screen},label={lst:CarPanelState},numbers=left]
@@ -402,8 +411,11 @@ public ArrayList<Car> other_cars;
 public ArrayList<Sign> signs;
 \end{lstlisting}
 
-\ref{lst:CarPanelState}
-%TODO
+Listing \ref{lst:CarPanelState} depicts what is maintained in CarPanelState.
+CarPanelState acts like a data structure to hold all of the Characters which will be drawn on the screen.
+The CarPanelState is the programmatic representation of what will be drawn on the CarPanel.
+The CarPanelState has its information updated by other classes.
+The only processing provided by CarPanelState is a reset function.
 
 \subsubsection{Character}
 \begin{lstlisting}[caption={Sample Implementation of a Character},label={lst:character},numbers=left]
@@ -426,8 +438,16 @@ public void draw(Graphics g) {
 }
 \end{lstlisting}
 
-\ref{lst:character}
-%TODO
+The Character class is an abstract class which is the parent of all items which will be drawn on the panels.
+The idea of the Character class is to take care of all the common functionality among the items which will be drawn to the screen.
+This common functionality includes a constructor and a copy constructor which provide an easy way to set all of the parameters such as: x position, y position, color, height, and width.
+The abstract method provided by Character is the draw(Graphics g) method.
+Any class that extends the Character class will be responsible for creating an implementation of this method.
+
+Listing \ref{lst:character} describes how a class might override the draw method of the Character class.
+This listing was taken from the implementation of Car which represents the blue car which is driving on the road as well as other red cars which are driving in the opposing direction to the blue car.
+The draw method above draws a rectangle for the car at the x postion and y postion made available by virtue of the fact that Car extends Character.
+It then uses the facing enumerated class to decide on which side the windshield should be drawn
 
 \subsubsection{SensorData}
 \begin{lstlisting}[caption={Sensor Data maintains a number of sensors},label={lst:SensorData},numbers=left]
@@ -437,8 +457,13 @@ public OtherCarSensor other_car_sensor;
 public ConeSensor cone_sensor;
 \end{lstlisting}
 
-\ref{lst:SensorData}
-%TODO
+Listing \ref{lst:SensorData} shows the objects maintained within sensor data.
+Similar to CarPanelState, this class acts like a data structure.
+The important reason to have a SensorData class, instead of simply using a number of variables to hold the values SensorData stores is due to simplification of code.
+The SensorData constructor takes the CarPanelState as a parameter.
+It then uses this state information when constructing the sensors.
+If not for the Sensor data class, this would need to be done elsewhere, and would almost certainly meed to be done at the same time wherever it was completed.
+SensorData is the mechanism by which state information about the CarPanel is transmitted to the ProcessingController.
 
 \subsubsection{Sensor}
 \begin{lstlisting}[float=*,caption={Implementation of Sensor},label={lst:sensor},numbers=left]
@@ -468,8 +493,16 @@ public class StopSignSensor extends Sensor {
 }
 \end{lstlisting}
 
-\ref{lst:sensor}
-%TODO
+The Sensor class itself is an abstract class which knows how to preform tasks common among all sensors.
+All Sensors have a concept of range, or the maximum distance in pixels which the sensor will look for other objects.
+It follows from this that there should be a way for each sensor to tell whether an object is in range or not.
+The sensor class provides the is\-within\_range() function and the compute\_distance function for this purpose.
+
+In Listing \ref{lst:sensor} a sample child of the Sensor class is shown.
+This class overrides the compute() abstract method of the Sensor class. The last method of the Sensor constructor calls the compute() method.
+In this way, any values meant to bee computed by a sensor will be computed when the Sensor is constructed.
+All of the sensors compute values as a function of the CarPanelState and provide those values in their public variables.
+Sensors exist for Speed Signs, Stop Signs, Cones, and OtherCars.
 
 \subsubsection{ProcessingState}
 \begin{lstlisting}[float=*,caption={Scheduler call and task queue manipulation},label={lst:ProcessingState},numbers=left]
@@ -518,11 +551,21 @@ private void update_processors(long time) {
 }
 \end{lstlisting}
 
-\ref{lst:ProcessingState}
+Listing \ref{lst:ProcessingState} describes the method used to update the processors.
+Updates are preformed incrementally as a function of the number passed in as a time argument.
+For each unit of time, this method will check if a task has completed in any of the processors.
+If a task has finished, we run the scheduler to see what should be the next task executed by the processor.
+If there are no tasks waiting, we insert a dummy task, otherwise we place the task with highest priority into the processor.
+We choose to keep the scheduler independent of this method to allow new scheduler types to be implemented modularly.
 %TODO
 
 \subsubsection{Task}
 \begin{lstlisting}[caption={Tasks know how to preform their actions},label={lst:task},numbers=left]
+// describes the nature of the task
+public enum Nature {
+  PERIODIC, APERIODIC;
+}
+
 // says what action should be conducted upon task completion
 public enum Action {
   NONE, SET_CAR_SPEED, MOVE_UP_CAR, MOVE_DOWN_CAR, READ_CONE_SENSOR, READ_OTHER_CAR_SENSOR, READ_SPEED_SIGN_SENSOR, READ_STOP_SIGN_SENSOR;
@@ -531,10 +574,17 @@ public enum Action {
 public void preform_action();
 \end{lstlisting}
 
-\ref{lst:task}
-Based on their action, tasks will choose to do different things in the preform\_action method.
+Listing \ref{lst:task} describes the basic properties of a task.
+Tasks maintain information about whether they are periodic or aperiodic.
+This information is used when the task is removed from the processing to determine whether or not to create a task with similar properties at the time its period would have expired.
+Based on their action, tasks will choose to do different things in the preform\_action method. 
+Tasks may also have no effect if an action of NONE is specified.
+
+Tasks take one of two forms.
+Tasks will either read a sensor or preform an action which affects the CarPanelState.
 Whenever a task reads a sensor, it will start any appropriate aperiodic tasks.
-%TODO
+This could mean, for example, changing the speed of the MainCar based on a speed limit sign or bringing the car to a stop for a stop sign.
+Tasks may affect the CarPanelState by setting the speed of the MainCar or telling the MainCar to move up or down.
 
 \subsubsection{Scheduler}
 \begin{lstlisting}[caption={The scheduler uses a scheduling algorithm to choose the order of tasks},label={lst:scheduler},numbers=left]
@@ -549,8 +599,15 @@ public ArrayList<List<Task>> schedule(List<Task> tasks, int n_processors) {
 }
 \end{lstlisting}
 
-\ref{lst:scheduler}
-%TODO
+Listing \ref{lst:scheduler} describes the Scheduler class which may be instantiated to create a scheduler with a SchedulingAlgorithm given in the constructor.
+This Class is designed to be able to handle any number of processors with number of processors being determined by parameter n\_processors.
+The schedule method describes a list of lists should be returned.
+In this, each list is to refer to the tasks which should be scheduled on one processor.
+The interface will return null if the list of tasks provided as a parameter is not schedule-able.
+
+We decided to implement the scheduler in this way because it allows for easy additions of new SchedulingAlgorithms.
+All we need to do to have our program use a new scheduling algorithm is provide the scheduler a new class which extends the SchedulingAlgorithm interface.
+This will fulfill our initial requirement that a working version of the code should be achievable with relative ease.
 
 \subsubsection{SchedulingAlgorithm}
 \begin{lstlisting}[caption={Scheduling Algorithm interface},label={lst:SchedulingAlgorithm},numbers=left]
@@ -566,9 +623,10 @@ public interface SchedulingAlgorithm {
 }
 \end{lstlisting}
 
-\ref{lst:SchedulingAlgorithm}
-any number of these might be implemented
-%TODO
+Listing \ref{lst:SchedulingAlgorithm} show the interface SchedulingAlgorithm.
+A class which implements this interface can be provided to Scheduler in order to determine how the schedule will schedule incoming tasks.
+When the scheduler is asked to schedule something, it will call the schedule method of the scheduling algorithm it was provided.
+In this way, any number of these might be implemented.
 
 \subsubsection{Processor}
 \begin{lstlisting}[caption={},label={lst:processor},numbers=left]
@@ -576,8 +634,12 @@ public Task task;
 public List<Task> task_queue;
 \end{lstlisting}
 
-\ref{lst:processor}
-%TODO
+Listing \ref{lst:processor} shows the information maintained in the processor class.
+This information is used by the processor controller to manage the processor.
+In this way, processor is essentially a data structure.
+Importantly though, processor is stored in the ProcessingState class.
+This fact means that processor is provided to the ProcessorPanel to be visually depicted on the screen.
+This allows the currently running task to be shown inside the processor.
 
 \subsubsection{ProcessorPanel}
 \begin{lstlisting}[caption={},label={lst:ProcessorPanel},numbers=left]
@@ -591,17 +653,18 @@ protected void paintComponent(Graphics g) {
 }
 \end{lstlisting}
 
-\ref{lst:ProcessorPanel}
-%TODO
+Listing \ref{lst:ProcessorPanel} illustrates the functions of the ProcessorPanel.
+The ProcessorPanel is the Panel which visually represents the state of the processing in the lower half of the display screen.
+It shows how ProcessorPanel organizes the drawing of its elements into specific methods.
+Each of these methods manages one of the items which will be drawn to the screen.
+Each of these methods follows a similar design pattern to the methods in CarPanel.
+Each method asks a set of Characters to draw themselves to the screen.
 
 \subsection{Implemented Scheduling Algorithms}
 \subsubsection{EDF}
 %TODO
 
-\subsubsection{RMS}
-%TODO
-
-\subsubsection{TODO}
+\subsubsection{TODO Other Algorithms}
 %TODO
 
 % put a picture of the GUI screen here
