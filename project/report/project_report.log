@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Arch Linux) (preloaded format=pdflatex 2015.10.11)  4 DEC 2015 10:39
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Arch Linux) (preloaded format=pdflatex 2015.10.11)  4 DEC 2015 18:47
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -342,22 +342,18 @@ Overfull \hbox (40.5221pt too wide) in paragraph at lines 292--293
  []
 
 [3] [4]
-Overfull \hbox (64.82211pt too wide) in paragraph at lines 364--366
+Overfull \hbox (64.82211pt too wide) in paragraph at lines 363--365
 [][][][][][][][][][][][][][][][][]  
  []
 
 [5] [6] [7]
-Overfull \hbox (10.50009pt too wide) in paragraph at lines 652--656
+Overfull \hbox (10.50009pt too wide) in paragraph at lines 651--655
 \OT1/ptm/m/n/10 have if it was a nor-mal well-defined, highly-structured projec
 t.
  []
 
 No file project_report.bbl.
-[8] (./project_report.aux)
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
- ) 
+[8] (./project_report.aux) ) 
 Here is how much of TeX's memory you used:
  4491 strings out of 493089
  63444 string characters out of 6140693
@@ -366,14 +362,14 @@ Here is how much of TeX's memory you used:
  21935 words of font info for 48 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  38i,8n,72p,395b,1576s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmmi7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/s
-hare/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dis
-t/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/tim
-es/utmb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/sha
-re/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+{/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc}
+</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmr7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10
+.pfb></usr/share/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texm
+f-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/
+times/utmr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
 Output written on project_report.pdf (8 pages, 198304 bytes).
 PDF statistics:
  71 PDF objects out of 1000 (max. 8388607)

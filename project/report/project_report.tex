@@ -329,8 +329,18 @@ private void update_panel() {
 }
 \end{lstlisting}
 
-\ref{lst:carpanelcontroller}
-%TODO
+Listing \ref{lst:carpanelcontroller} depicts the method called within CarPanelController as the update procedure.
+That is, this function runs approximately every 10 milliseconds.
+This class maintains the real state of the objects drawn to the panel depicting the car.
+This class also maintains another state which describes the intended position or goal for the objects.
+We call this state the target state.
+Most methods in the update procedure update the target state in some way.
+
+The first method, update\_target\_state, performs any updates to the target state which are not related to any objects on screen.
+The next set of methods update the target state based on the speed and current position of the objects on screen.
+The general rule is if the target state is different from the real state, then we move the real state one closer to the target state.
+In this way, we maintain incremental movement of the objects on screen.
+This ensures the objects move smoothly.
 
 \subsubsection{ProcessingController}
 \begin{lstlisting}[caption={Processing Controller Update Procedure},label={lst:ProcessingController},numbers=left]
@@ -347,7 +357,7 @@ while (true) {
 }
 \end{lstlisting}
 
-\ref{lst:ProcessingController} depicts the update process for processing controller
+Listing \ref{lst:ProcessingController} depicts the update process for processing controller
 %TODO
 
 \subsubsection{ProcessorPanelController}
