@@ -24,7 +24,7 @@ public class Task {
 
 	// says what action should be conducted upon task completion
 	public enum Action {
-		NONE, SET_CAR_SPEED, MOVE_UP_CAR, MOVE_DOWN_CAR, READ_CONE_SENSOR, READ_OTHER_CAR_SENSOR, READ_SPEED_SIGN_SENSOR, READ_STOP_SIGN_SENSOR;
+		NONE, SET_CAR_SPEED, MOVE_UP_CAR, MOVE_DOWN_CAR, READ_CONE_SENSOR, READ_OTHER_CAR_SENSOR, READ_SPEED_SIGN_SENSOR, READ_STOP_SIGN_SENSOR, READ_LANE_SENSOR;
 	}
 
 	public int deadline;
@@ -37,9 +37,9 @@ public class Task {
 
 	public ProcessingController processing_controller;
 	public CarPanelController car_panel_controller;
-	
-	//Brent added this
-		public TaskBlock taskBlock;
+
+	// Brent added this
+	public TaskBlock taskBlock;
 
 	// either the car speed or elevation depending on the task.
 	public int set_point;
@@ -58,8 +58,8 @@ public class Task {
 		this.car_panel_controller = car_panel_controller;
 
 		this.set_point = set_point;
-		
-		//added by Brent
+
+		// added by Brent
 		taskBlock = new TaskBlock(this);
 	}
 
@@ -87,19 +87,22 @@ public class Task {
 		CarPanelState car_panel_state;
 		SensorData sensor_data;
 
-		int actuator_comp_time = 50;
+		int actuator_comp_time = 20;
 		int actuator_deadline = 100;
 		Nature actuator_nature = Task.Nature.APERIODIC;
 		int actuator_movement_amount = 80;
 
 		switch (this.action) {
 		case SET_CAR_SPEED:
+			System.out.println("set speed:\t" + this.set_point);
 			this.car_panel_controller.set_target_speed(this.set_point);
 			break;
 		case MOVE_UP_CAR:
+			System.out.println("Move_UP:\t" + this.set_point);
 			this.car_panel_controller.move_up(this.set_point);
 			break;
 		case MOVE_DOWN_CAR:
+			System.out.println("Move_DOWN:\t" + this.set_point);
 			this.car_panel_controller.move_down(this.set_point);
 			break;
 		case READ_CONE_SENSOR:
@@ -218,12 +221,37 @@ public class Task {
 				// check the distance to the sign. If the sign is within 300,
 				// slow down
 				int main_car_x = car_panel_state.main_car.origional_x_pos + car_panel_state.main_car.total_moved;
-				if (sign.origional_x_pos - main_car_x < 300) {
+				if (sign.origional_x_pos - main_car_x < 500) {
+					// submit a task to stop at the stop sign
 					Task task = new Task(actuator_comp_time, 0, actuator_deadline, actuator_nature,
 							Task.Action.SET_CAR_SPEED, this.processing_controller, this.car_panel_controller, 0);
 					this.processing_controller.add_task(task);
+
+					// submit a task to start moving again
+					task = new Task(actuator_comp_time * 100, 0, actuator_deadline * 100, actuator_nature,
+							Task.Action.SET_CAR_SPEED, this.processing_controller, this.car_panel_controller, 50);
+					this.processing_controller.add_task(task);
 				}
 			}
+			break;
+		case READ_LANE_SENSOR:
+			car_panel_state = this.car_panel_controller.car_panel.getState();
+			sensor_data = this.car_panel_controller.get_sensor_data();
+
+			System.out.println("lane sensor:\t" + sensor_data.lane_sensor.within_lane);
+
+			// if we aren't within our lane
+			if (sensor_data.lane_sensor.within_lane == false) {
+				// move back to origional y position
+				int main_car_y_offset = car_panel_state.main_car.origional_y_pos - car_panel_state.main_car.y_pos;
+				// if car below where it should be
+
+				Task task = new Task(actuator_comp_time, 0, actuator_deadline, actuator_nature,
+						Task.Action.MOVE_DOWN_CAR, this.processing_controller, this.car_panel_controller,
+						main_car_y_offset);
+				this.processing_controller.add_task(task);
+			}
+
 			break;
 		}
 	}
@@ -253,7 +281,7 @@ public class Task {
 		// System.out.println(overlap);
 		return overlap;
 	}
-	
+
 	/**
 	 * determine if the main car will collide with car
 	 */

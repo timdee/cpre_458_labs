@@ -62,7 +62,7 @@ public class ProcessorPanel extends JPanel {
 	 */
 	private void drawSchedulerQueueTasks(Graphics g) {
 		for (Task t : this.state.scheduler_task_queue) {
-			t.taskBlock.draw(g);
+			//t.taskBlock.draw(g);
 
 		}
 

@@ -14,6 +14,8 @@ import sensors.SensorData;
  * 
  */
 public class ProcessingController implements Runnable {
+	public final long time_increment = 50L;
+	
 	private volatile ProcessingState processing_state;
 
 	private volatile SensorData sensor_data;
@@ -34,7 +36,7 @@ public class ProcessingController implements Runnable {
 			}
 
 			// ask the state to update itself
-			processing_state.update(1L);
+			processing_state.update(time_increment);
 		}
 	}
 
@@ -52,7 +54,9 @@ public class ProcessingController implements Runnable {
 	}
 
 	/**
-	 * adds a task to the processing state
+	 * adds a task to the processing state.
+	 * 
+	 * if the task is periodic, add it every time its period has expired
 	 */
 	public void add_task(Task task) {
 		this.processing_state.add_task(task);

@@ -16,6 +16,8 @@ public class EDF implements SchedulingAlgorithm {
 			scheduled_tasks.add(new Task(tasks.get(i)));
 		}
 
+		//TODO deadline should actually be [start time + deadline]
+		
 		// find the earliest deadline, put it first
 		for (int i = 0; i < scheduled_tasks.size(); i++) {
 			for (int j = i + 1; j < scheduled_tasks.size(); j++) {
@@ -28,7 +30,7 @@ public class EDF implements SchedulingAlgorithm {
 			}
 		}
 
-		System.out.println(scheduled_tasks);
+		//System.out.println(scheduled_tasks);
 
 		scheduled_tasks_list.add(scheduled_tasks);
 

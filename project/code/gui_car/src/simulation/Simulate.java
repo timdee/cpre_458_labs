@@ -183,7 +183,7 @@ public class Simulate implements Runnable {
 	 * this automatic triggering happens within the processing controller.
 	 */
 	private void setup_periodic_tasks() {
-		int sensor_comp_time = 100;
+		int sensor_comp_time = 80;
 		int sensor_period = 500;
 		int sensor_deadline = sensor_period;
 		Nature nature = Task.Nature.PERIODIC;
@@ -201,6 +201,9 @@ public class Simulate implements Runnable {
 
 		this.processing_controller.add_task(new Task(sensor_comp_time, sensor_period, sensor_deadline, nature,
 				Task.Action.READ_STOP_SIGN_SENSOR, this.processing_controller, this.car_panel_controller, 0));
+		
+		this.processing_controller.add_task(new Task(sensor_comp_time, sensor_period*2, sensor_deadline, nature,
+				Task.Action.READ_LANE_SENSOR, this.processing_controller, this.car_panel_controller, 0));
 	}
 
 	/**

@@ -13,6 +13,7 @@ public class SensorData {
 	public SpeedSignSensor speed_sign_sensor;
 	public OtherCarSensor other_car_sensor;
 	public ConeSensor cone_sensor;
+	public LaneSensor lane_sensor;
 
 	public SensorData(CarPanelState state) {
 		// construct all sensors
@@ -20,5 +21,6 @@ public class SensorData {
 		this.other_car_sensor = new OtherCarSensor(state);
 		this.cone_sensor = new ConeSensor(state);
 		this.speed_sign_sensor = new SpeedSignSensor(state);
+		this.lane_sensor = new LaneSensor(state);
 	}
 }
