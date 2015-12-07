@@ -141,35 +141,37 @@ public class Simulate implements Runnable {
 	//set up processor panel
 	private void setup_processor_panel() {
 
-		TaskTable taskTable = new TaskTable(20,125);
-		this.processing_controller.get_state().submit_task_table(taskTable);
+		//table for periodic tasks
+				TaskTable taskTable = new TaskTable(20,127,650);
+				this.processing_controller.get_state().submit_task_table(taskTable);
+				//table for aperiodic tasks
+				taskTable = new TaskTable(20,252,650);
+				this.processing_controller.get_state().submit_task_table(taskTable);
+				//table for processor queue
+				taskTable = new TaskTable(1000,215,250);
+				this.processing_controller.get_state().submit_task_table(taskTable);
 
-		taskTable = new TaskTable(20,250);
-		this.processing_controller.get_state().submit_task_table(taskTable);
-		taskTable = new TaskTable(825,175);
-		this.processing_controller.get_state().submit_task_table(taskTable);
-
-
-		Labels label = new Labels(205,40,"Scheduler Queue");
-		this.processing_controller.get_state().submit_labels(label);
-
-		label = new Labels(5,55,"Periodic");
-		this.processing_controller.get_state().submit_labels(label);
-
-		label = new Labels(5,165,"Aperiodic");
-		this.processing_controller.get_state().submit_labels(label);
-		
-		label = new Labels(1025,40,"Processor Queue");
-		this.processing_controller.get_state().submit_labels(label);
-		
-		label = new Labels(1560,40,"Processor");
-		this.processing_controller.get_state().submit_labels(label);
-		
-		Sign sign = new Sign(550,5,Sign.SignType.SCHEDULE,"EDF");
-		this.processing_controller.get_state().submit_signs(sign);
-		
-		sign = new Sign(1400,60,Sign.SignType.SINGLE_PROCESSOR);
-		this.processing_controller.get_state().submit_signs(sign);
+				//label for scheduler queue
+				Labels label = new Labels(205,40,"Scheduler Queue");
+				this.processing_controller.get_state().submit_labels(label);
+				//label for periodic tasks
+				label = new Labels(5,55,"Periodic");
+				this.processing_controller.get_state().submit_labels(label);
+				//label for aperiodic tasks
+				label = new Labels(5,165,"Aperiodic");
+				this.processing_controller.get_state().submit_labels(label);
+				//label for the processor queue
+				label = new Labels(1125,40,"Processor Queue");
+				this.processing_controller.get_state().submit_labels(label);
+				//label for processor
+				label = new Labels(1560,40,"Processor");
+				this.processing_controller.get_state().submit_labels(label);
+				//scheduler sign
+				Sign sign = new Sign(775,5,Sign.SignType.SCHEDULE,"EDF");
+				this.processing_controller.get_state().submit_signs(sign);
+				//processor sign
+				sign = new Sign(1400,60,Sign.SignType.SINGLE_PROCESSOR);
+				this.processing_controller.get_state().submit_signs(sign);
 
 	}
 

@@ -36,6 +36,8 @@ public class ProcessingState {
 	public ArrayList<Labels> labels;
 	public ArrayList<TaskBlock> taskBlocks;
 	public ArrayList<Sign> signs;
+	private int numSchedulerPeriodic;
+	private int numSchedulerAperiodic;
 
 	public ProcessingState(SchedulingAlgorithm scheduling_algorithm, int n_processors) {
 		this.scheduler_task_queue = new ArrayList<Task>();
@@ -55,6 +57,9 @@ public class ProcessingState {
 
 		this.total_time = 0L;
 		this.periodic_tasks = new ArrayList<Task>();
+		
+		this.numSchedulerPeriodic = 0;
+		this.numSchedulerAperiodic = 0;
 	}
 
 	/**
@@ -67,6 +72,17 @@ public class ProcessingState {
 		}
 		
 		this.scheduler_task_queue.add(task);
+		this.taskBlocks.add(task.taskBlock);
+		
+		if(task.nature == Task.Nature.PERIODIC) this.numSchedulerPeriodic++;
+		else if(task.nature == Task.Nature.APERIODIC) this.numSchedulerAperiodic++;
+		
+		if(task.nature == Task.Nature.PERIODIC && this.numSchedulerPeriodic >1){
+			moveTasks(task);
+			System.out.println("this ran");
+		}else if(task.nature == Task.Nature.APERIODIC && this.numSchedulerAperiodic >1){
+			moveTasks(task);
+		}
 	}
 
 	/**
@@ -182,6 +198,7 @@ public class ProcessingState {
 		}
 	}
 
+
 	/*****************************************************
 	 * provide methods to submit obstacles
 	 *
@@ -207,13 +224,34 @@ public class ProcessingState {
 		this.labels.add(label);
 
 	}
-
+	
 	/**
 	 * adds a sign at the point specified in the code
 	 */
 	public void submit_signs(Sign sign) {
 		this.signs.add(sign);
 
+	}
+	/**
+	 * moves tasks to their perspective position on the task table
+	 */
+	public void moveTasks(Task task){
+		if(task.nature == Task.Nature.PERIODIC){
+			for(int i = this.taskBlocks.size()-1; i > 0;i--){
+				if(this.taskBlocks.get(i).nature == Task.Nature.PERIODIC){
+					this.taskBlocks.get(i).x_pos+= task.taskBlock.actualWidth+5;
+				}
+			}
+			
+			
+			
+		}else if(task.nature == Task.Nature.APERIODIC){
+			for(int i = this.taskBlocks.size()-1; i > 0;i--){
+				if(this.taskBlocks.get(i).nature == Task.Nature.APERIODIC){
+					this.taskBlocks.get(i).x_pos+= task.taskBlock.actualWidth+5;
+				}
+			}
+		}
 	}
 
 	/**

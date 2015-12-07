@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 
 import characters.Labels;
 import characters.Sign;
+import characters.TaskBlock;
 import characters.TaskTable;
 import compute.ProcessingState;
 import scheduler.EDF;
@@ -61,8 +62,8 @@ public class ProcessorPanel extends JPanel {
 	 * draw the tasks in the schedule que
 	 */
 	private void drawSchedulerQueueTasks(Graphics g) {
-		for (Task t : this.state.scheduler_task_queue) {
-			//t.taskBlock.draw(g);
+		for (TaskBlock t : this.state.taskBlocks) {
+			t.draw(g);
 
 		}
 

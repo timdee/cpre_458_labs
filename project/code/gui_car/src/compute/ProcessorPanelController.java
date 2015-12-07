@@ -18,12 +18,14 @@ public class ProcessorPanelController implements Runnable {
 	private ProcessorPanel processor_panel;
 	private ProcessingState processing_state;
 
+
 	public ProcessorPanelController(ProcessorPanel processor_panel) {
 		this.processor_panel = processor_panel;
 	}
 
 	@Override
 	public void run() {
+		int oldLength = 0;
 		while (true) {
 			try {
 				// update every 10 ms (100 fps)
@@ -37,10 +39,15 @@ public class ProcessorPanelController implements Runnable {
 			// TODO need to cause the panel to update (visually) based on the
 			// state
 			// TODO
+			
 			set_processing_state(this.processor_panel.getState());
-			// cause the processor panel to be repainted
-			processor_panel.repaint();
-			processor_panel.revalidate();
+			if(this.processor_panel.getState().taskBlocks.size() != oldLength){
+				// cause the processor panel to be repainted
+				processor_panel.repaint();
+				processor_panel.revalidate();
+				oldLength = this.processor_panel.getState().taskBlocks.size();
+			}
+			
 		}
 	}
 
