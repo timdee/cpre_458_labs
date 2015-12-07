@@ -36,8 +36,10 @@ public class ProcessingState {
 	public ArrayList<Labels> labels;
 	public ArrayList<TaskBlock> taskBlocks;
 	public ArrayList<Sign> signs;
+	public ArrayList<TaskBlock> processorQueueTasks;
 	private int numSchedulerPeriodic;
 	private int numSchedulerAperiodic;
+	private boolean safeToPaint;
 
 	public ProcessingState(SchedulingAlgorithm scheduling_algorithm, int n_processors) {
 		this.scheduler_task_queue = new ArrayList<Task>();
@@ -47,7 +49,7 @@ public class ProcessingState {
 		this.taskBlocks = new ArrayList<TaskBlock>();
 		this.labels = new ArrayList<Labels>();
 		this.signs = new ArrayList<Sign>();
-
+		this.processorQueueTasks = new ArrayList<TaskBlock>();
 		// set up processors
 		this.processors = new ArrayList<Processor>();
 
@@ -60,6 +62,7 @@ public class ProcessingState {
 		
 		this.numSchedulerPeriodic = 0;
 		this.numSchedulerAperiodic = 0;
+		this.safeToPaint = true;
 	}
 
 	/**
@@ -72,14 +75,14 @@ public class ProcessingState {
 		}
 		
 		this.scheduler_task_queue.add(task);
-		this.taskBlocks.add(task.taskBlock);
+		//this.taskBlocks.add(task.taskBlock);
 		
 		if(task.nature == Task.Nature.PERIODIC) this.numSchedulerPeriodic++;
 		else if(task.nature == Task.Nature.APERIODIC) this.numSchedulerAperiodic++;
 		
 		if(task.nature == Task.Nature.PERIODIC && this.numSchedulerPeriodic >1){
 			moveTasks(task);
-			System.out.println("this ran");
+
 		}else if(task.nature == Task.Nature.APERIODIC && this.numSchedulerAperiodic >1){
 			moveTasks(task);
 		}
@@ -92,11 +95,13 @@ public class ProcessingState {
 	 * @param time
 	 */
 	public void update(long time) {
+		this.safeToPaint = false;
 		// schedule tasks into the processor queues
 		run_scheduler();
 
 		// run the processors for the specified time
 		update_processors(time);
+		this.safeToPaint = true;
 	}
 
 	/**
@@ -133,7 +138,12 @@ public class ProcessingState {
 			if (schedule.get(processor_n).isEmpty() == false) {
 				// add the task to the processor queue
 				p.task_queue.add(schedule.get(processor_n).get(0));
-
+				//update gui for processor queue
+				if(this.processorQueueTasks.size() == 0){
+					this.processorQueueTasks.add(schedule.get(processor_n).get(0).taskBlock);
+					this.processorQueueTasks.get(0).inProcessorQueue = true;
+				}
+				System.out.print("fuck it");
 				// remove the task from the schedule task queue
 				schedule.get(processor_n).remove(0);
 			}
@@ -144,12 +154,23 @@ public class ProcessingState {
 		// queue
 		// clear the task queue
 		this.scheduler_task_queue = new ArrayList<Task>();
+		this.numSchedulerPeriodic = 0;
+		this.numSchedulerAperiodic = 0;
 
 		// for all lists of task in schedule
 		for (List<Task> task_list : schedule) {
 			// for each task in this task list
 			for (Task task : task_list) {
 				this.scheduler_task_queue.add(task);
+				if(task.nature == Task.Nature.PERIODIC) this.numSchedulerPeriodic++;
+				else if(task.nature == Task.Nature.APERIODIC) this.numSchedulerAperiodic++;
+				
+				if(task.nature == Task.Nature.PERIODIC && this.numSchedulerPeriodic >1){
+					moveTasks(task);
+
+				}else if(task.nature == Task.Nature.APERIODIC && this.numSchedulerAperiodic >1){
+					moveTasks(task);
+				}
 			}
 
 		}
@@ -186,7 +207,16 @@ public class ProcessingState {
 					if (p.task_queue.isEmpty() == false) {
 						// get the next task in the queuue
 						p.task = p.task_queue.get(0);
-
+						//take out of processor queue
+						p.task.taskBlock.inProcessorQueue = false;
+						//put in processor
+						p.task.taskBlock.inProcessor = true;
+						//remove task from the processor queue for gui
+						if(this.processorQueueTasks.size()>0){
+							this.processorQueueTasks.get(0).inProcessorQueue = false;
+							this.processorQueueTasks.remove(0);
+						}
+						
 						// remove this task from the queue
 						p.task_queue.remove(0);
 					} else {
@@ -237,18 +267,18 @@ public class ProcessingState {
 	 */
 	public void moveTasks(Task task){
 		if(task.nature == Task.Nature.PERIODIC){
-			for(int i = this.taskBlocks.size()-1; i > 0;i--){
-				if(this.taskBlocks.get(i).nature == Task.Nature.PERIODIC){
-					this.taskBlocks.get(i).x_pos+= task.taskBlock.actualWidth+5;
+			for(int i = this.scheduler_task_queue.size()-1; i > 0;i--){
+				if(this.scheduler_task_queue.get(i).nature == Task.Nature.PERIODIC){
+					this.scheduler_task_queue.get(i).taskBlock.x_pos+= task.taskBlock.actualWidth+5;
 				}
 			}
 			
 			
 			
 		}else if(task.nature == Task.Nature.APERIODIC){
-			for(int i = this.taskBlocks.size()-1; i > 0;i--){
-				if(this.taskBlocks.get(i).nature == Task.Nature.APERIODIC){
-					this.taskBlocks.get(i).x_pos+= task.taskBlock.actualWidth+5;
+			for(int i = this.scheduler_task_queue.size()-1; i > 0;i--){
+				if(this.scheduler_task_queue.get(i).nature == Task.Nature.APERIODIC){
+					this.scheduler_task_queue.get(i).taskBlock.x_pos+= task.taskBlock.actualWidth+5;
 				}
 			}
 		}
@@ -273,5 +303,12 @@ public class ProcessingState {
 								task.action, task.processing_controller, task.car_panel_controller, task.set_point));
 			}
 		}
+	}
+	
+	/**
+	 * returns if it is safe to paint the processor gui
+	 */
+	public boolean safe_to_paint () {
+		return this.safeToPaint;
 	}
 }

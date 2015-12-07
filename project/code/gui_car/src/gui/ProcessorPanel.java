@@ -55,6 +55,7 @@ public class ProcessorPanel extends JPanel {
 		drawTaskTables(g);
 		drawLabels(g);
 		draw_signs(g);
+		draw_processor_queue(g);
 	}
 
 
@@ -62,8 +63,8 @@ public class ProcessorPanel extends JPanel {
 	 * draw the tasks in the schedule que
 	 */
 	private void drawSchedulerQueueTasks(Graphics g) {
-		for (TaskBlock t : this.state.taskBlocks) {
-			t.draw(g);
+		for (Task t : this.state.scheduler_task_queue) {
+			t.taskBlock.draw(g);
 
 		}
 
@@ -101,6 +102,21 @@ public class ProcessorPanel extends JPanel {
 	private void draw_signs(Graphics g) {
 		for (Sign c : state.signs) {
 			c.draw(g);
+		}
+	}
+	
+	/**
+	 * draw the sign array
+	 *
+	 * @param g
+	 */
+	private void draw_processor_queue(Graphics g) {
+		if(state.processorQueueTasks != null){
+			if(state.processorQueueTasks.size()>0){
+				for (TaskBlock t : state.processorQueueTasks) {
+					t.draw(g);
+				}
+			}
 		}
 	}
 }

@@ -76,6 +76,7 @@ public class Task {
 		this.car_panel_controller = task.car_panel_controller;
 
 		this.set_point = task.set_point;
+		taskBlock = new TaskBlock(this);
 	}
 
 	/**

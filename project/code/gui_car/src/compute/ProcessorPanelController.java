@@ -41,11 +41,11 @@ public class ProcessorPanelController implements Runnable {
 			// TODO
 			
 			set_processing_state(this.processor_panel.getState());
-			if(this.processor_panel.getState().taskBlocks.size() != oldLength){
+			if(this.processing_state.safe_to_paint()){
 				// cause the processor panel to be repainted
 				processor_panel.repaint();
 				processor_panel.revalidate();
-				oldLength = this.processor_panel.getState().taskBlocks.size();
+				//oldLength = this.processor_panel.getState().scheduler_task_queue.size();
 			}
 			
 		}
