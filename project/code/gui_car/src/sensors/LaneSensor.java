@@ -22,7 +22,7 @@ public class LaneSensor extends Sensor {
 		this.within_lane = true;
 		MainCar mc = this.car_panel_state.main_car;
 
-		if (Math.abs(mc.origional_y_pos - mc.y_pos) > 79) {
+		if (Math.abs(mc.origional_y_pos - mc.y_pos) > 20) {
 			this.within_lane = false;
 		}
 	}

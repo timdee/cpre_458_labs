@@ -14,7 +14,7 @@ import sensors.SensorData;
  * 
  */
 public class ProcessingController implements Runnable {
-	public final long time_increment = 50L;
+	public final long time_increment = 10L;
 	
 	private volatile ProcessingState processing_state;
 

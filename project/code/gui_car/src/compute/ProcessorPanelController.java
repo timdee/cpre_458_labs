@@ -29,7 +29,7 @@ public class ProcessorPanelController implements Runnable {
 		while (true) {
 			try {
 				// update every 10 ms (100 fps)
-				Thread.sleep(10);
+				Thread.sleep(100);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

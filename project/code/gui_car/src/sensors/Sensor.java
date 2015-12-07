@@ -12,7 +12,7 @@ public abstract class Sensor {
 
 	public Sensor(CarPanelState state) {
 		this.car_panel_state = state;
-		this.range = 200;
+		this.range = 1000;
 
 		compute();
 	}

@@ -88,8 +88,8 @@ public class Task {
 		CarPanelState car_panel_state;
 		SensorData sensor_data;
 
-		int actuator_comp_time = 20;
-		int actuator_deadline = 100;
+		int actuator_comp_time = 100;
+		int actuator_deadline = 300;
 		Nature actuator_nature = Task.Nature.APERIODIC;
 		int actuator_movement_amount = 80;
 

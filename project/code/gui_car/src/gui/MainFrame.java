@@ -52,18 +52,23 @@ public class MainFrame extends JFrame {
 		//added by Brent
 		processor_panel.setState(processing_controller.get_state());
 				
-				
-		// start these threads, but they don't act atonamously. Simulate thread
-		// will use them to perform the simulation.
-		car_controller_thread.start();
-		processor_controller_thread.start();
-		processing_controller_thread.start();
-
 		// adjust settings of this frame
 		this.setSize(this.width, this.height);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
+		
+		try {
+			Thread.sleep(1500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}		
+		
+		// start these threads, but they don't act atonamously. Simulate thread
+		// will use them to perform the simulation.
+		car_controller_thread.start();
+		processor_controller_thread.start();
+		processing_controller_thread.start();
 
 		// START SIMULATION THREAD
 		Simulate simulator = new Simulate(car_controller, processor_controller, processing_controller, width, height);
