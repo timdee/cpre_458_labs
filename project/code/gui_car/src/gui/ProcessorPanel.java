@@ -56,6 +56,7 @@ public class ProcessorPanel extends JPanel {
 		drawLabels(g);
 		draw_signs(g);
 		draw_processor_queue(g);
+		draw_processor(g);
 	}
 
 
@@ -115,6 +116,22 @@ public class ProcessorPanel extends JPanel {
 			if(state.processorQueueTasks.size()>0){
 				for (TaskBlock t : state.processorQueueTasks) {
 					t.draw(g);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * draw the sign array
+	 *
+	 * @param g
+	 */
+	private void draw_processor(Graphics g) {
+		if(state.processorTasks != null){
+			if(state.processorTasks.size()>0){
+				for (TaskBlock t : state.processorTasks) {
+					t.draw(g);
+					System.out.print("Brent");
 				}
 			}
 		}

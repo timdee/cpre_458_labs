@@ -37,6 +37,7 @@ public class ProcessingState {
 	public ArrayList<TaskBlock> taskBlocks;
 	public ArrayList<Sign> signs;
 	public ArrayList<TaskBlock> processorQueueTasks;
+	public ArrayList<TaskBlock> processorTasks;
 	private int numSchedulerPeriodic;
 	private int numSchedulerAperiodic;
 	private boolean safeToPaint;
@@ -50,6 +51,7 @@ public class ProcessingState {
 		this.labels = new ArrayList<Labels>();
 		this.signs = new ArrayList<Sign>();
 		this.processorQueueTasks = new ArrayList<TaskBlock>();
+		this.processorTasks = new ArrayList<TaskBlock>();
 		// set up processors
 		this.processors = new ArrayList<Processor>();
 
@@ -62,7 +64,7 @@ public class ProcessingState {
 		
 		this.numSchedulerPeriodic = 0;
 		this.numSchedulerAperiodic = 0;
-		this.safeToPaint = true;
+		this.safeToPaint = false;
 	}
 
 	/**
@@ -139,11 +141,12 @@ public class ProcessingState {
 				// add the task to the processor queue
 				p.task_queue.add(schedule.get(processor_n).get(0));
 				//update gui for processor queue
-				if(this.processorQueueTasks.size() == 0){
-					this.processorQueueTasks.add(schedule.get(processor_n).get(0).taskBlock);
-					this.processorQueueTasks.get(0).inProcessorQueue = true;
+				if(this.processorQueueTasks != null){
+					if(this.processorQueueTasks.size() == 0){
+						this.processorQueueTasks.add(schedule.get(processor_n).get(0).taskBlock);
+						this.processorQueueTasks.get(0).inProcessorQueue = true;
+					}
 				}
-				System.out.print("fuck it");
 				// remove the task from the schedule task queue
 				schedule.get(processor_n).remove(0);
 			}
@@ -209,8 +212,24 @@ public class ProcessingState {
 						p.task = p.task_queue.get(0);
 						//take out of processor queue
 						p.task.taskBlock.inProcessorQueue = false;
-						//put in processor
-						p.task.taskBlock.inProcessor = true;
+						
+						if(this.processorTasks != null){
+							if(this.processorTasks.size() > 0){
+								this.processorTasks.remove(0);
+							}
+						}
+						
+						
+						if(this.processorTasks != null){
+							if(this.processorTasks.size() == 0){
+								//put in processor
+								this.processorTasks.add(p.task.taskBlock);
+								this.processorTasks.get(0).inProcessorQueue = false;
+								this.processorTasks.get(0).inProcessor = true;
+							
+							}
+						}
+						
 						//remove task from the processor queue for gui
 						if(this.processorQueueTasks.size()>0){
 							this.processorQueueTasks.get(0).inProcessorQueue = false;

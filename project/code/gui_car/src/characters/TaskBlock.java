@@ -20,9 +20,11 @@ public class TaskBlock extends Character {
     private final int STARTING_X_POS_PERIODIC = 88;
     private final int STARTING_X_POS_APERIODIC = 88;
     private final int X_POS_PROCESSOR_QUEUE = 1125;
+    private final int X_POS_PROCESSOR = 1550;
     private final int STARTING_Y_POS_PERIODIC = 70;
     private final int STARTING_Y_POS_APERIODIC = 195;
     private final int Y_POS_PROCESSOR_QUEUE = 158;
+    private final int Y_POS_PROCESSOR = 158;
 
     public int x_pos;
     public int y_pos;
@@ -86,7 +88,7 @@ public class TaskBlock extends Character {
     public void draw(Graphics g) {
        
 
-        if (nature == Task.Nature.PERIODIC && this.inProcessorQueue == false) {
+        if (nature == Task.Nature.PERIODIC && this.inProcessorQueue == false && this.inProcessor == false) {
         	// draw the body of the car
             g.setColor(Color.BLACK);
             g.fillRect(this.x_pos-1, this.y_pos-1, this.actualWidth+2, this.height+2);
@@ -99,7 +101,7 @@ public class TaskBlock extends Character {
             g.setColor(Color.BLACK);
             g.setFont(new Font("Serif", Font.BOLD, 8));
             g.drawString(""+this.action.toString(), this.x_pos+5, this.y_pos+30);
-        } else if (nature == Task.Nature.APERIODIC && this.inProcessorQueue == false) {
+        } else if (nature == Task.Nature.APERIODIC && this.inProcessorQueue == false&& this.inProcessor == false) {
         	// draw the body of the car
             g.setColor(Color.BLACK);
             g.fillRect(this.x_pos-1, this.y_pos-1, this.actualWidth+2, this.height+2);
@@ -112,7 +114,7 @@ public class TaskBlock extends Character {
             g.setColor(Color.WHITE);
             g.setFont(new Font("Serif", Font.BOLD, 8));
             g.drawString(""+this.action.toString(), this.x_pos+5, this.y_pos+30);
-        }else if (nature == Task.Nature.PERIODIC && this.inProcessorQueue) {
+        }else if (nature == Task.Nature.PERIODIC && this.inProcessorQueue&& this.inProcessor == false) {
         	
         	//set coordinates
         	this.x_pos = this.X_POS_PROCESSOR_QUEUE;
@@ -132,10 +134,49 @@ public class TaskBlock extends Character {
             g.setFont(new Font("Serif", Font.BOLD, 8));
             g.drawString(""+this.action.toString(), this.x_pos+5, this.y_pos+30);
             
-        }else if (nature == Task.Nature.APERIODIC && this.inProcessorQueue) {
+        }else if (nature == Task.Nature.APERIODIC && this.inProcessorQueue&& this.inProcessor == false) {
         	//set coordinates
         	this.x_pos = this.X_POS_PROCESSOR_QUEUE;
         	this.y_pos = this.Y_POS_PROCESSOR_QUEUE;
+        	
+        	// draw the body of the car
+            g.setColor(Color.BLACK);
+            g.fillRect(this.x_pos-1, this.y_pos-1, this.actualWidth+2, this.height+2);
+        
+        	 // draw the body of task
+            g.setColor(Color.BLUE);
+            g.fillRect(this.x_pos, this.y_pos, this.actualWidth,
+                    this.height);
+          
+            //show action of the task
+            g.setColor(Color.BLACK);
+            g.setFont(new Font("Serif", Font.BOLD, 8));
+            g.drawString(""+this.action.toString(), this.x_pos+5, this.y_pos+30);
+            
+        }else if (nature == Task.Nature.PERIODIC && this.inProcessor) {
+        	
+        	//set coordinates
+        	this.x_pos = this.X_POS_PROCESSOR;
+        	this.y_pos = this.Y_POS_PROCESSOR;
+        	
+        	// draw the body of the car
+            g.setColor(Color.BLACK);
+            g.fillRect(this.x_pos-1, this.y_pos-1, this.actualWidth+2, this.height+2);
+        
+        	 // draw the body of task
+            g.setColor(Color.RED);
+            g.fillRect(this.x_pos, this.y_pos, this.actualWidth,
+                    this.height);
+          
+            //show action of the task
+            g.setColor(Color.BLACK);
+            g.setFont(new Font("Serif", Font.BOLD, 8));
+            g.drawString(""+this.action.toString(), this.x_pos+5, this.y_pos+30);
+            
+        }else if (nature == Task.Nature.APERIODIC && this.inProcessor) {
+        	//set coordinates
+        	this.x_pos = this.X_POS_PROCESSOR;
+        	this.y_pos = this.Y_POS_PROCESSOR;
         	
         	// draw the body of the car
             g.setColor(Color.BLACK);
