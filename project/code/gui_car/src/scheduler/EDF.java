@@ -16,8 +16,8 @@ public class EDF implements SchedulingAlgorithm {
 			scheduled_tasks.add(new Task(tasks.get(i)));
 		}
 
-		//TODO deadline should actually be [start time + deadline]
-		
+		// TODO deadline should actually be [start time + deadline]
+
 		// find the earliest deadline, put it first
 		for (int i = 0; i < scheduled_tasks.size(); i++) {
 			for (int j = i + 1; j < scheduled_tasks.size(); j++) {
@@ -30,10 +30,35 @@ public class EDF implements SchedulingAlgorithm {
 			}
 		}
 
-		//System.out.println(scheduled_tasks);
+		// System.out.println(scheduled_tasks);
 
 		scheduled_tasks_list.add(scheduled_tasks);
 
 		return scheduled_tasks_list;
+	}
+
+	/**
+	 * return true of the schedule is feasible
+	 * 
+	 * EDF scheduleability check:
+	 * 
+	 * sum of the utilization < 1
+	 */
+	@Override
+	public boolean is_feasible_schedule(List<Task> tasks, int n_processors) {
+		double sum = 0;
+
+		for (Task task : tasks) {
+			// aperiodic tasks will have period equal to 0
+			if (task.nature == Task.Nature.PERIODIC) {
+				sum += ((double) task.computation_time_remaining) / ((double) task.period);
+			} else {
+				//TODO decide what to do with aperiodic tasks
+				sum +=0;
+			}
+		}
+
+		System.out.println(sum <= 1);
+		return sum <= 1;
 	}
 }

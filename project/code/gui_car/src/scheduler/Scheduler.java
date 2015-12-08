@@ -24,6 +24,11 @@ public class Scheduler {
 	public ArrayList<List<Task>> schedule(List<Task> tasks, int n_processors) {
 		ArrayList<Task> array_list_tasks = new ArrayList<Task>(tasks);
 
-		return (ArrayList<List<Task>>) this.scheduling_algorithm.schedule(array_list_tasks, n_processors);
+		// if the schedule is feasible, schedule it. Otherwise return null.
+		if (this.scheduling_algorithm.is_feasible_schedule(tasks, n_processors)) {
+			return (ArrayList<List<Task>>) this.scheduling_algorithm.schedule(array_list_tasks, n_processors);
+		} else {
+			return null;
+		}
 	}
 }
