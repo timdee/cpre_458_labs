@@ -92,7 +92,7 @@ public class Simulate implements Runnable {
 		int simulations = 20;
 
 		// create all the signs
-		int sign_interval = 5000;
+		int sign_interval = 3000;
 		Sign s = new Sign(sign_interval, sign_y, Sign.SignType.SPEED);
 		s.speed_limit = 45;
 		for (int i = 0; i < simulations; i++) {
@@ -103,8 +103,8 @@ public class Simulate implements Runnable {
 		}
 
 		// create all the cones
-		int cone_interval = 2500;// 2000;
-		Cone cone = new Cone(cone_interval, (height / 2) + 25);
+		int cone_interval = 1800;// 2000;
+		Cone cone = new Cone(cone_interval - 500, (height / 2) + 25);
 		for (int i = 0; i < simulations * 5 / 2; i++) {
 			this.car_panel_controller.submit_cone(cone);
 
@@ -112,7 +112,7 @@ public class Simulate implements Runnable {
 		}
 
 		// create all the other cars
-		int car_interval = 4500;
+		int car_interval = 4000;
 		Car car = new Car(car_interval, (height / 2) - 100);
 		for (int i = 0; i < simulations; i++) {
 			car.facing = Car.Facing.LEFT;
