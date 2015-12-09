@@ -96,6 +96,12 @@ public class ProcessingState {
 		} else if (task.nature == Task.Nature.APERIODIC && this.numSchedulerAperiodic > 1) {
 			moveTasks(task);
 		}
+
+		// Run the scheduler
+		this.safeToPaint = false;
+		// schedule tasks into the processor queues
+		run_scheduler();
+		this.safeToPaint = true;
 	}
 
 	/**
@@ -107,7 +113,7 @@ public class ProcessingState {
 	public void update(long time) {
 		this.safeToPaint = false;
 		// schedule tasks into the processor queues
-		run_scheduler();
+		// run_scheduler();
 
 		// run the processors for the specified time
 		update_processors(time);
