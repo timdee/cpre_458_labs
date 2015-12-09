@@ -13,16 +13,14 @@ public class EDF implements SchedulingAlgorithm {
 		ArrayList<Task> scheduled_tasks = new ArrayList<Task>();
 
 		for (int i = 0; i < tasks.size(); i++) {
-			scheduled_tasks.add(new Task(tasks.get(i)));
+			scheduled_tasks.add(new Task(tasks.get(tasks.size() - 1 - i)));
 		}
-
-		// TODO deadline should actually be [start time + deadline]
 
 		// find the earliest deadline, put it first
 		for (int i = 0; i < scheduled_tasks.size(); i++) {
 			for (int j = i + 1; j < scheduled_tasks.size(); j++) {
 				// sorted smallest thing first
-				if (scheduled_tasks.get(i).deadline < scheduled_tasks.get(j).deadline) {
+				if (scheduled_tasks.get(i).deadline > scheduled_tasks.get(j).deadline) {
 					Task temp = scheduled_tasks.get(i);
 					scheduled_tasks.set(i, scheduled_tasks.get(j));
 					scheduled_tasks.set(j, temp);
@@ -53,12 +51,16 @@ public class EDF implements SchedulingAlgorithm {
 			if (task.nature == Task.Nature.PERIODIC) {
 				sum += ((double) task.computation_time_remaining) / ((double) task.period);
 			} else {
-				//TODO decide what to do with aperiodic tasks
-				sum +=0;
+				// TODO decide what to do with aperiodic tasks
+				// take remaining computation time by deadline?
+				double time_until_deadline = ((double) task.deadline)
+						- task.processing_controller.get_state().total_time;
+
+				sum += ((double) task.computation_time_remaining) / time_until_deadline;
 			}
 		}
 
-		System.out.println(sum <= 1);
+		// System.out.println(sum <= 1);
 		return sum <= 1;
 	}
 }

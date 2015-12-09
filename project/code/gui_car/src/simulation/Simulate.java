@@ -99,20 +99,20 @@ public class Simulate implements Runnable {
 			this.car_panel_controller.submit_sign(s);
 
 			s = new Sign(sign_interval * (i + 2), sign_y, Sign.SignType.SPEED);
-			s.speed_limit = 45 + (i*5);
+			s.speed_limit = 45 + (i * 5);
 		}
 
 		// create all the cones
-		int cone_interval = 2000;
-		Cone cone = new Cone(cone_interval, height / 2);
-		for (int i = 0; i < simulations*5/2; i++) {
+		int cone_interval = 2500;// 2000;
+		Cone cone = new Cone(cone_interval, (height / 2) + 25);
+		for (int i = 0; i < simulations * 5 / 2; i++) {
 			this.car_panel_controller.submit_cone(cone);
 
-			cone = new Cone(cone_interval * (i + 2), height / 2);
+			cone = new Cone(cone_interval * (i + 2), (height / 2) + 25);
 		}
 
 		// create all the other cars
-		int car_interval = 5000;
+		int car_interval = 4500;
 		Car car = new Car(car_interval, (height / 2) - 100);
 		for (int i = 0; i < simulations; i++) {
 			car.facing = Car.Facing.LEFT;
@@ -223,7 +223,7 @@ public class Simulate implements Runnable {
 	 */
 	private void setup_periodic_tasks() {
 		int sensor_comp_time = 500;
-		int sensor_period = 2500;
+		int sensor_period = 2000;
 		int sensor_deadline = sensor_period;
 		Nature nature = Task.Nature.PERIODIC;
 
@@ -238,10 +238,12 @@ public class Simulate implements Runnable {
 		this.processing_controller.add_task(new Task(sensor_comp_time, sensor_period, sensor_deadline, nature,
 				Task.Action.READ_SPEED_SIGN_SENSOR, this.processing_controller, this.car_panel_controller, 0));
 
-		this.processing_controller.add_task(new Task(sensor_comp_time, sensor_period, sensor_deadline, nature,
-				Task.Action.READ_STOP_SIGN_SENSOR, this.processing_controller, this.car_panel_controller, 0));
+		// this.processing_controller.add_task(new Task(sensor_comp_time,
+		// sensor_period, sensor_deadline, nature,
+		// Task.Action.READ_STOP_SIGN_SENSOR, this.processing_controller,
+		// this.car_panel_controller, 0));
 
-		this.processing_controller.add_task(new Task(sensor_comp_time, sensor_period * 3, sensor_deadline, nature,
+		this.processing_controller.add_task(new Task(sensor_comp_time, sensor_period * 2, sensor_deadline, nature,
 				Task.Action.READ_LANE_SENSOR, this.processing_controller, this.car_panel_controller, 0));
 	}
 

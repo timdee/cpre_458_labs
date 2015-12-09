@@ -15,13 +15,14 @@ import sensors.SensorData;
  */
 public class ProcessingController implements Runnable {
 	public final long time_increment = 10L;
-	
+
 	private volatile ProcessingState processing_state;
 
 	private volatile SensorData sensor_data;
 
-	public ProcessingController(SchedulingAlgorithm scheduling_algorithm, int n_processors) {
-		this.processing_state = new ProcessingState(scheduling_algorithm, n_processors);
+	public ProcessingController(SchedulingAlgorithm scheduling_algorithm,
+			SchedulingAlgorithm overload_scheduling_algorithm, int n_processors) {
+		this.processing_state = new ProcessingState(scheduling_algorithm, overload_scheduling_algorithm, n_processors);
 		sensor_data = null;
 	}
 

@@ -88,10 +88,12 @@ public class Task {
 		CarPanelState car_panel_state;
 		SensorData sensor_data;
 
-		int actuator_comp_time = 100;
-		int actuator_deadline = 300;
+		int actuator_comp_time = 300;
+		int actuator_deadline = 1000;
 		Nature actuator_nature = Task.Nature.APERIODIC;
 		int actuator_movement_amount = 80;
+
+		int closest = 100000;
 
 		switch (this.action) {
 		case SET_CAR_SPEED:
@@ -129,6 +131,17 @@ public class Task {
 						// this.processing_controller.add_task(task);
 						move_up++;
 					}
+				}
+
+				// set the actuator deadline based on the closest cone
+				if (cone.origional_x_pos < closest) {
+					closest = cone.origional_x_pos;
+
+					int distance_from_cone = cone.origional_x_pos - car_panel_state.main_car.total_moved;
+					int speed_by_tick = 1; // car_panel_state.main_car.speed /
+											// CarPanelController.speed_increment;
+
+					actuator_deadline = distance_from_cone / speed_by_tick;
 				}
 			}
 
@@ -172,6 +185,17 @@ public class Task {
 						move_up++;
 					}
 				}
+
+				// set the actuator deadline based on the closest cone
+				if (car.origional_x_pos < closest) {
+					closest = car.origional_x_pos;
+
+					int distance_from_cone = car.origional_x_pos - car_panel_state.main_car.total_moved;
+					int speed_by_tick = 1; // car_panel_state.main_car.speed /
+											// CarPanelController.speed_increment;
+
+					actuator_deadline = distance_from_cone / speed_by_tick;
+				}
 			}
 
 			// if we need to move decide what task we need to insert
@@ -208,6 +232,17 @@ public class Task {
 							sign.speed_limit);
 					this.processing_controller.add_task(task);
 				}
+
+				// set the actuator deadline based on the closest cone
+				if (sign.origional_x_pos < closest) {
+					closest = sign.origional_x_pos;
+
+					int distance_from_cone = sign.origional_x_pos - car_panel_state.main_car.total_moved;
+					int speed_by_tick = 1; // car_panel_state.main_car.speed /
+											// CarPanelController.speed_increment;
+
+					actuator_deadline = distance_from_cone / speed_by_tick;
+				}
 			}
 			break;
 		case READ_STOP_SIGN_SENSOR:
@@ -232,6 +267,17 @@ public class Task {
 					task = new Task(actuator_comp_time * 100, 0, actuator_deadline * 100, actuator_nature,
 							Task.Action.SET_CAR_SPEED, this.processing_controller, this.car_panel_controller, 50);
 					this.processing_controller.add_task(task);
+				}
+
+				// set the actuator deadline based on the closest cone
+				if (sign.origional_x_pos < closest) {
+					closest = sign.origional_x_pos;
+
+					int distance_from_cone = sign.origional_x_pos - car_panel_state.main_car.total_moved;
+					int speed_by_tick = 1; // car_panel_state.main_car.speed /
+											// CarPanelController.speed_increment;
+
+					actuator_deadline = distance_from_cone / speed_by_tick;
 				}
 			}
 			break;

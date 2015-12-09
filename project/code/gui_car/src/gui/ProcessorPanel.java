@@ -31,7 +31,7 @@ public class ProcessorPanel extends JPanel {
 
 
 		// initialize the state
-		this.state = new ProcessingState(new EDF(),1);
+		this.state = new ProcessingState(new EDF(),new EDF(),1);
 
 		// make a new main car
 		//state.main_car = new MainCar(w, h);

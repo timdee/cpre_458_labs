@@ -30,7 +30,7 @@ public class ProcessingState {
 
 	private ArrayList<Processor> processors;
 	private ArrayList<Task> periodic_tasks;
-	private long total_time; // total time of the processor
+	public volatile long total_time; // total time of the processor
 
 	public ArrayList<TaskTable> taskHolders;
 	public ArrayList<Labels> labels;
@@ -40,11 +40,12 @@ public class ProcessingState {
 	public ArrayList<TaskBlock> processorTasks;
 	private int numSchedulerPeriodic;
 	private int numSchedulerAperiodic;
-	private boolean safeToPaint;
+	private volatile boolean safeToPaint;
 
-	public ProcessingState(SchedulingAlgorithm scheduling_algorithm, int n_processors) {
+	public ProcessingState(SchedulingAlgorithm scheduling_algorithm, SchedulingAlgorithm overload_scheduling_algorithm,
+			int n_processors) {
 		this.scheduler_task_queue = new ArrayList<Task>();
-		this.scheduler = new Scheduler(scheduling_algorithm);
+		this.scheduler = new Scheduler(scheduling_algorithm, overload_scheduling_algorithm);
 
 		this.taskHolders = new ArrayList<TaskTable>();
 		this.taskBlocks = new ArrayList<TaskBlock>();
@@ -130,14 +131,6 @@ public class ProcessingState {
 
 		// run the scheduler on the task queue for the number of processors
 		ArrayList<List<Task>> schedule = scheduler.schedule(scheduler_task_queue, this.processors.size());
-
-		// determine if there is no viable schedule
-		if (schedule == null) {
-			// TODO find something better to do when no viable schedule is
-			// returned
-			// TODO like a backup scheduler which does overload handling
-			return;
-		}
 
 		// for each processor, maintain one task in the queue, remove this task
 		// from the scheduler task queue.
