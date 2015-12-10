@@ -27,14 +27,15 @@
 			<item value="/home/element/coursework/cpre_458_labs/project/gui_car.jar"/>
 		</list>
 		<list key="FatJarPackageWizardPage.ANTSCRIPT_LOCATION_HISTORY">
+			<item value="/home/element/coursework/cpre_458_labs/project/code.xml"/>
 			<item value=".xml"/>
 		</list>
-	</section>
-	<section name="quick_assist_proposal_size">
 	</section>
 	<section name="NewClassWizardPage">
 		<item value="false" key="create_constructor"/>
 		<item value="true" key="create_unimplemented"/>
+	</section>
+	<section name="quick_assist_proposal_size">
 	</section>
 	<section name="NewPackageWizardPage">
 		<item value="false" key="create_package_info_java"/>
