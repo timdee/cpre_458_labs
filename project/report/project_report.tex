@@ -627,7 +627,11 @@ In this, each list is to refer to the tasks which should be scheduled on one pro
 The interface will return null if the list of tasks provided as a parameter is not schedule-able.
 
 Scheduler has two SchedulingAlgorithms.
-One SchedulingAlgorithm when %TODO
+One SchedulingAlgorithm is used when the processor utilization is under 100\%.
+The other SchedulingAlgorithm is used when the processor utilization is over 100\%. 
+Scheduler will use the feasibility check of the normal case scheduling algorithm to determine whether whether the task set is schedule-able.
+If it is schedule-able, the normal case scheduling algorithm will be used.
+If, however, the feasibility check returns false, Scheduler will use the scheduling algorithm for the overload condition.
 
 We decided to implement the scheduler in this way because it allows for easy additions of new SchedulingAlgorithms.
 All we need to do to have our program use a new scheduling algorithm is provide the scheduler a new class which extends the SchedulingAlgorithm interface.
@@ -644,13 +648,17 @@ public interface SchedulingAlgorithm {
    * @return
    */
   public List<List<Task>> schedule(List<Task> tasks, int n_processors);
+
+  public boolean is_feasible_schedule(List<Task> tasks, int n_processors);
 }
 \end{lstlisting}
 
 Listing \ref{lst:SchedulingAlgorithm} show the interface SchedulingAlgorithm.
 A class which implements this interface can be provided to Scheduler in order to determine how the schedule will schedule incoming tasks.
 When the scheduler is asked to schedule something, it will call the schedule method of the scheduling algorithm it was provided.
-In this way, any number of these might be implemented.
+SchedulingAlgorithms are also expected to implement a schedule-ability check.
+This is done by implementing the is\_feasible\_schedule() method. This check is necessary for the processor to know when it should use a scheduling algorithm for the overload case.
+In this way, any number of SchedulingAlgorithms might be implemented.
 
 \subsubsection{Processor}
 \begin{lstlisting}[caption={Values maintained in Processor},label={lst:processor},numbers=left]

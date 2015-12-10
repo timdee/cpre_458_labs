@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Arch Linux) (preloaded format=pdflatex 2015.12.10)  10 DEC 2015 12:13
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Arch Linux) (preloaded format=pdflatex 2015.12.10)  10 DEC 2015 12:23
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -386,29 +386,29 @@ hedule-
  []
 
 
-Overfull \hbox (11.89037pt too wide) in paragraph at lines 629--631
+Overfull \hbox (11.89037pt too wide) in paragraph at lines 629--635
 []\OT1/ptm/m/n/10 Scheduler has two Schedulin-gAl-go-rithms. One Schedulin-
  []
 
 
-Overfull \hbox (4.70021pt too wide) in paragraph at lines 650--654
+Overfull \hbox (4.70021pt too wide) in paragraph at lines 656--662
 \OT1/ptm/m/n/10 Sched-uler in or-der to de-ter-mine how the sched-ule will sche
 d-
  []
 
 
-Overfull \hbox (7.82976pt too wide) in paragraph at lines 650--654
+Overfull \hbox (7.82976pt too wide) in paragraph at lines 656--662
 \OT1/ptm/m/n/10 ule some-thing, it will call the sched-ule method of the schedu
 l-
  []
 
 [9]
-Overfull \hbox (11.92215pt too wide) in paragraph at lines 711--712
+Overfull \hbox (11.92215pt too wide) in paragraph at lines 719--720
 [][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (11.92215pt too wide) in paragraph at lines 711--712
+Overfull \hbox (11.92215pt too wide) in paragraph at lines 719--720
 [][][][][][][][][][][][] 
  []
 
@@ -416,18 +416,16 @@ Overfull \hbox (11.92215pt too wide) in paragraph at lines 711--712
 File: figures/gui_car.png Graphic file (type png)
 
 <use figures/gui_car.png>
-Package pdftex.def Info: figures/gui_car.png used on input line 727.
+Package pdftex.def Info: figures/gui_car.png used on input line 735.
 (pdftex.def)             Requested size: 487.8225pt x 263.33852pt.
  [10]
-Overfull \hbox (10.50009pt too wide) in paragraph at lines 789--793
+Overfull \hbox (10.50009pt too wide) in paragraph at lines 797--801
 \OT1/ptm/m/n/10 have if it was a nor-mal well-defined, highly-structured projec
 t.
  []
 
 No file project_report.bbl.
-[11
-
- <./figures/gui_car.png>] (./project_report.aux)
+[11 <./figures/gui_car.png>] (./project_report.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
@@ -448,7 +446,7 @@ hare/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dis
 t/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/tim
 es/utmb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/sha
 re/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on project_report.pdf (11 pages, 271243 bytes).
+Output written on project_report.pdf (11 pages, 272469 bytes).
 PDF statistics:
  81 PDF objects out of 1000 (max. 8388607)
  55 compressed objects within 1 object stream
