@@ -1,11 +1,11 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Arch Linux) (preloaded format=pdflatex 2015.12.10)  10 DEC 2015 12:23
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Arch Linux) (preloaded format=pdflatex 2015.10.11)  18 DEC 2015 13:51
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **project_report.tex
 (./project_report.tex
-LaTeX2e <2015/10/01> patch level 2
-Babel <3.9m> and hyphenation patterns for 79 languages loaded.
+LaTeX2e <2015/01/01>
+Babel <3.9l> and hyphenation patterns for 79 languages loaded.
 (/usr/share/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
 (/usr/share/texmf-dist/tex/latex/base/size10.clo
@@ -403,39 +403,100 @@ l-
  []
 
 [9]
-Overfull \hbox (11.92215pt too wide) in paragraph at lines 719--720
+
+LaTeX Warning: Reference `lst:EDF' on page 10 undefined on input line 712.
+
+
+Overfull \hbox (11.92215pt too wide) in paragraph at lines 724--725
 [][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (11.92215pt too wide) in paragraph at lines 719--720
+Overfull \hbox (11.92215pt too wide) in paragraph at lines 724--725
 [][][][][][][][][][][][] 
  []
 
-<figures/gui_car.png, id=37, 1446.15282pt x 780.66656pt>
-File: figures/gui_car.png Graphic file (type png)
+! Missing $ inserted.
+<inserted text> 
+                $
+l.737 processor queue.  We use the value_
+                                         density function to determine a tas...
 
-<use figures/gui_car.png>
-Package pdftex.def Info: figures/gui_car.png used on input line 735.
-(pdftex.def)             Requested size: 487.8225pt x 263.33852pt.
- [10]
-Overfull \hbox (10.50009pt too wide) in paragraph at lines 797--801
+? 
+! Missing $ inserted.
+<inserted text> 
+                $
+l.739 
+      
+? 
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ú in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ù in font cmr10!
+
+Overfull \hbox (452.94765pt too wide) in paragraph at lines 734--739
+\OT1/ptm/m/n/10 next task in the pro-ces-sor queue. We use the value$[]\OML/cmm
+/m/it/10 ensityfunctiontodetermineatasksdensity; andthencompareitwiththeotherta
+skstofindthehighestdensityvalue:$ 
+ []
+
+
+LaTeX Warning: File `gui_car.png' not found on input line 745.
+
+
+! Package pdftex.def Error: File `gui_car.png' not found.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.745 ...=\textwidth,keepaspectratio]{gui_car.png}
+                                                  
+? 
+Missing character: There is no ‚ in font ptmr7t!
+Missing character: There is no Ä in font ptmr7t!
+Missing character: There is no ô in font ptmr7t!
+Missing character: There is no ‚ in font ptmr7t!
+Missing character: There is no Ä in font ptmr7t!
+Missing character: There is no ô in font ptmr7t!
+Missing character: There is no ‚ in font ptmr7t!
+Missing character: There is no Ä in font ptmr7t!
+Missing character: There is no ô in font ptmr7t!
+Missing character: There is no ‚ in font ptmr7t!
+Missing character: There is no Ä in font ptmr7t!
+Missing character: There is no ú in font ptmr7t!
+Missing character: There is no ‚ in font ptmr7t!
+Missing character: There is no Ä in font ptmr7t!
+Missing character: There is no ù in font ptmr7t!
+[10] [11]
+Overfull \hbox (10.50009pt too wide) in paragraph at lines 869--873
 \OT1/ptm/m/n/10 have if it was a nor-mal well-defined, highly-structured projec
 t.
  []
 
+[12]
 No file project_report.bbl.
-[11 <./figures/gui_car.png>] (./project_report.aux)
+[13
+
+] (./project_report.aux)
+
+LaTeX Warning: There were undefined references.
+
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 4511 strings out of 493054
- 63796 string characters out of 6140585
- 266096 words of memory out of 5000000
- 7944 multiletter control sequences out of 15000+600000
- 21935 words of font info for 48 fonts, out of 8000000 for 9000
+ 4510 strings out of 493089
+ 63726 string characters out of 6140693
+ 265924 words of memory out of 5000000
+ 7904 multiletter control sequences out of 15000+600000
+ 22450 words of font info for 50 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  38i,8n,72p,488b,1580s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texmf-dist/fon
@@ -446,10 +507,10 @@ hare/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dis
 t/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/tim
 es/utmb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/sha
 re/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on project_report.pdf (11 pages, 272469 bytes).
+Output written on project_report.pdf (13 pages, 220986 bytes).
 PDF statistics:
- 81 PDF objects out of 1000 (max. 8388607)
- 55 compressed objects within 1 object stream
+ 87 PDF objects out of 1000 (max. 8388607)
+ 60 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 11 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 6 words of extra memory for PDF output out of 10000 (max. 10000000)
 
