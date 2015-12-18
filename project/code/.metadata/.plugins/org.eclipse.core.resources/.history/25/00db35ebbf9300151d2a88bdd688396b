@@ -1,7 +1,0 @@
-package scheduler;
-
-import java.util.List;
-
-public interface SchedulingAlgorithm {
-	public List<Task> schedule(List<Task> tasks);
-}

@@ -1,7 +1,0 @@
-package scheduler;
-
-import SchedulingAlgorithms;
-
-public class EDF extends SchedulingAlgorithms {
-
-}

@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 
 import characters.Labels;
 import characters.Sign;
+import characters.TaskBlock;
 import characters.TaskTable;
 import compute.ProcessingState;
 import scheduler.EDF;
@@ -30,7 +31,7 @@ public class ProcessorPanel extends JPanel {
 
 
 		// initialize the state
-		this.state = new ProcessingState(new EDF(),1);
+		this.state = new ProcessingState(new EDF(),new EDF(),1);
 
 		// make a new main car
 		//state.main_car = new MainCar(w, h);
@@ -54,6 +55,8 @@ public class ProcessorPanel extends JPanel {
 		drawTaskTables(g);
 		drawLabels(g);
 		draw_signs(g);
+		draw_processor_queue(g);
+		draw_processor(g);
 	}
 
 
@@ -100,6 +103,37 @@ public class ProcessorPanel extends JPanel {
 	private void draw_signs(Graphics g) {
 		for (Sign c : state.signs) {
 			c.draw(g);
+		}
+	}
+	
+	/**
+	 * draw the sign array
+	 *
+	 * @param g
+	 */
+	private void draw_processor_queue(Graphics g) {
+		if(state.processorQueueTasks != null){
+			if(state.processorQueueTasks.size()>0){
+				for (TaskBlock t : state.processorQueueTasks) {
+					t.draw(g);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * draw the sign array
+	 *
+	 * @param g
+	 */
+	private void draw_processor(Graphics g) {
+		if(state.processorTasks != null){
+			if(state.processorTasks.size()>0){
+				for (TaskBlock t : state.processorTasks) {
+					t.draw(g);
+					System.out.print("Brent");
+				}
+			}
 		}
 	}
 }

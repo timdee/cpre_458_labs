@@ -14,12 +14,15 @@ import sensors.SensorData;
  * 
  */
 public class ProcessingController implements Runnable {
+	public final long time_increment = 10L;
+
 	private volatile ProcessingState processing_state;
 
 	private volatile SensorData sensor_data;
 
-	public ProcessingController(SchedulingAlgorithm scheduling_algorithm, int n_processors) {
-		this.processing_state = new ProcessingState(scheduling_algorithm, n_processors);
+	public ProcessingController(SchedulingAlgorithm scheduling_algorithm,
+			SchedulingAlgorithm overload_scheduling_algorithm, int n_processors) {
+		this.processing_state = new ProcessingState(scheduling_algorithm, overload_scheduling_algorithm, n_processors);
 		sensor_data = null;
 	}
 
@@ -34,7 +37,7 @@ public class ProcessingController implements Runnable {
 			}
 
 			// ask the state to update itself
-			processing_state.update(1L);
+			processing_state.update(time_increment);
 		}
 	}
 
@@ -52,7 +55,9 @@ public class ProcessingController implements Runnable {
 	}
 
 	/**
-	 * adds a task to the processing state
+	 * adds a task to the processing state.
+	 * 
+	 * if the task is periodic, add it every time its period has expired
 	 */
 	public void add_task(Task task) {
 		this.processing_state.add_task(task);

@@ -2,6 +2,7 @@ package main;
 
 import gui.MainFrame;
 import scheduler.EDF;
+import scheduler.HVDF;
 import scheduler.SchedulingAlgorithm;
 
 /**
@@ -13,11 +14,12 @@ public class GuiCar {
 	public static void main(String[] args) {
 		// set up the scheduling algorithm
 		SchedulingAlgorithm scheduling_algorithm = new EDF();
+		SchedulingAlgorithm overload_scheduling_algorithm = new HVDF();
 
 		// set up the nubmer of processors
 		int number_of_processors = 1;
 
 		// start the gui window
-		new MainFrame(scheduling_algorithm, number_of_processors);
+		new MainFrame(scheduling_algorithm, overload_scheduling_algorithm, number_of_processors);
 	}
 }

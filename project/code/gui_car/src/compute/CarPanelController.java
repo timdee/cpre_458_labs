@@ -23,7 +23,7 @@ public class CarPanelController implements Runnable {
 	public volatile CarPanelState target_state;
 
 	// increase speed every this number of increments
-	private final int speed_increment = 15;
+	public final static int speed_increment = 15;
 	private volatile boolean running;
 
 	public CarPanelController(CarPanel car_panel) {

@@ -509,46 +509,57 @@ Sensors exist for Speed Signs, Stop Signs, Cones, and OtherCars.
 private void update_processors(long time) {
   // preform updates in an incremental fashion
   for (int i = 0; i < time; i++) {
-    // if a task has completed, run the scheduler at the point it
-    // completes.
-    // remember the only tasks who's computation time is decreasing are
-    // the ones in the processors.
+    total_time++;
+    add_periodic_tasks();
+
+    // if a task has completed, run the scheduler at the point it completes.
+    // remember the only tasks who's computation time is decreasing are the ones in the processors.
     for (Processor p : processors) {
-      // first, decrement the computation time of the thing in this
-      // processor
+      // first, decrement the computation time of the thing in this processor
       p.task.computation_time_remaining--;
 
       if (p.task.computation_time_remaining <= 0) {
-        // periodic tasks need to be added back
-        if (p.task.nature == Task.Nature.PERIODIC) {
-          // add the same task back in if it is periodic
-          this.scheduler_task_queue.add(new Task(p.task.computation_time_origional, p.task.period,
-              p.task.deadline, p.task.nature, p.task.action, p.task.processing_controller,
-              p.task.car_panel_controller, p.task.set_point));
-        }
-
-        // preform the complete action of the task when it is
-        // finished
+        // preform the complete action of the task when it is finished
         p.task.preform_action();
 
-        // if the task has finished, get the next thing out of the
-        // queue
-        // set the current processor task to the smallest thing in
-        // the queue
+        // if a task has completed, we might need to run the scheduler
+        run_scheduler();
+
+        // if the task has finished, get the next thing out of the queue
         if (p.task_queue.isEmpty() == false) {
           // get the next task in the queuue
           p.task = p.task_queue.get(0);
+          // take out of processor queue
+          p.task.taskBlock.inProcessorQueue = false;
+
+          if (this.processorTasks != null) {
+            if (this.processorTasks.size() > 0) {
+              this.processorTasks.remove(0);
+            }
+          }
+
+          if (this.processorTasks != null) {
+            if (this.processorTasks.size() == 0) {
+              // put in processor
+              this.processorTasks.add(p.task.taskBlock);
+              this.processorTasks.get(0).inProcessorQueue = false;
+              this.processorTasks.get(0).inProcessor = true;
+
+            }
+          }
+
+          // remove task from the processor queue for gui
+          if (this.processorQueueTasks.size() > 0) {
+            this.processorQueueTasks.get(0).inProcessorQueue = false;
+            this.processorQueueTasks.remove(0);
+          }
 
           // remove this task from the queue
           p.task_queue.remove(0);
         } else {
           // insert a dummy task
           p.task = new Task(1, 0, 0, Nature.APERIODIC, Action.NONE, null, null, 0);
-        }
-      }
-    }
-  }
-}
+} } } } }
 \end{lstlisting}
 
 Listing \ref{lst:ProcessingState} describes the method used to update the processors.
@@ -589,13 +600,23 @@ Tasks may affect the CarPanelState by setting the speed of the MainCar or tellin
 \subsubsection{Scheduler}
 \begin{lstlisting}[caption={The scheduler uses a scheduling algorithm to choose the order of tasks},label={lst:scheduler},numbers=left]
 /**
- * returns the task set in scheduled order. null if not schedulable.
+ * returns the task set in scheduled order.
  */
 public ArrayList<List<Task>> schedule(List<Task> tasks, int n_processors) {
   ArrayList<Task> array_list_tasks = new ArrayList<Task>(tasks);
 
-  return this.scheduling_algorithm.schedule(
-    array_list_tasks, n_processors);
+  // discard tasks which will already missed their deadline
+  discard_late_tasks(array_list_tasks);
+
+  // if the schedule is feasible, schedule it. Otherwise return null.
+  if (this.scheduling_algorithm.is_feasible_schedule(tasks, n_processors)) {
+    return (ArrayList<List<Task>>) this.scheduling_algorithm.schedule(array_list_tasks, n_processors);
+  } else {
+    System.out.println("OVERLOAD");
+    // if there is no feasible schedule, use the overload scheduling
+    // algorithm
+    return (ArrayList<List<Task>>) this.overload_scheduling_algorithm.schedule(array_list_tasks, n_processors);
+  }
 }
 \end{lstlisting}
 
@@ -604,6 +625,13 @@ This Class is designed to be able to handle any number of processors with number
 The schedule method describes a list of lists should be returned.
 In this, each list is to refer to the tasks which should be scheduled on one processor.
 The interface will return null if the list of tasks provided as a parameter is not schedule-able.
+
+Scheduler has two SchedulingAlgorithms.
+One SchedulingAlgorithm is used when the processor utilization is under 100\%.
+The other SchedulingAlgorithm is used when the processor utilization is over 100\%. 
+Scheduler will use the feasibility check of the normal case scheduling algorithm to determine whether whether the task set is schedule-able.
+If it is schedule-able, the normal case scheduling algorithm will be used.
+If, however, the feasibility check returns false, Scheduler will use the scheduling algorithm for the overload condition.
 
 We decided to implement the scheduler in this way because it allows for easy additions of new SchedulingAlgorithms.
 All we need to do to have our program use a new scheduling algorithm is provide the scheduler a new class which extends the SchedulingAlgorithm interface.
@@ -620,16 +648,20 @@ public interface SchedulingAlgorithm {
    * @return
    */
   public List<List<Task>> schedule(List<Task> tasks, int n_processors);
+
+  public boolean is_feasible_schedule(List<Task> tasks, int n_processors);
 }
 \end{lstlisting}
 
 Listing \ref{lst:SchedulingAlgorithm} show the interface SchedulingAlgorithm.
 A class which implements this interface can be provided to Scheduler in order to determine how the schedule will schedule incoming tasks.
 When the scheduler is asked to schedule something, it will call the schedule method of the scheduling algorithm it was provided.
-In this way, any number of these might be implemented.
+SchedulingAlgorithms are also expected to implement a schedule-ability check.
+This is done by implementing the is\_feasible\_schedule() method. This check is necessary for the processor to know when it should use a scheduling algorithm for the overload case.
+In this way, any number of SchedulingAlgorithms might be implemented.
 
 \subsubsection{Processor}
-\begin{lstlisting}[caption={},label={lst:processor},numbers=left]
+\begin{lstlisting}[caption={Values maintained in Processor},label={lst:processor},numbers=left]
 public Task task;
 public List<Task> task_queue;
 \end{lstlisting}
@@ -642,7 +674,7 @@ This fact means that processor is provided to the ProcessorPanel to be visually 
 This allows the currently running task to be shown inside the processor.
 
 \subsubsection{ProcessorPanel}
-\begin{lstlisting}[caption={},label={lst:ProcessorPanel},numbers=left]
+\begin{lstlisting}[caption={Update process of ProcessorPanel},label={lst:ProcessorPanel},numbers=left]
 protected void paintComponent(Graphics g) {
   super.paintComponent(g);
 
@@ -662,14 +694,51 @@ Each method asks a set of Characters to draw themselves to the screen.
 
 \subsection{Implemented Scheduling Algorithms}
 \subsubsection{EDF}
-%TODO
+\begin{lstlisting}[caption={EDF scheduler implementation},label={lst:ProcessorPanel},numbers=left]
+// find the earliest deadline, put it first
+for (int i = 0; i < scheduled_tasks.size(); i++) {
+  for (int j = i + 1; j < scheduled_tasks.size(); j++) {
+    // sorted smallest thing first
+    if (scheduled_tasks.get(i).deadline > scheduled_tasks.get(j).deadline) {
+      Task temp = scheduled_tasks.get(i);
+      scheduled_tasks.set(i, scheduled_tasks.get(j));
+      scheduled_tasks.set(j, temp);
+    }
+  }
+}
+\end{lstlisting}
+%TODO discuss theory of EDF
+%TODO talk about implementation
 
-\subsubsection{TODO Other Algorithms}
-%TODO
+\subsubsection{HVDF}
+\begin{lstlisting}[caption={HVDF scheduler implementation},label={lst:ProcessorPanel},numbers=left]
+// find the largest value task, put it first
+for (int i = 0; i < scheduled_tasks.size(); i++) {
+  for (int j = i + 1; j < scheduled_tasks.size(); j++) {
+    // sort the largest value thing first
+    if (value_density(scheduled_tasks.get(i)) < value_density(scheduled_tasks.get(j))) {
+      Task temp = scheduled_tasks.get(i);
+      scheduled_tasks.set(i, scheduled_tasks.get(j));
+      scheduled_tasks.set(j, temp);
+    }
+  }
+}
+\end{lstlisting}
+%TODO discuss theory of HVDF
+%TODO talk about implementation
 
 % put a picture of the GUI screen here ( will do this as soon as its complete)
 \subsection{Outputs}
-%TODO
+% picture of simulation
+\begin{figure*}[!hbt]
+\begin{center}
+\includegraphics[width=\textwidth,keepaspectratio]{gui_car.png}
+\end{center}
+\caption{This image was taken during a simulation. It depicts the objects displayed on the CarPanel (top) and ProcessorPanel (bottom).}
+\label{FIG-SIMULATION}
+\end{figure*}
+%TODO describe car panel and objects on the car panel
+%TODO discuss processor panel and objects on the processor panel
 
 \section{Conclusion}
 % what was good, what was bad
@@ -692,7 +761,11 @@ After doing this project, I can now answer in the context of a real-life example
 \it why \normalfont
 tasks must meet their deadlines and give illustrative examples of what might happen should a task miss it's deadline.
 
-%TODO talk more about real-time systems learning
+Throughout the semester, we spoke of many solutions in real-time systems.
+For us, the primary knowledge gained from this project was the motivation behind the development of these solutions.
+For example, we talked about different algorithms for combined scheduling in class. Some algorithms provide better response time for aperiodic tasks, but
+make trade offs in other areas.
+What we gained from having done this project is an understanding of why better response time for aperiodic tasks might be desirable in the first place. 
 
 There was also significant knowledge acquisition in our ability to create GUI simulation simulations.
 There are many interesting problems related to attempting to visually realize data.

@@ -41,6 +41,7 @@ public class CarPanelState {
 
 	private void reset() {
 		main_car = new MainCar();
+		
 		obstacles = new ArrayList<Cone>();
 		other_cars = new ArrayList<Car>();
 		signs = new ArrayList<Sign>();

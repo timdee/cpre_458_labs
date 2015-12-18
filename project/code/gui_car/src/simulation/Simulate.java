@@ -48,9 +48,9 @@ public class Simulate implements Runnable {
 		// test_car_panel_controller(this.car_panel_controller);
 
 		// create obstacles
-		setup_obstacles();
-		
-		//create processor panel parts
+		setup_obstacles_demo();
+
+		// create processor panel parts
 		setup_processor_panel();
 
 		// start the car moving
@@ -83,6 +83,43 @@ public class Simulate implements Runnable {
 			// test code
 			// test_sensor_data();
 			// System.out.println(this.car_panel_controller.get_sensor_data().cone_sensor.cones);
+		}
+	}
+
+	// set up all cones, signs, and other cars
+	private void setup_obstacles_demo() {
+		int sign_y = this.height / 8;
+		int simulations = 20;
+
+		// create all the signs
+		int sign_interval = 3000;
+		Sign s = new Sign(sign_interval, sign_y, Sign.SignType.SPEED);
+		s.speed_limit = 45;
+		for (int i = 0; i < simulations; i++) {
+			this.car_panel_controller.submit_sign(s);
+
+			s = new Sign(sign_interval * (i + 2), sign_y, Sign.SignType.SPEED);
+			s.speed_limit = 45 + (i * 5);
+		}
+
+		// create all the cones
+		int cone_interval = 1800;// 2000;
+		Cone cone = new Cone(cone_interval - 500, (height / 2) + 25);
+		for (int i = 0; i < simulations * 5 / 2; i++) {
+			this.car_panel_controller.submit_cone(cone);
+
+			cone = new Cone(cone_interval * (i + 2), (height / 2) + 25);
+		}
+
+		// create all the other cars
+		int car_interval = 4000;
+		Car car = new Car(car_interval, (height / 2) - 100);
+		for (int i = 0; i < simulations; i++) {
+			car.facing = Car.Facing.LEFT;
+			car.speed = -20;
+			this.car_panel_controller.submit_car(car);
+
+			car = new Car(car_interval * (i + 2), (height / 2) - 100);
 		}
 	}
 
@@ -137,38 +174,40 @@ public class Simulate implements Runnable {
 		car.speed = -20;
 		this.car_panel_controller.submit_car(car);
 	}
-	
-	//set up processor panel
+
+	// set up processor panel
 	private void setup_processor_panel() {
 
-		TaskTable taskTable = new TaskTable(20,125);
+		// table for periodic tasks
+		TaskTable taskTable = new TaskTable(20, 127, 650);
+		this.processing_controller.get_state().submit_task_table(taskTable);
+		// table for aperiodic tasks
+		taskTable = new TaskTable(20, 252, 650);
+		this.processing_controller.get_state().submit_task_table(taskTable);
+		// table for processor queue
+		taskTable = new TaskTable(1000, 215, 250);
 		this.processing_controller.get_state().submit_task_table(taskTable);
 
-		taskTable = new TaskTable(20,250);
-		this.processing_controller.get_state().submit_task_table(taskTable);
-		taskTable = new TaskTable(825,175);
-		this.processing_controller.get_state().submit_task_table(taskTable);
-
-
-		Labels label = new Labels(205,40,"Scheduler Queue");
+		// label for scheduler queue
+		Labels label = new Labels(205, 40, "Scheduler Queue");
 		this.processing_controller.get_state().submit_labels(label);
-
-		label = new Labels(5,55,"Periodic");
+		// label for periodic tasks
+		label = new Labels(5, 55, "Periodic");
 		this.processing_controller.get_state().submit_labels(label);
-
-		label = new Labels(5,165,"Aperiodic");
+		// label for aperiodic tasks
+		label = new Labels(5, 165, "Aperiodic");
 		this.processing_controller.get_state().submit_labels(label);
-		
-		label = new Labels(1025,40,"Processor Queue");
+		// label for the processor queue
+		label = new Labels(1125, 40, "Processor Queue");
 		this.processing_controller.get_state().submit_labels(label);
-		
-		label = new Labels(1560,40,"Processor");
+		// label for processor
+		label = new Labels(1560, 40, "Processor");
 		this.processing_controller.get_state().submit_labels(label);
-		
-		Sign sign = new Sign(550,5,Sign.SignType.SCHEDULE,"EDF");
+		// scheduler sign
+		Sign sign = new Sign(775, 5, Sign.SignType.SCHEDULE, "EDF");
 		this.processing_controller.get_state().submit_signs(sign);
-		
-		sign = new Sign(1400,60,Sign.SignType.SINGLE_PROCESSOR);
+		// processor sign
+		sign = new Sign(1400, 60, Sign.SignType.SINGLE_PROCESSOR);
 		this.processing_controller.get_state().submit_signs(sign);
 
 	}
@@ -183,8 +222,8 @@ public class Simulate implements Runnable {
 	 * this automatic triggering happens within the processing controller.
 	 */
 	private void setup_periodic_tasks() {
-		int sensor_comp_time = 100;
-		int sensor_period = 500;
+		int sensor_comp_time = 500;
+		int sensor_period = 2000;
 		int sensor_deadline = sensor_period;
 		Nature nature = Task.Nature.PERIODIC;
 
@@ -199,8 +238,13 @@ public class Simulate implements Runnable {
 		this.processing_controller.add_task(new Task(sensor_comp_time, sensor_period, sensor_deadline, nature,
 				Task.Action.READ_SPEED_SIGN_SENSOR, this.processing_controller, this.car_panel_controller, 0));
 
-		this.processing_controller.add_task(new Task(sensor_comp_time, sensor_period, sensor_deadline, nature,
-				Task.Action.READ_STOP_SIGN_SENSOR, this.processing_controller, this.car_panel_controller, 0));
+		// this.processing_controller.add_task(new Task(sensor_comp_time,
+		// sensor_period, sensor_deadline, nature,
+		// Task.Action.READ_STOP_SIGN_SENSOR, this.processing_controller,
+		// this.car_panel_controller, 0));
+
+		this.processing_controller.add_task(new Task(sensor_comp_time, sensor_period * 2, sensor_deadline, nature,
+				Task.Action.READ_LANE_SENSOR, this.processing_controller, this.car_panel_controller, 0));
 	}
 
 	/**
