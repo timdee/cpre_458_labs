@@ -694,7 +694,7 @@ Each method asks a set of Characters to draw themselves to the screen.
 
 \subsection{Implemented Scheduling Algorithms}
 \subsubsection{EDF}
-\begin{lstlisting}[caption={EDF scheduler implementation},label={lst:ProcessorPanel},numbers=left]
+\begin{lstlisting}[caption={EDF scheduler implementation},label={lst:EDF},numbers=left]
 // find the earliest deadline, put it first
 for (int i = 0; i < scheduled_tasks.size(); i++) {
   for (int j = i + 1; j < scheduled_tasks.size(); j++) {
@@ -709,6 +709,11 @@ for (int i = 0; i < scheduled_tasks.size(); i++) {
 \end{lstlisting}
 %TODO discuss theory of EDF
 %TODO talk about implementation
+Listing \ref{lst:EDF} shows the EDF implementation and how we schedule the tasks in the 
+scheduler queue.  We go through all the tasks in the scheduler queue to find the task 
+with the earliest finishing deadline and set that as the next available task for the 
+processor.  This allows for a quick and clean implementation of the EDF scheduling 
+algorithm.
 
 \subsubsection{HVDF}
 \begin{lstlisting}[caption={HVDF scheduler implementation},label={lst:ProcessorPanel},numbers=left]
@@ -726,6 +731,11 @@ for (int i = 0; i < scheduled_tasks.size(); i++) {
 \end{lstlisting}
 %TODO discuss theory of HVDF
 %TODO talk about implementation
+Listing 18 shows the HVDF implementation and how we schedule tasks when there 
+needs to be overload handling.  We go through all the tasks in the scheduler queue 
+to find the task with highest value density and set that task as the next task in the 
+processor queue.  We use the value_density function to determine a task’s density, 
+and then compare it with the other tasks to find the “highest” density value.
 
 % put a picture of the GUI screen here ( will do this as soon as its complete)
 \subsection{Outputs}
@@ -739,12 +749,74 @@ for (int i = 0; i < scheduled_tasks.size(); i++) {
 \end{figure*}
 %TODO describe car panel and objects on the car panel
 %TODO discuss processor panel and objects on the processor panel
+The output from our GUI Car Simulation is divided into two different parts.  One 
+section depicts the Car Simulation itself, which displays objects and obstacles that 
+the car must react to.  The second section corresponds to the scheduler / processor, 
+and how tasks are processed by the car as a real-time system.  The overall goal is to 
+display both the car and the scheduler/processor working together to give a visual 
+of how this real-time system could be implemented.  
+
+The first panel which corresponds to the actual car has many different objects to 
+show.  In figure 2 below, there are many different things drawn to the screen.  The 
+first being the blue car, which is the main car that is simulating the real-time system 
+and will react to stimuli on the panel.  The car’s speed limit is the number in black in 
+upper left hand corner.   The stimuli the car reacts to can range from a cone (shown 
+below in orange), other cars (shown below as red car), speed limit signs (shown 
+below in white rectangle), car lanes / off road grass (shown below), and lastly stop 
+signs (not pictured).  When the car’s sensors recognizes these objects they create an 
+aperiodic task.  When this task is executed by the processor, the car will react with 
+the action the aperiodic task was created to handle.  Thus creating a real-time car 
+simulation that periodically searches for stimuli and creates aperiodic tasks to react 
+to them.  
+
+The second panel corresponds to the scheduler / processor to which the tasks 
+created by the car’s sensors are handled.  Figure 2 below illustrates the four 
+different sections of the scheduler / processor.  The first section is the scheduler 
+queue which consists of both periodic and aperiodic tasks.  The periodic tasks are 
+displayed as the red squares (as shown below), and the aperiodic tasks are 
+displayed as blue squares (not pictured).  The next step in the process is for these 
+tasks to be scheduled which is represented by the black and red circle labeled 
+“Scheduler” (as shown below).  After the tasks have been scheduled, the next task to 
+be put in the processor in displayed in the processor queue (as shown below with 
+no task).  Once the processor is empty it will take the task from the processor queue 
+and execute it in the processor (as shown below).  This is the process for how the 
+scheduler / processor is displayed in our GUI Car Simulation.
 
 \section{Conclusion}
 % what was good, what was bad
 % what went well, what did not go well
+In conclusion to this project, we have learned a many different topics covered in 
+real-time systems.   Tasks, schedulers, sensors, and processing were all different 
+categories our project showcased.  With each step of the project brought different 
+challenges to overcome, as we tried to create an environment that is very similar to 
+the way we learned the topics in class.  The GUI Car Simulation really brought home 
+the idea of how a real-time system should work, as well as the challenges of dividing 
+tasks, prioritizing tasks, and executing them in a timely manner.
+The implementation of a GUI Car Simulation has many different parts and the 
+implementation took great design and detail.  The design we used made it easy to 
+describe and display the tasks we felt were the barebones of an autonomous car.   
+We felt this made our project special in the fact that we spotlight not only what the 
+car sees but also what the real-time system is executing behind the scenes.  Being 
+able to display both of these scenarios simultaneously really brings home the idea of 
+how a real-time system works and should be implemented.
+
 \subsection{Synopsis}
-%TODO
+The synopsis from our project is that we are glad we implemented both EDF and 
+HVDF.  This allowed us to implement overload handling for when tasks are not 
+schedule-able by the EDF scheduling algorithm as well as for our scheduling to be 
+handled even in the most non-ideal situations.  Another reason for this 
+implementation is that in the future we could have a random arrangement of 
+obstacles and let the car react based on tasks created by the obstacles.  The overload 
+handling would be able to handle difficulties with multiple aperiodic and periodic 
+tasks in the queue for processing.   Based on our project implementation of the 
+schedulers, we could easily add different scheduling algorithms. 
+We also only decided to implement a uniprocessor system.  The reason for this is 
+because we did not know the whole outlook for the project and how long it would 
+take to complete.  Due to the way we implemented our real-time system simulation, 
+we could have easily created a multiprocessor system.  The changes we would have 
+gone with would of consisted of different scheduling algorithms, different tasks with 
+other actions, and lastly a changed GUI to show all of the changes that would be 
+presented with implementing another/more processor(s).
 
 \subsection{Learning}
 The primary objective of this project was to learn about the challenges involved in implementing a real time system.
